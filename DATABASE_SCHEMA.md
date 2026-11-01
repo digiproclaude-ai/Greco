@@ -8,6 +8,17 @@ This document is the logical design. Phase 2 turns it into SQL migrations under 
 
 ---
 
+## Implementation status (2026-11-01)
+
+Applied to the development project (`supabase/migrations/`, 7 migrations) and covered by 88 pgTAP tests:
+
+- **Live now:** `countries`, `profiles`, `user_roles`, `staff_roles`, `legal_documents`, `legal_acceptances`, `file_objects`, `client_profiles`, `providers`, `provider_agency_details`, `provider_languages`, `provider_links`, `provider_terms`, `categories`, `category_translations`, `category_relations`, `taxonomy_terms`, `taxonomy_term_translations`, `taxonomy_term_aliases`, `category_terms`, `platform_settings` (+ `app_private.platform_settings_history`), `feature_flags`, `app_private.audit_logs`, `app_private.outbox_events`.
+- **Functions:** `switch_active_role`, `enable_marketplace_role`, `current_legal_documents`, `has_accepted_current_legal`, `accept_current_legal_documents` (authenticated users); `outbox_claim` / `outbox_complete` / `outbox_fail` (service role only); signup trigger `app_private.handle_new_user` on `auth.users`.
+- **RLS helpers** live in a separate `app` schema (`app.has_role`, `app.is_staff` (requires MFA, aal2), `app.owns_provider`, `app.provider_is_visible`), callable by policies but not exposed through the Data API.
+- **Default privileges:** new tables and functions in `public` get no grants for `anon`/`authenticated`; each migration grants exactly what it needs (column-level for Class A writes).
+- **Reference data:** 249 ISO countries (CU, IR, KP, SY blocked pending X-10), draft Terms and Privacy documents (version `0.1-draft`), kill-switch settings.
+- Everything else in this document arrives with its phase.
+
 ## 0. Mapping from the spec table list
 
 | Spec suggestion | Proposal | Why |

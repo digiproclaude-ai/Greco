@@ -1,6 +1,6 @@
 # Greco — System Architecture
 
-**Status:** Approved by the product owner on 2026-11-01. Phase 2 (foundation) is being implemented.
+**Status:** Approved by the product owner on 2026-11-01. Phase 2 (foundation) implemented: Next.js 16.4 with Cache Components, `src/proxy.ts` for session refresh and locale routing, CSP without nonces (see SECURITY.md §5), RLS helper functions in the `app` schema.
 **Last updated:** 2026-11-01
 
 Related documents: [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) · [PAYMENT_ARCHITECTURE.md](PAYMENT_ARCHITECTURE.md) · [SECURITY.md](SECURITY.md) · [docs/AI_DISCOVERY.md](docs/AI_DISCOVERY.md) · [docs/USER_JOURNEYS.md](docs/USER_JOURNEYS.md) · [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) · [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) · [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md)

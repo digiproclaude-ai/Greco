@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Typecheck, lint, unit tests, build, public e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      APP_ENV: local
+      NEXT_PUBLIC_APP_URL: http://localhost:3100
+      # Placeholders: the public checks never call the database.
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_placeholder_for_ci_only
+      NEXT_PUBLIC_AUTH_GOOGLE_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e --grep-invert "register, confirm|wrong passwords"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-public
+          path: test-results
+          retention-days: 7
+
+  supabase:
+    name: Database tests and full auth flow (local Supabase)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Start Supabase (migrations + seed)
+        run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor
+      - name: Database tests (RLS, triggers, functions)
+        run: supabase test db
+      - name: Export local Supabase settings
+        run: |
+          eval "$(supabase status -o env)"
+          {
+            echo "NEXT_PUBLIC_SUPABASE_URL=${API_URL}"
+            echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${PUBLISHABLE_KEY:-$ANON_KEY}"
+            echo "MAILPIT_URL=${MAILPIT_URL:-${INBUCKET_URL:-http://127.0.0.1:54324}}"
+          } >> "$GITHUB_ENV"
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build against the local stack
+        run: pnpm build
+        env:
+          APP_ENV: local
+          NEXT_PUBLIC_APP_URL: http://localhost:3100
+          NEXT_PUBLIC_AUTH_GOOGLE_ENABLED: "false"
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: End-to-end tests including the full auth flow
+        run: pnpm test:e2e
+        env:
+          APP_ENV: local
+          NEXT_PUBLIC_APP_URL: http://localhost:3100
+          E2E_SUPABASE: "1"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-supabase
+          path: test-results
+          retention-days: 7

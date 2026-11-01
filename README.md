@@ -4,7 +4,7 @@
 
 ## Status
 
-**Phase 1 (architecture) approved on 2026-11-01. Phase 2 (project foundation) in progress.**
+**Phase 1 (architecture) approved on 2026-11-01. Phase 2 (project foundation) built.** Next: Phase 3, the core marketplace.
 
 ## Documents
 
@@ -28,4 +28,16 @@ Next.js (App Router) · React · TypeScript · Tailwind CSS · shadcn/ui · Supa
 
 ## Getting started
 
-Not available yet. Phase 2 will add setup instructions to [ENVIRONMENT_SETUP.md](ENVIRONMENT_SETUP.md).
+```bash
+pnpm install
+```
+
+```bash
+cp .env.example .env.local
+```
+
+```bash
+pnpm dev
+```
+
+Full setup, Supabase dashboard settings and deployment: [ENVIRONMENT_SETUP.md](ENVIRONMENT_SETUP.md).

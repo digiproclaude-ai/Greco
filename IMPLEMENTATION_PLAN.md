@@ -1,6 +1,6 @@
 # Greco — Implementation Plan
 
-**Status:** Phase 1 approved by the product owner on 2026-11-01 (phase swap A-20 approved). **Phase 2 in progress.**
+**Status:** Phase 1 approved 2026-11-01 (phase swap A-20 approved). **Phase 2 built 2026-11-01** (see the Phase 2 notes below). Next: Phase 3.
 **Last updated:** 2026-11-01
 
 Every phase ends only when its exit criteria pass: typecheck, lint, tests, production build, and documentation updated in the same PRs.
@@ -42,6 +42,11 @@ Every phase ends only when its exit criteria pass: typecheck, lint, tests, produ
 - Sentry, structured logging, request IDs, security headers and CSP.
 - **CI** (GitHub Actions): typecheck, lint, Vitest, `supabase test db`, Playwright smoke test, `next build`, RLS coverage check, secret scanning.
 - Vercel project with `dub1` region, preview deployments, environment variables.
+
+**Phase 2 delivery notes (2026-11-01)**
+- Done: Next.js 16.4 + React 19 + Tailwind 4 + hand-built shadcn-style components with Greco tokens; next-intl (`[locale]`, root params); auth (register with role, country and legal acceptance, email confirmation via `/auth/callback` and `/auth/confirm`, login, logout, password reset, optional Google, TOTP MFA enrolment and challenge, terms re-acceptance); guards; client and expert workspaces with role switching; staff-only admin shell (MFA required); jobs endpoint + outbox processor; adapter interfaces; security headers; 7 migrations live on the development project; 88 pgTAP tests, 36 unit tests, 13 Playwright tests; GitHub Actions CI.
+- Changed from the plan: CSP without nonces (incompatible with Cache Components, SECURITY.md §5); Sentry not wired until a DSN exists; email SMTP, Vercel project and Supabase auth URL/template settings must be configured by the owner (ENVIRONMENT_SETUP.md §5–6).
+- Not testable from the build sandbox: its network policy blocks the Supabase project, so the full signup flow is exercised in CI against a local Supabase stack.
 
 **Exit criteria:** a new user can sign up as client or expert, verify email, log in and see the right empty dashboard. Staff need MFA for `/admin`. pgTAP tests prove RLS on every base table. CI green. [ENVIRONMENT_SETUP.md](ENVIRONMENT_SETUP.md) and [CLAUDE.md](CLAUDE.md) have real commands.
 

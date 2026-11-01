@@ -4,7 +4,7 @@ Greco is a global marketplace for AI services: clients find, hire and pay expert
 
 ## Current status
 
-- **Phase 1 approved on 2026-11-01. Phase 2 (project foundation) in progress.** Follow the phase order in `IMPLEMENTATION_PLAN.md` (projects and communication come before AI Discovery).
+- **Phase 1 approved on 2026-11-01. Phase 2 (project foundation) built** (app skeleton, auth, roles, base schema with RLS, CI). Next: Phase 3 (core marketplace). Follow the phase order in `IMPLEMENTATION_PLAN.md` (projects and communication come before AI Discovery).
 - Still open: **A-02** (legal entity and launch countries). Real payments stay disabled until the EXTERNAL decisions are confirmed.
 - Supabase project `Greco` (ref `xubhljmpnjkpfyeuqtxl`, eu-west-1) is the development/staging database.
 
@@ -47,13 +47,27 @@ Name Greco · broad AI scope with dynamic categories · English first, i18n-read
 
 - TypeScript strict. Zod at every boundary. Server Components for reads, Server Actions or Route Handlers for writes.
 - Domain code in `src/server/modules/<module>/` (`service.ts`, `repository.ts`, `policies.ts`, `schemas.ts`, `types.ts`). Modules talk only through service functions.
-- Database: SQL migrations in `supabase/migrations/` are the source of truth. Never edit a merged migration. Regenerate types after schema changes. pgTAP tests in `supabase/tests/` for every new table policy and state-transition function.
+- Database: SQL migrations in `supabase/migrations/` are the source of truth. Never edit an applied migration. New public tables get **no** grants for `anon`/`authenticated` by default: grant exactly what's needed and add RLS. Regenerate `src/server/db/database.types.ts` after schema changes. pgTAP tests in `supabase/tests/database/` for every new policy and state-transition function.
+- Auth: use the guards in `src/server/auth/guards.ts`; Server Actions return `FormState` with translatable error keys, never raw provider errors.
 - Naming: snake_case plural tables; `*_minor` money columns; `*_bps` rates; `*_at` timestamps (timestamptz).
 - New dependencies need a reason in the PR description.
 
 ## Commands
 
-Not available yet. Phase 2 adds them to `ENVIRONMENT_SETUP.md` and here (planned: `pnpm dev`, `pnpm check`, `pnpm db:reset`, `pnpm test:e2e`).
+| Command | Use |
+|---|---|
+| `pnpm dev` | Dev server (needs `.env.local`, copy from `.env.example`) |
+| `pnpm check` | Typecheck + lint + unit tests. Run before every commit |
+| `pnpm build` | Production build (must stay warning-free) |
+| `pnpm test:e2e` | Playwright against the built app (full auth flow only with `E2E_SUPABASE=1` + local Supabase) |
+| `supabase test db` / `pnpm db:test` | pgTAP database tests (local Supabase / plain PostgreSQL) |
+
+## Next.js 16 notes
+
+- Read `AGENTS.md`: this Next.js version differs from older training data; its docs are in `node_modules/next/dist/docs/`.
+- `cacheComponents` is on: anything that reads cookies, headers, `searchParams` or the session must render inside `<Suspense>` (layouts already wrap dashboard, admin and auth pages).
+- Request interception lives in `src/proxy.ts` (Supabase session refresh, early auth redirect, next-intl). It is not a security boundary: pages and actions re-check with `requireUser` / `requireRole` / `requireStaff`.
+- The locale comes from the `[locale]` root param (`next/root-params`), so pages stay prerenderable.
 
 ## Definition of done
 
