@@ -43,8 +43,8 @@ insert into ids values
   ('o', pg_temp.new_user('otto@test.local', '{"full_name": "Otto Other", "initial_role": "client"}'));
 insert into ids select 'p', id from public.providers where owner_user_id = (select id from ids where name = 'e');
 insert into public.taxonomy_terms (id, kind, slug, status) values
-  ('00000000-0000-4000-8000-0000000000a1', 'technology', 'langchain', 'active'),
-  ('00000000-0000-4000-8000-0000000000a2', 'technology', 'not-yet-approved', 'pending');
+  ('00000000-0000-4000-8000-0000000000a1', 'technology', 'test-langchain', 'active'),
+  ('00000000-0000-4000-8000-0000000000a2', 'technology', 'test-not-yet-approved', 'pending');
 
 select pg_temp.login((select id from ids where name = 'o'));
 select is((select count(*)::int from public.providers where id = (select id from ids where name = 'p')), 0, 'draft providers are hidden from other users');

@@ -25,7 +25,7 @@ PSQL=(as_postgres psql -q -v ON_ERROR_STOP=1 -d "$DB")
 "${PSQL[@]}" -f scripts/db/supabase-stubs.sql
 for migration in supabase/migrations/*.sql; do
   echo "migrate: $(basename "$migration")"
-  "${PSQL[@]}" -f "$migration"
+  "${PSQL[@]}" --single-transaction -f "$migration"
 done
 "${PSQL[@]}" -f supabase/seed.sql
 

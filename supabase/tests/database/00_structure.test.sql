@@ -41,7 +41,7 @@ select is(
      from pg_proc p
      join pg_namespace n on n.oid = p.pronamespace
     where n.nspname = 'public' and has_function_privilege('anon', p.oid, 'EXECUTE')),
-  array['current_legal_documents'],
+  array['category_listing_counts', 'current_legal_documents', 'search_listings', 'search_providers'],
   'anon can only execute whitelisted public functions'
 );
 
