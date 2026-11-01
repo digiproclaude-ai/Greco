@@ -1,0 +1,18 @@
+{
+  "defaultTitle": "Greco · The marketplace for AI expertise",
+  "titleTemplate": "{title} · Greco",
+  "description": "Find the right AI expert for your business problem. Describe what you need, compare vetted specialists and agencies, and work with them safely.",
+  "login": "Log in",
+  "register": "Create your account",
+  "checkEmail": "Check your email",
+  "forgotPassword": "Reset your password",
+  "resetPassword": "Choose a new password",
+  "mfa": "Two-step verification",
+  "dashboard": "Dashboard",
+  "security": "Security settings",
+  "admin": "Admin",
+  "terms": "Terms of Service",
+  "privacy": "Privacy Policy",
+  "acceptTerms": "Accept the terms",
+  "unavailable": "Account unavailable"
+}

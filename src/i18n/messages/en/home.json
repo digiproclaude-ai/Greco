@@ -1,0 +1,22 @@
+{
+  "headline": "Find the right AI expert for your business problem.",
+  "lede": "Describe what you want to achieve. Greco helps you work out what you need and matches you with vetted AI specialists and agencies. If you already know what you want, search directly.",
+  "ctaClient": "Hire AI experts",
+  "ctaExpert": "Join as an expert",
+  "betaNote": "Greco is in private preview. Experts can create their account now; the marketplace opens to clients soon.",
+  "pillarsTitle": "Built for trust",
+  "pillars": {
+    "terms": {
+      "title": "Clear terms before you pay",
+      "body": "Price, payment schedule, deadline, revisions and cancellation terms are agreed upfront."
+    },
+    "payment": {
+      "title": "Payment through a regulated provider",
+      "body": "Greco never stores your card. Experts are paid after you accept the work."
+    },
+    "disputes": {
+      "title": "Revisions and fair disputes",
+      "body": "Request changes, agree partial refunds, or ask Greco to review."
+    }
+  }
+}

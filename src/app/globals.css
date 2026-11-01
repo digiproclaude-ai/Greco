@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/*
+ * Greco design tokens: "paper and ink" (docs/DESIGN_SYSTEM.md §2).
+ * Contrast ratios in the design doc were measured against --color-paper.
+ */
+@theme {
+  --color-ink: #14161a;
+  --color-ink-muted: #625e56;
+  --color-ink-subtle: #79756c; /* large text, placeholders, disabled only */
+  --color-control: #8c8679; /* form control borders (3:1 on paper) */
+  --color-line: #e3ded3; /* decorative dividers */
+  --color-paper: #faf8f4;
+  --color-surface: #ffffff;
+
+  --color-accent: #2a3a8f;
+  --color-accent-strong: #222f75;
+  --color-accent-tint: #eef0fa;
+
+  --color-ochre: #a8741a; /* large text and graphics only */
+  --color-ochre-text: #8a5e12;
+
+  --color-success: #1f7a4d;
+  --color-warning: #a55407;
+  --color-danger: #b42318;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+/* Font variables are set by next/font on <html>, so resolve them at use time. */
+@theme inline {
+  --font-display: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-plex-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}

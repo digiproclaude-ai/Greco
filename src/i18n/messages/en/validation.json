@@ -1,0 +1,12 @@
+{
+  "required": "This field is required.",
+  "email": "Enter a valid email address.",
+  "passwordMin": "Use at least {min} characters.",
+  "passwordMax": "Use at most {max} characters.",
+  "passwordMismatch": "The passwords don't match.",
+  "nameLength": "Enter a name between {min} and {max} characters.",
+  "country": "Select your country.",
+  "role": "Choose how you want to start.",
+  "legal": "You need to accept the Terms and Privacy Policy to continue.",
+  "code": "Enter the 6-digit code."
+}

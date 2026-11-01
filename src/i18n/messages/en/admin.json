@@ -1,0 +1,11 @@
+{
+  "title": "Admin",
+  "intro": "Platform administration. Every action here is recorded in the audit log.",
+  "rolesLabel": "Your staff roles: {roles}",
+  "sections": {
+    "categories": "Categories",
+    "moderation": "Moderation",
+    "users": "Users",
+    "settings": "Platform settings"
+  }
+}

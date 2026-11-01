@@ -1,0 +1,64 @@
+{
+  "sidebarLabel": "Workspace",
+  "overview": "Overview",
+  "security": "Security",
+  "workspace": {
+    "label": "Workspace",
+    "client": "Client",
+    "expert": "Expert",
+    "addClient": "Start hiring",
+    "addExpert": "Offer services",
+    "switchTo": "Switch to {role} workspace"
+  },
+  "greeting": "Welcome, {name}",
+  "greetingFallback": "Welcome",
+  "client": {
+    "title": "Client workspace",
+    "intro": "This is where your projects, orders and messages will live.",
+    "nextStepsTitle": "What's next",
+    "steps": {
+      "profile": "Complete your client profile",
+      "discover": "Describe your problem to the AI Discovery assistant",
+      "browse": "Browse experts and services"
+    }
+  },
+  "expert": {
+    "title": "Expert workspace",
+    "intro": "This is where your profile, services, orders and earnings will live.",
+    "status": "Profile status: {status}",
+    "statuses": {
+      "draft": "Draft",
+      "pending_review": "In review",
+      "active": "Live",
+      "suspended": "Suspended",
+      "deactivated": "Deactivated"
+    },
+    "nextStepsTitle": "What's next",
+    "steps": {
+      "profile": "Complete your expert profile",
+      "service": "Create your first service",
+      "payouts": "Set up payouts"
+    }
+  },
+  "settings": {
+    "securityTitle": "Security",
+    "securityIntro": "Protect your account with two-step verification.",
+    "mfa": {
+      "title": "Two-step verification",
+      "enabled": "On",
+      "disabled": "Off",
+      "description": "Each time you log in on a new device, you'll also enter a code from an authenticator app.",
+      "start": "Set up two-step verification",
+      "scan": "Scan this QR code with your authenticator app, or enter the key manually.",
+      "qrAlt": "QR code for your authenticator app",
+      "secret": "Setup key",
+      "code": "Code from the app",
+      "verify": "Turn on",
+      "done": "Two-step verification is on.",
+      "requiredForStaff": "Greco staff must use two-step verification."
+    }
+  },
+  "mfaRequired": "This area requires two-step verification. Turn it on below, then try again.",
+  "workspaceError": "We couldn't switch workspace. Please try again.",
+  "admin": "Admin"
+}

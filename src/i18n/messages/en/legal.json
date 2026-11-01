@@ -1,0 +1,12 @@
+{
+  "draftNotice": "Draft placeholder. The final text will be provided by Greco's legal counsel before launch.",
+  "version": "Version {version}",
+  "terms": {
+    "title": "Terms of Service",
+    "body": "These terms will describe how Greco works, the rights and obligations of clients and experts, payments, cancellations, disputes and acceptable use."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "body": "This policy will describe what personal data Greco collects, why, how long it is kept, who processes it on Greco's behalf, and how to exercise your rights."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "appName": "Greco",
+  "tagline": "The marketplace for AI expertise",
+  "loading": "Loading…",
+  "comingSoon": "Coming soon",
+  "optional": "Optional",
+  "actions": {
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "save": "Save",
+    "back": "Back",
+    "retry": "Try again",
+    "goHome": "Go to the homepage"
+  }
+}
