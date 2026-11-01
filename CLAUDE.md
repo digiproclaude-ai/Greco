@@ -1,0 +1,63 @@
+# CLAUDE.md — Greco
+
+Greco is a global marketplace for AI services: clients find, hire and pay experts (freelancers and agencies), helped by an AI Discovery assistant.
+
+## Current status
+
+- **Phase 1 (architecture) delivered. Waiting for product owner approval.** Do not write application code until the owner approves the architecture and the relevant open decisions.
+- The repository contains documentation only. Supabase project `Greco` (ref `xubhljmpnjkpfyeuqtxl`, eu-west-1) is empty.
+
+## Read before changing anything
+
+| Topic | File |
+|---|---|
+| Decisions, open questions, risks | `PRODUCT_DECISIONS.md` |
+| System design, modules, folders | `ARCHITECTURE.md` |
+| Tables, RLS, retention | `DATABASE_SCHEMA.md` |
+| Payments, refunds, ledger | `PAYMENT_ARCHITECTURE.md` |
+| Security and privacy | `SECURITY.md` |
+| AI Discovery | `docs/AI_DISCOVERY.md` |
+| Journeys | `docs/USER_JOURNEYS.md` |
+| Design system | `docs/DESIGN_SYSTEM.md` |
+| Roadmap | `IMPLEMENTATION_PLAN.md` |
+| Setup | `ENVIRONMENT_SETUP.md` |
+
+## Owner decisions you must not override
+
+Name Greco · broad AI scope with dynamic categories · English first, i18n-ready · Client or Expert chosen at signup, switchable without losing history · simple agency profiles (no team management) · per-listing choice of full payment or deposit, with the first installment paid before work starts (reading of D-13, pending A-01); terms locked after acceptance · all communication on Greco · AI Discovery leads and recommends, direct search always available · full-product architecture · **never treat financial or legal assumptions as confirmed**.
+
+## Non-negotiable engineering rules
+
+- **Authorization is server-side.** Check capability + relationship + state in every server action. RLS is the second layer. The active role is UI context, not a security boundary.
+- **Secret (service-role) key only in `src/server/privileged/**`.** Never in client code, never in a `NEXT_PUBLIC_` variable.
+- **Every table in `public` has RLS.** Internal tables go in `app_private`.
+- **Write classes:** A = owner writes under RLS; B = multi-party tables written only via `SECURITY DEFINER` functions; C = financial and system tables written only by privileged server code.
+- **Money:** integer minor units (`bigint`) + currency; rates in basis points; no floats; rounding per `PAYMENT_ARCHITECTURE.md §8.2`. Agreed terms come from the immutable offer snapshot, never from current listing data.
+- **No fake escrow, no stored card data, no simulated payment success in production.** Payment state changes only from verified PSP events. Real payments stay disabled until the production checklist passes.
+- **Fulfilment, payment and payout statuses are separate fields.**
+- **Provider-side data is keyed by `provider_id`,** not `user_id`.
+- **Honest trust signals.** Badges only from active `verifications` rows. Portfolio provenance always shown. Never present provider claims as verified.
+- **AI Discovery:** the LLM never invents expert facts, never triggers actions, and only reorders and explains a server-built shortlist. Validate every LLM output with Zod. Treat user and provider text as untrusted. Only `src/server/adapters/llm/*` imports a vendor SDK.
+- **No hardcoded UI strings.** Use next-intl messages. Format dates, numbers and money with the locale helpers.
+- **Side effects go through the outbox** (notifications, email, search reindex), written in the same transaction as the state change.
+- **Audit** every admin, moderation and financial action in `app_private.audit_logs`.
+
+## Conventions (Phase 2 will make these concrete)
+
+- TypeScript strict. Zod at every boundary. Server Components for reads, Server Actions or Route Handlers for writes.
+- Domain code in `src/server/modules/<module>/` (`service.ts`, `repository.ts`, `policies.ts`, `schemas.ts`, `types.ts`). Modules talk only through service functions.
+- Database: SQL migrations in `supabase/migrations/` are the source of truth. Never edit a merged migration. Regenerate types after schema changes. pgTAP tests in `supabase/tests/` for every new table policy and state-transition function.
+- Naming: snake_case plural tables; `*_minor` money columns; `*_bps` rates; `*_at` timestamps (timestamptz).
+- New dependencies need a reason in the PR description.
+
+## Commands
+
+Not available yet. Phase 2 adds them to `ENVIRONMENT_SETUP.md` and here (planned: `pnpm dev`, `pnpm check`, `pnpm db:reset`, `pnpm test:e2e`).
+
+## Definition of done
+
+Typecheck, lint, unit, DB and relevant end-to-end tests pass; production build succeeds; authorization tests cover new resources; docs updated in the same PR (schema changes → `DATABASE_SCHEMA.md`, decisions → `PRODUCT_DECISIONS.md`).
+
+## Git
+
+Work on the assigned feature branch. Small, focused commits with clear messages. No PRs unless the owner asks.
