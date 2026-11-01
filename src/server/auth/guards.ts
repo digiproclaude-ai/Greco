@@ -43,8 +43,9 @@ export async function requireRole(role: MarketplaceRole, next?: string): Promise
 }
 
 /**
- * Staff areas need a staff role AND a session that completed MFA (aal2). Non-staff get a 404 so
- * the admin area's existence isn't confirmed.
+ * Staff areas need a staff role AND a session that completed MFA (aal2). Non-staff see the
+ * not-found page and no admin content. Because pages stream, the HTTP status may already be 200
+ * when this check runs; never rely on the status code for protection.
  */
 export async function requireStaff(roles?: StaffRole[], next = "/admin"): Promise<Account> {
   const account = await requireUser(next);

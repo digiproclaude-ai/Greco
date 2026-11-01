@@ -55,9 +55,11 @@ test("register, confirm, switch workspace, log out and back in", async ({ page }
   await expect(page).toHaveURL(/\/dashboard\/expert$/);
   await expect(page.getByText("Profile status: Draft")).toBeVisible();
 
-  // The admin area is hidden from non-staff.
-  const admin = await page.goto("/admin");
-  expect(admin?.status()).toBe(404);
+  // Non-staff get the not-found page and no admin content. (The status can still be 200:
+  // the page streams, so the response starts before the staff check runs.)
+  await page.goto("/admin");
+  await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Admin", exact: true })).toHaveCount(0);
 
   await page.goto("/dashboard/expert");
   await page.getByRole("button", { name: "Account menu" }).click();
