@@ -13,7 +13,9 @@ const PROTECTED = [/^\/dashboard(\/|$)/, /^\/admin(\/|$)/, /^\/accept-terms(\/|$
 type PendingCookie = { name: string; value: string; options: Parameters<NextResponse["cookies"]["set"]>[2] };
 
 export async function proxy(request: NextRequest) {
-  const requestId = request.headers.get("x-request-id") ?? crypto.randomUUID();
+  // Reuse an upstream request ID only if it looks like one; never echo arbitrary input.
+  const incomingId = request.headers.get("x-request-id");
+  const requestId = incomingId && /^[A-Za-z0-9-]{8,64}$/.test(incomingId) ? incomingId : crypto.randomUUID();
   request.headers.set("x-request-id", requestId);
 
   const pendingCookies: PendingCookie[] = [];
