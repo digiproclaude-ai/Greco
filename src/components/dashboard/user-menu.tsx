@@ -2,6 +2,7 @@
 
 import { LogOut, ShieldCheck, Wrench } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useTransition } from "react";
 
 import {
   DropdownMenu,
@@ -25,6 +26,7 @@ function initials(name: string) {
 
 export function UserMenu({ name, email, isStaff }: { name: string; email: string | null; isStaff: boolean }) {
   const t = useTranslations("nav");
+  const [signingOut, startSignOut] = useTransition();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -54,14 +56,14 @@ export function UserMenu({ name, email, isStaff }: { name: string; email: string
           </DropdownMenuItem>
         ) : null}
         <DropdownMenuSeparator />
-        <form action={signOutAction}>
-          <DropdownMenuItem asChild>
-            <button type="submit" className="w-full">
-              <LogOut aria-hidden="true" />
-              {t("signOut")}
-            </button>
-          </DropdownMenuItem>
-        </form>
+        {/* The menu unmounts on select, so a <form> inside it would never submit: call the action directly. */}
+        <DropdownMenuItem
+          disabled={signingOut}
+          onSelect={() => startSignOut(async () => await signOutAction())}
+        >
+          <LogOut aria-hidden="true" />
+          {t("signOut")}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
