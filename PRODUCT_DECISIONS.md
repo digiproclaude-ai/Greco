@@ -1,6 +1,6 @@
 # Greco — Product Decisions Register
 
-**Status:** Phase 1 proposal. Awaiting product owner approval.
+**Status:** Approved by the product owner on 2026-11-01. One change (commission 15%, D-14) and one open item (A-02).
 **Last updated:** 2026-11-01
 
 This file records every decision that shapes Greco, who owns it, and whether it is settled. It is the first document to update when a decision changes.
@@ -32,7 +32,10 @@ This file records every decision that shapes Greco, who owns it, and whether it 
 | D-12 | Financial and legal assumptions are never treated as confirmed without verification. | The EXTERNAL class below. Production payments are gated behind it. |
 | D-13 | **Flexible payment policy (addendum).** Per listing or custom offer, the provider chooses **Model A (full payment)** or **Model B (deposit + balance)**. Terms cannot change after acceptance without client approval. Collection and payout are separate concepts. No internal escrow. Refund and dispute policy as described in the addendum. Commission is configurable and shown transparently. | Every order has a **payment schedule** (installments) and **milestones**. Offers are immutable snapshots. Changes go through amendments that need both parties' approval. Payment, payout and earnings each have their own status. |
 
-> **D-07 vs D-13.** Under Model B the client does not pay the full amount before work starts. We read D-13 as replacing D-07 like this: *the first installment is always paid before work starts; under Model B the rest is paid later at a defined event.* Please confirm (A-01).
+| D-14 | **Commission: 15% on every transaction**, deducted from the provider's earnings. No client fee. Greco absorbs processing fees. Goal: Greco keeps at least 10% net. (Owner, 2026-11-01; replaces the 10% recommendation in A-03.) | Seeded as the global commission policy (1500 bps) when the payments module is built. Net take rate is monitored; a per-order minimum commission is available if small or international payments push net below 10%. |
+| D-15 | **All other recommendations in §3 approved** (owner, 2026-11-01), including the phase swap (A-20). A-02 is still open. | Implementation follows [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md). |
+
+> **D-07 vs D-13.** Under Model B the client does not pay the full amount before work starts. D-13 replaces D-07 like this: *the first installment is always paid before work starts; under Model B the rest is paid later at a defined event.* Confirmed by the owner (A-01, 2026-11-01).
 
 ---
 
@@ -65,14 +68,16 @@ This file records every decision that shapes Greco, who owns it, and whether it 
 
 ## 3. Decisions that need product owner approval (APPROVAL)
 
-The **bold** items block a phase. The rest can be decided during the phase they belong to.
+**Owner response (2026-11-01):** all recommendations below are **approved**, except **A-03**, changed to a 15% commission (D-14). **A-02 is still open**: it is not needed until real payments (Phase 6 in production), but PSP conversations depend on it.
+
+The **bold** items block a phase.
 
 | ID | Decision needed | Options | Recommendation |
 |---|---|---|---|
 | **A-01** | Confirm D-13 replaces D-07. | Yes / No | **Yes.** First installment always before work starts. |
-| **A-02** | **Greco's legal entity jurisdiction and launch countries** (where clients can pay, where providers can be paid). | Any | **Decide first. It determines which payment providers are possible.** Launch providers only in countries the chosen PSP can onboard and pay out to. Keep countries in an admin-managed allow-list. *Blocks Phase 6 in production.* |
-| **A-03** | Who pays Greco's commission. | Deducted from provider earnings / added to client total as a service fee / split | **Deducted from provider earnings (10%), client fee 0% at launch.** "The price you see is the price you pay." The engine supports all three (see [PAYMENT_ARCHITECTURE.md](PAYMENT_ARCHITECTURE.md)). |
-| **A-04** | Who bears payment processing fees (roughly 2–4% of the payment, depending on PSP and card). | Greco absorbs from commission / passed to provider / passed to client | **Greco absorbs at launch** (cleaner UX). Note: this means Greco's net margin is roughly commission minus processing, about 6–8% on a 10% commission. Revisit with real data. |
+| **A-02** ⚠ open | **Greco's legal entity jurisdiction and launch countries** (where clients can pay, where providers can be paid). | Any | **Decide first. It determines which payment providers are possible.** Launch providers only in countries the chosen PSP can onboard and pay out to. Keep countries in an admin-managed allow-list. *Blocks Phase 6 in production.* |
+| **A-03** | Who pays Greco's commission. | Deducted from provider earnings / added to client total as a service fee / split | ~~Deducted from provider earnings (10%)~~ → **Decided: 15% deducted from provider earnings, client fee 0% (D-14).** The engine supports all three models (see [PAYMENT_ARCHITECTURE.md](PAYMENT_ARCHITECTURE.md)). |
+| **A-04** | Who bears payment processing fees (roughly 2–4% of the payment, depending on PSP and card). | Greco absorbs from commission / passed to provider / passed to client | **Greco absorbs at launch** (cleaner UX). With the 15% commission (D-14), Greco's net is about 11–12% on typical card payments. Revisit with real data. |
 | **A-05** | Deposit model parameters. | — | Allowed deposit percentages: **20, 30, 40, 50%**. Deposit model only for orders above a minimum (for example **300 USD-equivalent**). Balance triggers at launch: **"on milestone acceptance"** and **"before final delivery"**. The client pays the balance themselves (on-session), with reminders. 7-day grace period before the provider can open a non-payment case. |
 | **A-06** | When provider earnings become releasable. | (a) on order completion + clearance; (b) per accepted milestone + clearance; (c) deposit released when work starts | **(b)**, which equals (a) for single-milestone orders. Clearance period configurable (recommend **7 days** at launch, tune with chargeback data). **No release-at-start at launch**: if a deposit is released before delivery, any refund has to be clawed back from the provider, and if that fails Greco may be liable to the PSP. |
 | **A-07** | Maximum length of a fully prepaid order. | Unlimited / capped by PSP hold limits | **Capped by the PSP's maximum hold period** (setting `payments.max_prepaid_hold_days`, derived from the PSP's capabilities per provider country). Longer work uses Model B with milestone installments. The addendum's "the project may take any agreed amount of time" **cannot be guaranteed** with most PSPs. See [PAYMENT_ARCHITECTURE.md §3](PAYMENT_ARCHITECTURE.md#3-the-core-problem-someone-must-hold-the-money-between-payment-and-payout). |

@@ -1,6 +1,6 @@
 # Greco — System Architecture
 
-**Status:** Phase 1 proposal. Awaiting approval. No application code exists yet.
+**Status:** Approved by the product owner on 2026-11-01. Phase 2 (foundation) is being implemented.
 **Last updated:** 2026-11-01
 
 Related documents: [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) · [PAYMENT_ARCHITECTURE.md](PAYMENT_ARCHITECTURE.md) · [SECURITY.md](SECURITY.md) · [docs/AI_DISCOVERY.md](docs/AI_DISCOVERY.md) · [docs/USER_JOURNEYS.md](docs/USER_JOURNEYS.md) · [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) · [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) · [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md)
@@ -334,7 +334,7 @@ Both marketplace search and AI Discovery use the same index and SQL functions (E
 | `verification` | Evidence for manual verifications (only if a vendor isn't used) | Private, staff only, short retention. |
 | `exports` | Personal data exports | Private, owner only, link expires after 7 days. |
 
-- `file_objects` mirrors every stored file: owner, purpose, MIME type (checked by magic bytes, not just the extension), size, SHA-256 and **scan status**. Counterparties can only download files marked `clean`. The scanning adapter is decided in Phase 5 (for example a ClamAV worker or a scanning API).
+- `file_objects` mirrors every stored file: owner, purpose, MIME type (checked by magic bytes, not just the extension), size, SHA-256 and **scan status**. Counterparties can only download files marked `clean`. The scanning adapter is decided in Phase 4 (projects and messaging) (for example a ClamAV worker or a scanning API).
 - Storage paths follow `{bucket}/{owner-or-entity-id}/{purpose}/{uuid}.{ext}` and RLS on `storage.objects` checks them against database membership.
 - **Deliveries are not only files.** AI deliverables are often repositories, deployed endpoints, model hub links or credential handovers, so a delivery item can be a file, link, repository, text note or credential handover note.
 

@@ -4,8 +4,9 @@ Greco is a global marketplace for AI services: clients find, hire and pay expert
 
 ## Current status
 
-- **Phase 1 (architecture) delivered. Waiting for product owner approval.** Do not write application code until the owner approves the architecture and the relevant open decisions.
-- The repository contains documentation only. Supabase project `Greco` (ref `xubhljmpnjkpfyeuqtxl`, eu-west-1) is empty.
+- **Phase 1 approved on 2026-11-01. Phase 2 (project foundation) in progress.** Follow the phase order in `IMPLEMENTATION_PLAN.md` (projects and communication come before AI Discovery).
+- Still open: **A-02** (legal entity and launch countries). Real payments stay disabled until the EXTERNAL decisions are confirmed.
+- Supabase project `Greco` (ref `xubhljmpnjkpfyeuqtxl`, eu-west-1) is the development/staging database.
 
 ## Read before changing anything
 
@@ -24,7 +25,7 @@ Greco is a global marketplace for AI services: clients find, hire and pay expert
 
 ## Owner decisions you must not override
 
-Name Greco · broad AI scope with dynamic categories · English first, i18n-ready · Client or Expert chosen at signup, switchable without losing history · simple agency profiles (no team management) · per-listing choice of full payment or deposit, with the first installment paid before work starts (reading of D-13, pending A-01); terms locked after acceptance · all communication on Greco · AI Discovery leads and recommends, direct search always available · full-product architecture · **never treat financial or legal assumptions as confirmed**.
+Name Greco · broad AI scope with dynamic categories · English first, i18n-ready · Client or Expert chosen at signup, switchable without losing history · simple agency profiles (no team management) · per-listing choice of full payment or deposit, with the first installment paid before work starts (D-13, A-01); terms locked after acceptance · **15% commission on every transaction, deducted from the provider; no client fee; Greco absorbs processing fees (D-14)** · all communication on Greco · AI Discovery leads and recommends, direct search always available · full-product architecture · **never treat financial or legal assumptions as confirmed**.
 
 ## Non-negotiable engineering rules
 

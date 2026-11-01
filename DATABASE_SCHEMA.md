@@ -1,6 +1,6 @@
 # Greco — Database Schema (proposal)
 
-**Status:** Phase 1 proposal. Awaiting approval. Nothing is migrated yet.
+**Status:** Approved by the product owner on 2026-11-01. Phase 2 implements the base tables (identity, profiles, taxonomy, platform, files, audit, outbox).
 **Last updated:** 2026-11-01
 **Target:** Supabase Postgres 17, project `Greco` (eu-west-1) for development/staging.
 

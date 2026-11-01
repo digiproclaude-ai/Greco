@@ -53,9 +53,9 @@ Rules: nothing secret ever starts with `NEXT_PUBLIC_`. Each environment has its 
 | Email provider (Resend or Postmark) | Phase 2 | Domain authentication (SPF, DKIM, DMARC) |
 | Sentry | Phase 2 | EU data region if available |
 | Cloudflare Turnstile | Phase 2 | |
-| Anthropic API | Phase 4 | Review data retention and data processing terms (X-08) |
+| Anthropic API | Phase 5 | Review data retention and data processing terms (X-08) |
 | Payment provider sandbox | Phase 6 | After X-01. Sandbox adapter until then |
-| File scanning service | Phase 5 | Decision in Phase 5 |
+| File scanning service | Phase 4 | Decision in Phase 4 |
 | Identity verification vendor | Phase 7 | A-22 |
 
 ## 5. Planned commands (to be confirmed in Phase 2)

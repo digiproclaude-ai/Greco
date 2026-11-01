@@ -4,7 +4,7 @@
 
 ## Status
 
-**Phase 1: Discovery and Architecture.** Delivered on 2026-11-01. **Waiting for product owner approval.** No application code has been written yet.
+**Phase 1 (architecture) approved on 2026-11-01. Phase 2 (project foundation) in progress.**
 
 ## Documents
 

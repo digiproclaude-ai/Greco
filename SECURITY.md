@@ -1,6 +1,6 @@
 # Greco — Security and Privacy
 
-**Status:** Phase 1 proposal. Awaiting approval.
+**Status:** Approved by the product owner on 2026-11-01.
 **Last updated:** 2026-11-01
 
 Related: [ARCHITECTURE.md §6–8](ARCHITECTURE.md) · [DATABASE_SCHEMA.md §20](DATABASE_SCHEMA.md) · [PAYMENT_ARCHITECTURE.md](PAYMENT_ARCHITECTURE.md) · [docs/AI_DISCOVERY.md §7](docs/AI_DISCOVERY.md)

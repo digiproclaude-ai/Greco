@@ -1,6 +1,6 @@
 # Greco — Implementation Plan
 
-**Status:** Phase 1 (Discovery and Architecture) delivered. **Waiting for product owner approval before any implementation.**
+**Status:** Phase 1 approved by the product owner on 2026-11-01 (phase swap A-20 approved). **Phase 2 in progress.**
 **Last updated:** 2026-11-01
 
 Every phase ends only when its exit criteria pass: typecheck, lint, tests, production build, and documentation updated in the same PRs.
@@ -11,16 +11,16 @@ Every phase ends only when its exit criteria pass: typecheck, lint, tests, produ
 
 | Phase | Name | Main outcome | Blocked by |
 |---|---|---|---|
-| 1 | Discovery and architecture | This document set | — (done, awaiting approval) |
+| 1 | Discovery and architecture | This document set | — (done, approved 2026-11-01) |
 | 2 | Project foundation | Running app skeleton: auth, roles, base schema, RLS framework, design system, CI | Approval of Phase 1; A-25, A-26, A-27 |
 | 3 | Core marketplace | Onboarding, profiles, categories, listings, portfolio, search, admin basics | A-11 |
-| 4 | AI Discovery | Discovery workspace, briefs, matching | A-12, A-19 |
-| 5 | Projects and communication | Projects, proposals, messaging, notifications, saved items | A-13, A-29 |
+| 4 | Projects and communication | Projects, proposals, messaging, notifications, saved items | A-13, A-29 (approved) |
+| 5 | AI Discovery | Discovery workspace, briefs, matching | A-12, A-19 (approved) |
 | 6 | Transactions and order management | Offers, checkout, orders, milestones, installments, deliveries, resolution, ledger, payouts (**sandbox**) | A-03 to A-08, A-15 to A-18, A-28. **Production: X-01 to X-05, X-11 to X-13** |
 | 7 | Reputation and administration | Reviews, verification, full admin, analytics, audit viewer, DSA tooling | A-14, A-22, A-24 |
 | 8 | Quality and launch preparation | Full test, security, accessibility and performance passes; launch | All blockers above |
 
-**Recommended change (A-20):** run **Phase 5 before Phase 4**, so AI Discovery ships with working "message expert", "post as project" and "invite" actions. If not approved, we follow the spec order and wire those actions into Discovery during Phase 5.
+**Approved change (A-20):** projects and communication now come **before** AI Discovery (spec order swapped), so Discovery ships with working "message expert", "post as project" and "invite" actions.
 
 **Parallel tracks that should start now:**
 - **Payments and legal track** (product owner + advisers): decide A-02, contact PSP candidates with the questionnaire in [PAYMENT_ARCHITECTURE.md §17](PAYMENT_ARCHITECTURE.md#17-questions-to-send-to-psp-candidates), engage counsel and tax advice for X-02 to X-14. This is the longest lead-time item and blocks real payments.
@@ -62,28 +62,28 @@ Every phase ends only when its exit criteria pass: typecheck, lint, tests, produ
 
 **Exit criteria:** an expert can onboard, pass review and publish listings. A visitor can browse, filter, search and open profiles and listings. Admins manage categories without code changes. End-to-end tests for onboarding, role switch, listing publication and search pass. Lighthouse and axe checks on public pages pass.
 
-## Phase 4: AI Discovery
+## Phase 4: Projects and communication
+
+**Scope**
+- Projects (create, edit, publish, invite-only), attachments, invitations, proposals (with payment model and milestones), comparison view, shortlist, decline and withdraw.
+- Messaging: direct and order conversations, realtime private channels, read status, attachments (private bucket + scanning adapter), blocks, reports, contact-policy engine (A-13), secret-sharing warning.
+- Notifications: catalog, in-app feed and realtime bell, preferences, and **email for critical events** (A-29).
+- Saved searches with optional alerts.
+- Trust and safety basics: reports queue and moderation actions for messages and users.
+
+**Exit criteria:** a client can post a project, receive and compare proposals, and talk to experts in realtime. Authorization tests prove only participants read conversations. The contact policy works as configured.
+
+## Phase 5: AI Discovery
 
 **Scope**
 - `LlmProvider` with the Anthropic adapter (structured outputs, streaming, caching, refusal handling), route configuration, usage logging.
 - Discovery orchestrator: turn step, brief patching and versioning, matching (retrieval, scoring, rerank and explain, validation), provenance labelling.
-- Discovery workspace UI (desktop and mobile), brief editing, quick replies, matches, actions (view, save, and post, message and invite once Phase 5 exists).
+- Discovery workspace UI (desktop and mobile), brief editing, quick replies, matches, actions (view, save, post as project, message, invite).
 - Guest sessions, quotas, bot protection, budgets and kill-switch.
 - Admin Discovery monitoring.
 - Evaluation harness with the golden set and fixtures in CI.
 
 **Exit criteria:** the golden set passes the automated checks. Cost per session is measured and reported for A-19. Recommendations always come from real catalog data with valid evidence. The fallback to search works when the LLM is unavailable.
-
-## Phase 5: Projects and communication
-
-**Scope**
-- Projects (create, edit, publish, invite-only), attachments, invitations, proposals (with payment model and milestones), comparison view, shortlist, decline and withdraw.
-- Messaging: direct and order conversations, realtime private channels, read status, attachments (private bucket + scanning adapter), blocks, reports, contact-policy engine (A-13), secret-sharing warning.
-- Notifications: catalog, in-app feed and realtime bell, preferences, and **email for critical events** if A-29 is approved.
-- Saved searches with optional alerts.
-- Trust and safety basics: reports queue and moderation actions for messages and users.
-
-**Exit criteria:** a client can post a project, receive and compare proposals, and talk to experts in realtime. Authorization tests prove only participants read conversations. The contact policy works as configured.
 
 ## Phase 6: Transactions and order management
 

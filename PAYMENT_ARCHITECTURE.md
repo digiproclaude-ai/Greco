@@ -1,6 +1,6 @@
 # Greco — Payment and Payout Architecture
 
-**Status:** Phase 1 proposal. **Real payments are BLOCKED** until the decisions below are confirmed in writing.
+**Status:** Approved by the product owner on 2026-11-01. **Real payments are BLOCKED** until the decisions below are confirmed in writing.
 **Last updated:** 2026-11-01
 
 Related: [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) (A-01 to A-18, X-01 to X-14) · [DATABASE_SCHEMA.md §10–13](DATABASE_SCHEMA.md) · [SECURITY.md](SECURITY.md)
@@ -196,7 +196,7 @@ sequenceDiagram
 
 - `commission_policies` hold `provider_commission_bps` (deducted from the provider side), `client_fee_bps` and `client_fee_fixed_minor` (added to the client total), and an optional minimum commission. Scope can be global, category, provider or country. The most specific active policy wins.
 - The resolved policy is **snapshotted into the offer** (`fee_policy_snapshot`). Changing a policy never changes existing offers or orders, and policy changes take effect from a future date (audited, A-03).
-- Recommended launch configuration (A-03, A-04): provider commission **1000 bps (10%)**, client fee **0**, processing fees absorbed by Greco.
+- **Approved launch configuration (D-14):** provider commission **1500 bps (15%)** on every transaction, client fee **0**, processing fees absorbed by Greco. Target: Greco keeps at least 10% net after processing fees. Net take rate is monitored per order (small or international payments carry proportionally higher fees); if it drops below 10%, admins can set a minimum commission per order or raise the minimum order value.
 
 ### 8.2 Calculation and rounding
 
@@ -208,17 +208,17 @@ sequenceDiagram
 
 ### 8.3 Worked example (illustrative fee rates)
 
-Order of **1,000.00 USD**, Model B with a 30% deposit, balance before final delivery, 10% provider commission, no client fee, processing fee assumed at 2.9% + 0.30 per payment and absorbed by Greco.
+Order of **1,000.00 USD**, Model B with a 30% deposit, balance before final delivery, 15% provider commission, no client fee, processing fee assumed at 2.9% + 0.30 per payment and absorbed by Greco.
 
 | | Deposit | Balance | Total |
 |---|---|---|---|
 | Client pays | 300.00 | 700.00 | **1,000.00** |
-| Greco commission | 30.00 | 70.00 | **100.00** |
-| Provider earnings | 270.00 | 630.00 | **900.00** |
+| Greco commission | 45.00 | 105.00 | **150.00** |
+| Provider earnings | 255.00 | 595.00 | **850.00** |
 | Processing fee (borne by Greco) | 9.00 | 20.60 | 29.60 |
-| Greco net | | | **70.40** |
+| Greco net | | | **120.40** (12.0%) |
 
-Later, both parties agree a **200.00 partial refund**. The client gets 200.00 back. Commission is reversed proportionally (−20.00, A-08). Provider earnings go down by 180.00, to 720.00. The original processing fees are usually not returned by PSPs (to verify), so Greco's net becomes 80.00 − 29.60 = **50.40**.
+Later, both parties agree a **200.00 partial refund**. The client gets 200.00 back. Commission is reversed proportionally (−30.00, A-08). Provider earnings go down by 170.00, to 680.00. The original processing fees are usually not returned by PSPs (to verify), so Greco's net becomes 120.00 − 29.60 = **90.40** (11.3% of the 800.00 the client finally paid).
 
 ### 8.4 What users see
 
@@ -277,18 +277,18 @@ After the response window, either party can escalate. Staff with the `support` o
 
 An operational sub-ledger of what Greco knows about money held by the PSP. It is **not** statutory accounting, and the chart of accounts must be reviewed by an accountant.
 
-Example: Model A, 1,000.00, 10% commission, Greco absorbs a 29.30 processing fee.
+Example: Model A, 1,000.00, 15% commission, Greco absorbs a 29.30 processing fee.
 
 | Event | Debit | Credit |
 |---|---|---|
-| Payment captured | `psp_funds` 1,000.00 | `provider_payable` 900.00 · `commission_deferred` 100.00 |
+| Payment captured | `psp_funds` 1,000.00 | `provider_payable` 850.00 · `commission_deferred` 150.00 |
 | Processing fee recorded | `processing_fees` 29.30 | `psp_funds` 29.30 |
-| Milestone accepted (commission recognised) | `commission_deferred` 100.00 | `commission_revenue` 100.00 |
-| Payout to provider | `provider_payable` 900.00 | `psp_funds` 900.00 |
-| *Alternative:* full refund before acceptance | `provider_payable` 900.00 · `commission_deferred` 100.00 | `psp_funds` 1,000.00 |
-| *Alternative:* refund after payout, recovery pending | `provider_receivable` 900.00 · `commission_revenue` 100.00 | `psp_funds` 1,000.00 |
-| Later recovery from next earnings | `provider_payable` 900.00 | `provider_receivable` 900.00 |
-| Recovery impossible (write-off) | `platform_losses` 900.00 | `provider_receivable` 900.00 |
+| Milestone accepted (commission recognised) | `commission_deferred` 150.00 | `commission_revenue` 150.00 |
+| Payout to provider | `provider_payable` 850.00 | `psp_funds` 850.00 |
+| *Alternative:* full refund before acceptance | `provider_payable` 850.00 · `commission_deferred` 150.00 | `psp_funds` 1,000.00 |
+| *Alternative:* refund after payout, recovery pending | `provider_receivable` 850.00 · `commission_revenue` 150.00 | `psp_funds` 1,000.00 |
+| Later recovery from next earnings | `provider_payable` 850.00 | `provider_receivable` 850.00 |
+| Recovery impossible (write-off) | `platform_losses` 850.00 | `provider_receivable` 850.00 |
 
 Guarantees: entries in each transaction add up to zero per currency (constraint trigger); the ledger is append-only; every transaction has an idempotency key tied to the triggering event.
 

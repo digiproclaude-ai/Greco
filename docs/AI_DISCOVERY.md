@@ -1,6 +1,6 @@
 # Greco — AI Discovery Assistant
 
-**Status:** Phase 1 proposal. Awaiting approval.
+**Status:** Approved by the product owner on 2026-11-01.
 **Last updated:** 2026-11-01
 
 Related: [ARCHITECTURE.md](../ARCHITECTURE.md) · [DATABASE_SCHEMA.md §18](../DATABASE_SCHEMA.md) · [SECURITY.md](../SECURITY.md) · [PRODUCT_DECISIONS.md](../PRODUCT_DECISIONS.md) (A-12, A-19, X-07, X-08)
@@ -293,7 +293,7 @@ interface EmbeddingProvider { embed(texts: string[]): Promise<number[][]> } // l
 
 ## 10. Cost model (estimate)
 
-Rough figures using current list prices for `claude-opus-5-5` ($4 per million input tokens, $20 per million output tokens, $0.20 per million cached input tokens; prices as of October 2026). Token counts are assumptions to be measured in Phase 4.
+Rough figures using current list prices for `claude-opus-5-5` ($4 per million input tokens, $20 per million output tokens, $0.20 per million cached input tokens; prices as of October 2026). Token counts are assumptions to be measured in Phase 5.
 
 | Step | Assumed tokens | Est. cost |
 |---|---|---|

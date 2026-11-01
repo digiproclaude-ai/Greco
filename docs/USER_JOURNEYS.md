@@ -1,6 +1,6 @@
 # Greco — Main User Journeys
 
-**Status:** Phase 1 proposal. Awaiting approval.
+**Status:** Approved by the product owner on 2026-11-01.
 **Last updated:** 2026-11-01
 
 Each journey lists the steps, what the system does, and the main edge cases. Decision IDs refer to [PRODUCT_DECISIONS.md](../PRODUCT_DECISIONS.md).

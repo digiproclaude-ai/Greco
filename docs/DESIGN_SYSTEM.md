@@ -1,6 +1,6 @@
 # Greco — UI/UX Direction and Design System
 
-**Status:** Phase 1 proposal for approval (A-26). Final values are confirmed in Phase 2 with real component prototypes. A static visual mockup (homepage, AI Discovery, checkout; sample data) is in [mockups/greco-mockup.html](mockups/greco-mockup.html).
+**Status:** Approved (A-26) on 2026-11-01. Phase 2 implements these tokens. A static visual mockup (homepage, AI Discovery, checkout; sample data) is in [mockups/greco-mockup.html](mockups/greco-mockup.html).
 **Last updated:** 2026-11-01
 
 ---
