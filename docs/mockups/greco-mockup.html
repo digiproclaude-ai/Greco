@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greco Design Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  /* Greco "paper and ink" direction (docs/DESIGN_SYSTEM.md). Layout: three stacked screen frames on a paper canvas. */
+  :root {
+    --ink: #14161A;
+    --muted: #625E56;
+    --control: #8C8679;
+    --line: #E3DED3;
+    --paper: #FAF8F4;
+    --surface: #FFFFFF;
+    --accent: #2A3A8F;
+    --accent-strong: #222F75;
+    --accent-tint: #EEF0FA;
+    --ochre: #8A5E12;
+    --success: #1F7A4D;
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+  button { font: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .notice {
+    background: var(--ink); color: #F3F1EC;
+    font-size: 13px; padding: 8px 20px; text-align: left;
+  }
+  .notice strong { font-weight: 600; }
+
+  .canvas { max-width: 1240px; margin: 0 auto; padding: 32px 20px 64px; display: grid; gap: 40px; }
+  .frame-label {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 10px;
+    display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+  }
+  .frame-label span { text-transform: none; letter-spacing: 0; font-family: var(--font-body); font-size: 13px; }
+  .frame {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* Shared controls */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; border-radius: 6px;
+    padding: 10px 16px; font-weight: 500; font-size: 15px; border: 1px solid transparent;
+    line-height: 1.2; white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-strong); }
+  .btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--control); }
+  .btn-secondary:hover { background: var(--paper); }
+  .btn-ghost { background: transparent; color: var(--accent); padding: 6px 0; }
+  .btn-sm { padding: 7px 12px; font-size: 14px; }
+
+  /* App header */
+  .appbar {
+    display: flex; align-items: center; gap: 28px; padding: 14px 28px;
+    border-bottom: 1px solid var(--line); flex-wrap: wrap;
+  }
+  .logo { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -.01em; }
+  .logo::after { content: "."; color: var(--accent); }
+  .nav { display: flex; gap: 22px; font-size: 15px; color: var(--ink); flex-wrap: wrap; }
+  .nav a { color: inherit; text-decoration: none; }
+  .nav a:hover { color: var(--accent); }
+  .appbar .right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+  .role-switch {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; font-size: 13px;
+  }
+  .role-switch span { padding: 6px 10px; color: var(--muted); }
+  .role-switch .on { background: var(--accent-tint); color: var(--accent); font-weight: 600; }
+
+  /* Homepage */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 48px; padding: 56px 28px 40px; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600; font-size: 52px; line-height: 1.08;
+    letter-spacing: -.015em; max-width: 15ch;
+  }
+  .hero .lede { color: var(--muted); font-size: 18px; max-width: 58ch; margin-top: 18px; }
+  .ask { margin-top: 28px; border: 1px solid var(--control); border-radius: 10px; background: var(--surface); }
+  .ask label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ask textarea {
+    width: 100%; border: 0; resize: none; padding: 16px 18px 8px; font: inherit; font-size: 17px;
+    color: var(--ink); background: transparent; min-height: 84px; border-radius: 10px;
+  }
+  .ask textarea:focus { outline: none; }
+  .ask:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ask .actions { display: flex; gap: 10px; padding: 0 12px 12px; justify-content: flex-end; flex-wrap: wrap; }
+  .examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }
+  .examples small { color: var(--muted); font-size: 13px; margin-right: 4px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--paper); border-radius: 6px; padding: 5px 10px;
+    font-size: 13px; color: var(--ink);
+  }
+  .chip:hover { border-color: var(--control); }
+
+  .protect { border-left: 1px solid var(--line); padding-left: 32px; align-self: center; }
+  .protect h2 { font-family: var(--font-display); font-weight: 600; font-size: 22px; }
+  .protect ol { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 16px; counter-reset: s; }
+  .protect li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: 15px; }
+  .protect li::before {
+    counter-increment: s; content: counter(s); font-family: var(--font-mono); font-size: 13px;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 50%; width: 24px; height: 24px;
+    display: grid; place-items: center;
+  }
+  .protect li b { display: block; font-weight: 600; }
+  .protect li span { color: var(--muted); }
+
+  .cats { padding: 8px 28px 40px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  .section-head h2 { font-family: var(--font-display); font-weight: 600; font-size: 26px; }
+  .section-head a { color: var(--accent); font-size: 14px; text-decoration: none; }
+  .cat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .cat {
+    padding: 18px 18px 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    display: grid; gap: 6px; align-content: start;
+  }
+  .cat svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .cat h3 { font-size: 16px; font-weight: 600; margin-top: 6px; }
+  .cat p { font-size: 13px; color: var(--muted); }
+  .cat .count { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+
+  /* Discovery workspace */
+  .disco { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); min-height: 640px; }
+  .chat { border-right: 1px solid var(--line); display: grid; grid-template-rows: 1fr auto; }
+  .thread { padding: 24px 28px; display: grid; gap: 20px; align-content: start; }
+  .msg { display: grid; gap: 6px; max-width: 62ch; }
+  .msg .who { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .msg.user { justify-self: end; }
+  .msg.user .bubble { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .msg.ai .who { color: var(--accent); }
+  .msg.ai .bubble { display: grid; gap: 10px; }
+  .msg.ai ol, .msg.ai ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  .quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .quick .chip { background: var(--surface); border-color: var(--control); }
+  .composer { border-top: 1px solid var(--line); padding: 14px 28px 16px; display: grid; gap: 8px; }
+  .composer .box { display: flex; gap: 8px; border: 1px solid var(--control); border-radius: 8px; padding: 6px 6px 6px 14px; align-items: center; }
+  .composer input { flex: 1; border: 0; font: inherit; background: transparent; color: var(--ink); min-width: 0; }
+  .composer input:focus { outline: none; }
+  .composer .box:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .composer .links { display: flex; gap: 16px; font-size: 13px; flex-wrap: wrap; }
+  .composer .links a { color: var(--accent); text-decoration: none; }
+  .composer .disclose { font-size: 12px; color: var(--muted); }
+
+  .side { display: grid; grid-template-rows: auto 1fr; background: var(--paper); }
+  .brief { padding: 22px 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .panel-head h2 { font-family: var(--font-display); font-weight: 600; font-size: 20px; }
+  .panel-head small { font-size: 12px; color: var(--muted); }
+  .brief dl { display: grid; grid-template-columns: 112px 1fr; gap: 8px 14px; margin: 0; font-size: 14px; }
+  .brief dt { color: var(--muted); }
+  .brief dd { margin: 0; }
+  .edited { font-size: 11px; font-weight: 600; color: var(--ochre); border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; margin-left: 6px; white-space: nowrap; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-family: var(--font-mono); font-size: 12px; background: var(--accent-tint); color: var(--accent); border-radius: 4px; padding: 1px 7px; }
+  .brief .actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+  .matches { padding: 20px 24px 24px; display: grid; gap: 14px; align-content: start; }
+  .match { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; }
+  .match-top { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: start; }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; color: var(--accent); background: var(--accent-tint); font-size: 15px; }
+  .match h3 { font-size: 16px; font-weight: 600; }
+  .meta { font-size: 13px; color: var(--muted); }
+  .price { text-align: right; font-size: 13px; color: var(--muted); }
+  .price b { display: block; color: var(--ink); font-size: 16px; font-weight: 600; }
+  .stats { display: flex; gap: 14px; font-size: 13px; flex-wrap: wrap; align-items: center; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--success); border: 1px solid currentColor; border-radius: 4px; padding: 1px 7px; }
+  .badge svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+  .why { border-top: 1px solid var(--line); padding-top: 10px; display: grid; gap: 8px; }
+  .why-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; }
+  .why-head span { font-weight: 400; color: var(--muted); font-size: 12px; }
+  .why ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; font-size: 14px; }
+  .why li { display: grid; gap: 2px; }
+  .prov { font-size: 11px; font-weight: 600; letter-spacing: .02em; }
+  .prov.v { color: var(--success); }
+  .prov.a { color: var(--accent); }
+  .prov.c { color: var(--muted); }
+  .caveat { font-size: 13px; color: var(--ochre); }
+  .match .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Checkout */
+  .checkout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+  .scope { padding: 28px; display: grid; gap: 18px; align-content: start; }
+  .scope h2 { font-family: var(--font-display); font-weight: 600; font-size: 24px; }
+  .scope .by { font-size: 14px; color: var(--muted); }
+  .milestones { border: 1px solid var(--line); border-radius: 8px; }
+  .ms { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); align-items: start; }
+  .ms:last-child { border-bottom: 0; }
+  .ms .n { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+  .ms b { display: block; font-weight: 600; font-size: 15px; }
+  .ms span { font-size: 13px; color: var(--muted); }
+  .ms .amt { font-weight: 600; }
+  .terms { display: grid; grid-template-columns: 140px 1fr; gap: 8px 16px; font-size: 14px; margin: 0; }
+  .terms dt { color: var(--muted); }
+  .terms dd { margin: 0; }
+
+  .pay { background: var(--paper); border-left: 1px solid var(--line); padding: 28px; display: grid; gap: 16px; align-content: start; }
+  .pay h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
+  .due { display: grid; gap: 2px; }
+  .due .big { font-family: var(--font-display); font-size: 40px; font-weight: 600; line-height: 1.1; }
+  .due span { font-size: 14px; color: var(--muted); }
+  .rows { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .row { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .row span:first-child { color: var(--muted); }
+  .row strong { font-weight: 600; }
+  .accept { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 14px; align-items: start; }
+  .accept input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); }
+  .pay .btn-primary { justify-content: center; padding: 13px 16px; }
+  .fine { font-size: 12px; color: var(--muted); }
+
+  .foot { font-size: 13px; color: var(--muted); }
+
+  @media (max-width: 960px) {
+    .hero, .disco, .checkout { grid-template-columns: 1fr; }
+    .protect { border-left: 0; border-top: 1px solid var(--line); padding: 24px 0 0; }
+    .chat { border-right: 0; border-bottom: 1px solid var(--line); }
+    .pay { border-left: 0; border-top: 1px solid var(--line); }
+    .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hero h1 { font-size: 40px; }
+  }
+  @media (max-width: 520px) {
+    .appbar, .hero, .cats, .thread, .composer, .brief, .matches, .scope, .pay { padding-left: 16px; padding-right: 16px; }
+    .nav { display: none; }
+    .hero h1 { font-size: 34px; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .brief dl, .terms { grid-template-columns: 1fr; gap: 2px 0; }
+    .brief dd, .terms dd { margin-bottom: 8px; }
+    .match-top { grid-template-columns: 44px 1fr; }
+    .price { grid-column: 2; text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="notice"><strong>Visual mockup for design review.</strong> Sample data only. Not a working app, and nothing here can be clicked through or paid.</div>
+
+<main class="canvas">
+
+  <!-- Screen 1: Homepage -->
+  <section aria-labelledby="s1">
+    <div class="frame-label" id="s1">Screen 1 · Homepage <span>One input, two paths: AI Discovery or direct search</span></div>
+    <div class="frame">
+      <header class="appbar">
+        <div class="logo">Greco</div>
+        <nav class="nav" aria-label="Main">
+          <a href="#s2">Discover</a><a href="#s1">Find experts</a><a href="#s1">Categories</a><a href="#s1">How it works</a><a href="#s1">Become an expert</a>
+        </nav>
+        <div class="right">
+          <button class="btn btn-ghost btn-sm" type="button">Log in</button>
+          <button class="btn btn-primary btn-sm" type="button">Sign up</button>
+        </div>
+      </header>
+
+      <div class="hero">
+        <div>
+          <h1>Find the right AI expert for your business problem.</h1>
+          <p class="lede">Describe what you want to achieve. Greco helps you work out what you need and matches you with vetted AI specialists and agencies. If you already know what you want, search directly.</p>
+
+          <div class="ask">
+            <label for="ask-input">Describe what you want to achieve with AI</label>
+            <textarea id="ask-input" rows="2">I run a dental clinic and want to reduce the time my staff spend answering phone calls.</textarea>
+            <div class="actions">
+              <button class="btn btn-secondary" type="button">Search services</button>
+              <button class="btn btn-primary" type="button">Help me figure it out</button>
+            </div>
+          </div>
+
+          <div class="examples">
+            <small>Try:</small>
+            <button class="chip" type="button">Chatbot that answers from our documents</button>
+            <button class="chip" type="button">Forecast inventory demand</button>
+            <button class="chip" type="button">Automate invoice processing</button>
+            <button class="chip" type="button">AI strategy for a 50-person company</button>
+          </div>
+        </div>
+
+        <aside class="protect" aria-labelledby="protect-h">
+          <h2 id="protect-h">How your project is protected</h2>
+          <ol>
+            <li><div><b>Clear terms before you pay</b><span>Price, payment schedule, deadline, revisions and cancellation terms, all agreed upfront.</span></div></li>
+            <li><div><b>Payment through a regulated provider</b><span>Greco never stores your card. Experts are paid after you accept the work.</span></div></li>
+            <li><div><b>Revisions and fair disputes</b><span>Request changes, agree partial refunds, or ask Greco to review.</span></div></li>
+          </ol>
+        </aside>
+      </div>
+
+      <div class="cats">
+        <div class="section-head">
+          <h2>Browse by category</h2>
+          <a href="#s1">All categories</a>
+        </div>
+        <div class="cat-grid">
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/></svg>
+            <h3>AI agents &amp; automation</h3><p>Agents that run multi-step work across your tools</p><div class="count num">212 services</div>
+          </div>
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg>
+            <h3>Chatbots &amp; assistants</h3><p>Support and internal assistants grounded in your data</p><div class="count num">184 services</div>
+          </div>
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/></svg>
+            <h3>Voice agents &amp; phone</h3><p>Answer, route and book calls automatically</p><div class="count num">67 services</div>
+          </div>
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+            <h3>Data science &amp; analytics</h3><p>Forecasting, dashboards and decision models</p><div class="count num">143 services</div>
+          </div>
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <h3>Computer vision</h3><p>Inspection, document reading and image analysis</p><div class="count num">58 services</div>
+          </div>
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>
+            <h3>Generative AI apps</h3><p>Products built on large language and image models</p><div class="count num">129 services</div>
+          </div>
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <h3>AI strategy &amp; consulting</h3><p>Where AI fits, roadmaps and readiness reviews</p><div class="count num">96 services</div>
+          </div>
+          <div class="cat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"/><circle cx="18" cy="16" r="3"/></svg>
+            <h3>Models &amp; MLOps</h3><p>Fine-tuning, evaluation, deployment and monitoring</p><div class="count num">74 services</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 2: AI Discovery -->
+  <section aria-labelledby="s2">
+    <div class="frame-label" id="s2">Screen 2 · AI Discovery <span>Conversation, live editable brief, explained matches</span></div>
+    <div class="frame">
+      <header class="appbar">
+        <div class="logo">Greco</div>
+        <nav class="nav" aria-label="Main (signed in)">
+          <a href="#s2">Discover</a><a href="#s1">Find experts</a><a href="#s1">Categories</a><a href="#s2">Messages</a>
+        </nav>
+        <div class="right">
+          <div class="role-switch" aria-label="Workspace"><span class="on">Client</span><span>Expert</span></div>
+          <div class="avatar" style="width:32px;height:32px;font-size:12px;" aria-hidden="true">RM</div>
+        </div>
+      </header>
+
+      <div class="disco">
+        <div class="chat">
+          <div class="thread">
+            <div class="msg user"><div class="who">You</div><div class="bubble">I run a dental clinic and want to reduce the time my staff spend answering phone calls.</div></div>
+
+            <div class="msg ai"><div class="who">Greco AI</div>
+              <div class="bubble">
+                <p>Got it: your team spends a lot of time on the phone and you'd like some of that handled automatically. Three quick questions so I can point you in the right direction:</p>
+                <ol>
+                  <li>Roughly how many calls do you get per day?</li>
+                  <li>What are most calls about?</li>
+                  <li>Which booking or practice software do you use?</li>
+                </ol>
+                <div class="quick"><button class="chip" type="button">Under 50</button><button class="chip" type="button">50–200</button><button class="chip" type="button">Over 200</button></div>
+              </div>
+            </div>
+
+            <div class="msg user"><div class="who">You</div><div class="bubble">About 120 a day, mostly booking and rescheduling. We use a cloud practice-management system.</div></div>
+
+            <div class="msg ai"><div class="who">Greco AI</div>
+              <div class="bubble">
+                <p>With mostly booking calls, there are two common approaches:</p>
+                <ul>
+                  <li><b>An AI phone receptionist:</b> answers calls, books or moves appointments in your system, and passes anything unusual to your staff.</li>
+                  <li><b>Online booking with reminders:</b> fewer calls in the first place, because patients book and reschedule themselves.</li>
+                </ul>
+                <p>Many clinics combine both. I've drafted your brief on the right. Check it, then show matches. Please don't share patient details here; they aren't needed.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="composer">
+            <div class="box">
+              <label for="reply" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Your reply</label>
+              <input id="reply" type="text" placeholder="Type your answer…">
+              <button class="btn btn-primary btn-sm" type="button">Send</button>
+            </div>
+            <div class="links"><a href="#s2">Skip to results</a><a href="#s1">Browse categories</a><a href="#s1">Search instead</a></div>
+            <p class="disclose">Greco AI is an AI assistant and can make mistakes. It never contacts anyone or buys anything for you.</p>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="brief">
+            <div class="panel-head"><h2>Project brief</h2><small>Version 3 · editable</small></div>
+            <dl>
+              <dt>Business</dt><dd>Dental clinic, healthcare</dd>
+              <dt>Problem</dt><dd>Staff handle ~120 calls a day, mostly bookings and rescheduling</dd>
+              <dt>Goal</dt><dd>Cut time spent on routine calls without losing patients</dd>
+              <dt>Must work with</dt><dd>Cloud practice-management system</dd>
+              <dt>Budget</dt><dd class="num">$1,500–3,000 <span class="edited">Edited by you</span></dd>
+              <dt>Approaches</dt><dd>AI phone receptionist; online booking + reminders</dd>
+              <dt>Categories</dt><dd><div class="tags"><span class="tag">voice-agents</span><span class="tag">process-automation</span><span class="tag">healthcare</span></div></dd>
+            </dl>
+            <div class="actions">
+              <button class="btn btn-primary btn-sm" type="button">Show matches</button>
+              <button class="btn btn-secondary btn-sm" type="button">Save brief</button>
+              <button class="btn btn-secondary btn-sm" type="button">Post as project</button>
+            </div>
+          </div>
+
+          <div class="matches">
+            <div class="panel-head"><h2>Matches</h2><small>2 of 5 shown · sample data</small></div>
+
+            <article class="match">
+              <div class="match-top">
+                <div class="avatar" aria-hidden="true">KV</div>
+                <div>
+                  <h3>Kestrel Voice Studio</h3>
+                  <div class="meta">Agency · Portugal · English, Spanish</div>
+                </div>
+                <div class="price">from<b class="num">$1,800</b></div>
+              </div>
+              <div class="stats">
+                <span class="num">4.9 ★ (12 reviews)</span>
+                <span class="num">14 orders completed</span>
+                <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Business verified</span>
+              </div>
+              <div class="why">
+                <div class="why-head">Why this match <span>AI summary</span></div>
+                <ul>
+                  <li>Built three AI phone receptionists with appointment booking<span class="prov c">According to the expert's portfolio</span></li>
+                  <li>14 completed orders in voice agents on Greco, delivered on time<span class="prov a">Based on Greco activity</span></li>
+                  <li>Registered business checked by Greco<span class="prov v">Verified by Greco</span></li>
+                </ul>
+                <p class="caveat">No portfolio item mentions your practice software. Worth asking.</p>
+              </div>
+              <div class="actions">
+                <button class="btn btn-secondary btn-sm" type="button">View profile</button>
+                <button class="btn btn-secondary btn-sm" type="button">Message</button>
+              </div>
+            </article>
+
+            <article class="match">
+              <div class="match-top">
+                <div class="avatar" aria-hidden="true">AM</div>
+                <div>
+                  <h3>Ana Marin</h3>
+                  <div class="meta">Individual expert · Romania · English, Spanish</div>
+                </div>
+                <div class="price">from<b class="num">$1,200</b></div>
+              </div>
+              <div class="stats">
+                <span class="num">5.0 ★ (4 reviews)</span>
+                <span class="num">4 orders completed</span>
+              </div>
+              <div class="why">
+                <div class="why-head">Why this match <span>AI summary</span></div>
+                <ul>
+                  <li>Integrated booking automation for two clinics<span class="prov c">According to the expert's portfolio</span></li>
+                  <li>Replies to messages within 2 hours on average<span class="prov a">Based on Greco activity</span></li>
+                </ul>
+                <p class="caveat">Fewer completed Greco orders than other matches.</p>
+              </div>
+              <div class="actions">
+                <button class="btn btn-secondary btn-sm" type="button">View profile</button>
+                <button class="btn btn-secondary btn-sm" type="button">Message</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 3: Checkout -->
+  <section aria-labelledby="s3">
+    <div class="frame-label" id="s3">Screen 3 · Checkout <span>Deposit model: everything due, and when, is visible before paying</span></div>
+    <div class="frame">
+      <div class="checkout">
+        <div class="scope">
+          <div>
+            <h2>AI phone receptionist for your clinic</h2>
+            <p class="by">Custom offer from Kestrel Voice Studio · accepted proposal</p>
+          </div>
+
+          <div class="milestones">
+            <div class="ms"><div class="n">M1</div><div><b>Call flows and booking integration</b><span>Working prototype on a test number</span></div><div class="amt num">$720.00</div></div>
+            <div class="ms"><div class="n">M2</div><div><b>Live launch and staff handover</b><span>Production number, Spanish support, 30-day tuning</span></div><div class="amt num">$1,680.00</div></div>
+          </div>
+
+          <dl class="terms">
+            <dt>Delivery</dt><dd>21 days after you submit the requirements</dd>
+            <dt>Revisions</dt><dd>2 rounds included per milestone</dd>
+            <dt>Cancellation</dt><dd>Full refund if cancelled before work starts. Later cancellations follow the Resolution policy.</dd>
+            <dt>Changes</dt><dd>Price and payment terms can't change unless you approve an amendment.</dd>
+          </dl>
+        </div>
+
+        <div class="pay">
+          <h3>Payment summary</h3>
+          <div class="due"><div class="big num">$720.00</div><span>Due now · 30% deposit</span></div>
+          <div class="rows">
+            <div class="row"><span>Total price</span><strong class="num">$2,400.00</strong></div>
+            <div class="row"><span>Deposit (due now)</span><strong class="num">$720.00</strong></div>
+            <div class="row"><span>Balance</span><strong class="num">$1,680.00</strong></div>
+            <div class="row"><span>Balance due</span><strong>When you accept milestone 1</strong></div>
+            <div class="row"><span>Service fee</span><strong class="num">$0.00</strong></div>
+          </div>
+          <label class="accept" for="accept-terms">
+            <input id="accept-terms" type="checkbox">
+            <span>I accept the scope, payment schedule, delivery, revision and cancellation terms above.</span>
+          </label>
+          <button class="btn btn-primary" type="button">Pay $720.00 deposit</button>
+          <p class="fine">Payment provider not yet selected. In the real product, card details are entered only on the provider's secure page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Design direction: docs/DESIGN_SYSTEM.md in the Greco repository. Names, numbers and categories on this page are invented examples.</p>
+</main>
+</body>
+</html>
