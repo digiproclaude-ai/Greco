@@ -1870,6 +1870,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      discard_uploaded_file: { Args: { p_file_id: string }; Returns: string }
       enable_marketplace_role: {
         Args: { p_role: Database["public"]["Enums"]["marketplace_role"] }
         Returns: undefined
