@@ -8,11 +8,12 @@ import expert from "./expert.json";
 import forms from "./forms.json";
 import home from "./home.json";
 import legal from "./legal.json";
+import listing from "./listing.json";
 import marketplace from "./marketplace.json";
 import metadata from "./metadata.json";
 import nav from "./nav.json";
 import validation from "./validation.json";
 
-const messages = { admin, auth, client, common, dashboard, errors, expert, forms, home, legal, marketplace, metadata, nav, validation };
+const messages = { admin, auth, client, common, dashboard, errors, expert, forms, home, legal, listing, marketplace, metadata, nav, validation };
 
 export default messages;
