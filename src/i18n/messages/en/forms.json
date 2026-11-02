@@ -22,7 +22,8 @@
     "uploaded": "Uploaded.",
     "submitted": "Submitted for review. We'll let you know the outcome.",
     "statusChanged": "Status updated.",
-    "decided": "Decision recorded."
+    "decided": "Decision recorded.",
+    "suggested": "Thanks. Greco will review your suggestion; once approved you can select it."
   },
   "saving": "Saving…",
   "optional": "Optional",

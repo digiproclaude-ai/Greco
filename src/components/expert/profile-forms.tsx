@@ -23,6 +23,7 @@ import {
   saveTermsAction,
   setHandleAction,
   submitProfileAction,
+  suggestTermAction,
   uploadAvatarAction,
 } from "@/server/modules/providers/actions";
 import { idleState } from "@/server/modules/shared/action-state";
@@ -464,6 +465,26 @@ export function SubmitProfileForm({ checklistLabels, disabled }: { checklistLabe
         <PendingButton disabled={disabled}>{t("submit")}</PendingButton>
       </div>
       <p className="text-sm text-ink-muted">{t("submitHint")}</p>
+    </form>
+  );
+}
+
+export function SuggestTermForm() {
+  const t = useTranslations("expert.profile.suggest");
+  const [state, action] = useActionState(suggestTermAction, idleState);
+  const kinds = (["skill", "technology", "industry"] as const).map((value) => ({ value, label: t(`kinds.${value}`) }));
+  return (
+    <form action={action} className="grid gap-3 rounded-md border border-dashed border-line p-4" key={state.at} noValidate>
+      <div className="grid gap-0.5">
+        <p className="text-sm font-medium">{t("title")}</p>
+        <p className="text-sm text-ink-muted">{t("description")}</p>
+      </div>
+      <FormStatus state={state} />
+      <div className="grid gap-3 sm:grid-cols-[10rem_1fr_auto] sm:items-end">
+        <SelectField name="kind" label={t("kind")} state={state} defaultValue="skill" options={kinds} />
+        <TextField name="name" label={t("name")} state={state} maxLength={60} />
+        <PendingButton variant="secondary">{t("submit")}</PendingButton>
+      </div>
     </form>
   );
 }

@@ -10,6 +10,7 @@ import {
   LinksForm,
   SkillsForm,
   SubmitProfileForm,
+  SuggestTermForm,
 } from "@/components/expert/profile-forms";
 import { ChecklistList, ProviderStatusPanel } from "@/components/expert/status-panel";
 import { EditorSection } from "@/components/forms/fields";
@@ -138,6 +139,7 @@ export default async function ExpertProfilePage() {
           max={MAX_PROVIDER_TERMS}
           kindLabels={kindLabels}
         />
+        <SuggestTermForm />
       </EditorSection>
 
       <EditorSection id="languages" title={t("sections.languages")} description={t("sections.languagesDescription")}>

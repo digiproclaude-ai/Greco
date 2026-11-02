@@ -10,6 +10,10 @@ import { dbErrorKey } from "@/server/modules/shared/db-errors";
 import { toFieldErrors } from "@/server/modules/shared/validation";
 import { CATALOG_TAG } from "@/server/modules/taxonomy/service";
 
+import { z } from "zod";
+
+import { requiredText } from "@/server/modules/shared/validation";
+
 import {
   AGENCY_FIELDS,
   agencySchema,
@@ -233,4 +237,22 @@ export async function submitProfileAction(): Promise<ActionState> {
   if (missing && missing.length > 0) return failed("checklist", { missing });
   refresh();
   return succeeded("submitted");
+}
+
+const suggestionSchema = z.object({
+  kind: z.enum(["skill", "technology", "industry"], { error: "choice" }),
+  name: requiredText(2, 60),
+});
+
+/** Experts suggest a missing skill, technology or industry; moderators approve or merge it. */
+export async function suggestTermAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const ctx = await expertContext();
+  if (!ctx) return failed("notAllowed");
+  const parsed = suggestionSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) {
+    return failed("invalid", { fieldErrors: toFieldErrors(parsed.error), values: echo(formData, ["kind", "name"]) });
+  }
+  const { error } = await ctx.supabase.rpc("suggest_taxonomy_term", { p_kind: parsed.data.kind, p_name: parsed.data.name });
+  if (error) return failed(dbErrorKey(error), { values: echo(formData, ["kind", "name"]) });
+  return succeeded("suggested");
 }

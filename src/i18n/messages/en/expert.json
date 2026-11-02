@@ -143,7 +143,19 @@
       "languages": "Add at least one language"
     },
     "submit": "Submit profile for review",
-    "submitHint": "Greco checks every new profile before it goes public."
+    "submitHint": "Greco checks every new profile before it goes public.",
+    "suggest": {
+      "title": "Can't find a skill?",
+      "description": "Suggest it and Greco will add it to the list.",
+      "kind": "Type",
+      "name": "Name",
+      "submit": "Suggest",
+      "kinds": {
+        "skill": "Skill",
+        "technology": "Technology",
+        "industry": "Industry"
+      }
+    }
   },
   "portfolio": {
     "title": "Portfolio",
