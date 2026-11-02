@@ -100,7 +100,8 @@ test("an expert's profile and service go live after moderation and appear in sea
 
   const handle = await expert.locator("#address").getByLabel("Profile address").inputValue();
   await expert.locator("#status").getByRole("button", { name: "Submit profile for review" }).click();
-  await expect(expert.getByText("Submitted for review.", { exact: false })).toBeVisible();
+  // The page refreshes into the "in review" state (the submit form is no longer shown).
+  await expect(expert.getByText("Greco is reviewing your profile.", { exact: false })).toBeVisible();
 
   // 2. The expert creates a service and submits it.
   await expert.goto("/dashboard/expert/services/new");
@@ -126,7 +127,7 @@ test("an expert's profile and service go live after moderation and appear in sea
   await expect(pricing.getByText("Saved.")).toBeVisible();
 
   await expert.locator("#status").getByRole("button", { name: "Submit for review" }).click();
-  await expect(expert.getByText("Submitted for review.", { exact: false })).toBeVisible();
+  await expect(expert.getByText("This service is in review, so it can't be edited right now.")).toBeVisible();
 
   // 3. A moderator with two-step verification approves both.
   const staffEmail = `staff-${stamp}@greco.test`;
