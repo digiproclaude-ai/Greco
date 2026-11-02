@@ -252,8 +252,7 @@ alter table public.moderation_actions add column affected_user_id uuid reference
 create index moderation_actions_report_idx on public.moderation_actions (report_id) where report_id is not null;
 create index moderation_actions_affected_idx on public.moderation_actions (affected_user_id) where affected_user_id is not null;
 
-drop policy moderation_actions_read on public.moderation_actions;
-create policy moderation_actions_read on public.moderation_actions for select to authenticated
+alter policy moderation_actions_read on public.moderation_actions
   using ((provider_id is not null and (select app.owns_provider(provider_id)))
          or affected_user_id = (select auth.uid())
          or (select app.is_staff(array['super_admin', 'admin', 'moderator']::public.staff_role[])));

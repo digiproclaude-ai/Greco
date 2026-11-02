@@ -13,7 +13,11 @@
     "fileTooLarge": "Images can be up to {max} MB.",
     "fileDimensions": "The image is too small. Use at least {min} pixels on each side.",
     "uploadFailed": "The upload failed. Please try again.",
-    "checklist": "A few things are missing before you can submit."
+    "checklist": "A few things are missing before you can submit.",
+    "attachmentType": "Attach a PDF, image, text, CSV, JSON, ZIP or Office file.",
+    "attachmentTooLarge": "Files can be up to {max} MB.",
+    "blocked": "You can't message this person.",
+    "slowDown": "You're sending messages too quickly. Wait a moment and try again."
   },
   "success": {
     "saved": "Saved.",

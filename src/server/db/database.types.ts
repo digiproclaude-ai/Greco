@@ -1,6 +1,3 @@
-// Generated from the Supabase schema (project Greco). Do not edit by hand.
-// Regenerate after every migration (see ENVIRONMENT_SETUP.md).
-
 export type Json =
   | string
   | number
@@ -237,6 +234,199 @@ export type Database = {
           },
         ]
       }
+      content_reports: {
+        Row: {
+          created_at: string
+          details: string | null
+          handled_at: string | null
+          handled_by: string | null
+          id: string
+          reason: Database["public"]["Enums"]["report_reason"]
+          reporter_user_id: string | null
+          resolution_note: string | null
+          signals: string[]
+          source: string
+          status: string
+          target_id: string
+          target_type: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          handled_at?: string | null
+          handled_by?: string | null
+          id?: string
+          reason: Database["public"]["Enums"]["report_reason"]
+          reporter_user_id?: string | null
+          resolution_note?: string | null
+          signals?: string[]
+          source?: string
+          status?: string
+          target_id: string
+          target_type: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          handled_at?: string | null
+          handled_by?: string | null
+          id?: string
+          reason?: Database["public"]["Enums"]["report_reason"]
+          reporter_user_id?: string | null
+          resolution_note?: string | null
+          signals?: string[]
+          source?: string
+          status?: string
+          target_id?: string
+          target_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_reports_handled_by_fkey"
+            columns: ["handled_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_reports_reporter_user_id_fkey"
+            columns: ["reporter_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_participants: {
+        Row: {
+          archived_at: string | null
+          conversation_id: string
+          joined_at: string
+          last_read_at: string | null
+          muted: boolean
+          participant_kind: string
+          provider_id: string | null
+          user_id: string
+        }
+        Insert: {
+          archived_at?: string | null
+          conversation_id: string
+          joined_at?: string
+          last_read_at?: string | null
+          muted?: boolean
+          participant_kind: string
+          provider_id?: string | null
+          user_id: string
+        }
+        Update: {
+          archived_at?: string | null
+          conversation_id?: string
+          joined_at?: string
+          last_read_at?: string | null
+          muted?: boolean
+          participant_kind?: string
+          provider_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_participants_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_participants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          client_user_id: string | null
+          context_listing_id: string | null
+          context_project_id: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          kind: string
+          last_message_at: string | null
+          provider_id: string | null
+          status: string
+        }
+        Insert: {
+          client_user_id?: string | null
+          context_listing_id?: string | null
+          context_project_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind?: string
+          last_message_at?: string | null
+          provider_id?: string | null
+          status?: string
+        }
+        Update: {
+          client_user_id?: string | null
+          context_listing_id?: string | null
+          context_project_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind?: string
+          last_message_at?: string | null
+          provider_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_client_user_id_fkey"
+            columns: ["client_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_context_listing_id_fkey"
+            columns: ["context_listing_id"]
+            isOneToOne: false
+            referencedRelation: "service_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_context_project_id_fkey"
+            columns: ["context_project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       countries: {
         Row: {
           can_buy: boolean
@@ -299,6 +489,7 @@ export type Database = {
           bucket: string
           created_at: string
           deleted_at: string | null
+          display_name: string | null
           id: string
           mime_type: string
           owner_user_id: string
@@ -312,6 +503,7 @@ export type Database = {
           bucket: string
           created_at?: string
           deleted_at?: string | null
+          display_name?: string | null
           id?: string
           mime_type: string
           owner_user_id: string
@@ -325,6 +517,7 @@ export type Database = {
           bucket?: string
           created_at?: string
           deleted_at?: string | null
+          display_name?: string | null
           id?: string
           mime_type?: string
           owner_user_id?: string
@@ -422,34 +615,138 @@ export type Database = {
         }
         Relationships: []
       }
+      message_attachments: {
+        Row: {
+          file_id: string
+          message_id: string
+        }
+        Insert: {
+          file_id: string
+          message_id: string
+        }
+        Update: {
+          file_id?: string
+          message_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_attachments_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "file_objects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "message_attachments_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          body: string | null
+          contact_flags: string[]
+          context_listing_id: string | null
+          context_project_id: string | null
+          conversation_id: string
+          created_at: string
+          id: string
+          kind: string
+          moderation_state: string
+          sender_user_id: string | null
+        }
+        Insert: {
+          body?: string | null
+          contact_flags?: string[]
+          context_listing_id?: string | null
+          context_project_id?: string | null
+          conversation_id: string
+          created_at?: string
+          id?: string
+          kind?: string
+          moderation_state?: string
+          sender_user_id?: string | null
+        }
+        Update: {
+          body?: string | null
+          contact_flags?: string[]
+          context_listing_id?: string | null
+          context_project_id?: string | null
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          moderation_state?: string
+          sender_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_context_listing_id_fkey"
+            columns: ["context_listing_id"]
+            isOneToOne: false
+            referencedRelation: "service_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_context_project_id_fkey"
+            columns: ["context_project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_user_id_fkey"
+            columns: ["sender_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       moderation_actions: {
         Row: {
           action: string
           actor_staff_id: string | null
+          affected_user_id: string | null
           created_at: string
           id: string
           provider_id: string | null
           reason: string | null
+          report_id: string | null
           target_id: string
           target_type: string
         }
         Insert: {
           action: string
           actor_staff_id?: string | null
+          affected_user_id?: string | null
           created_at?: string
           id?: string
           provider_id?: string | null
           reason?: string | null
+          report_id?: string | null
           target_id: string
           target_type: string
         }
         Update: {
           action?: string
           actor_staff_id?: string | null
+          affected_user_id?: string | null
           created_at?: string
           id?: string
           provider_id?: string | null
           reason?: string | null
+          report_id?: string | null
           target_id?: string
           target_type?: string
         }
@@ -462,10 +759,148 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "moderation_actions_affected_user_id_fkey"
+            columns: ["affected_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "moderation_actions_provider_id_fkey"
             columns: ["provider_id"]
             isOneToOne: false
             referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "moderation_actions_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "content_reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_preferences: {
+        Row: {
+          channel: string
+          enabled: boolean
+          type_key: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          enabled: boolean
+          type_key: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          enabled?: boolean
+          type_key?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_type_key_fkey"
+            columns: ["type_key"]
+            isOneToOne: false
+            referencedRelation: "notification_types"
+            referencedColumns: ["key"]
+          },
+          {
+            foreignKeyName: "notification_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_types: {
+        Row: {
+          category: string
+          default_channels: string[]
+          key: string
+          user_configurable: boolean
+        }
+        Insert: {
+          category: string
+          default_channels?: string[]
+          key: string
+          user_configurable?: boolean
+        }
+        Update: {
+          category?: string
+          default_channels?: string[]
+          key?: string
+          user_configurable?: boolean
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          actor_user_id: string | null
+          count: number
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          group_key: string | null
+          id: string
+          params: Json
+          read_at: string | null
+          type_key: string
+          user_id: string
+        }
+        Insert: {
+          actor_user_id?: string | null
+          count?: number
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          group_key?: string | null
+          id?: string
+          params?: Json
+          read_at?: string | null
+          type_key: string
+          user_id: string
+        }
+        Update: {
+          actor_user_id?: string | null
+          count?: number
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          group_key?: string | null
+          id?: string
+          params?: Json
+          read_at?: string | null
+          type_key?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_actor_user_id_fkey"
+            columns: ["actor_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_type_key_fkey"
+            columns: ["type_key"]
+            isOneToOne: false
+            referencedRelation: "notification_types"
+            referencedColumns: ["key"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -706,6 +1141,388 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "countries"
             referencedColumns: ["code"]
+          },
+        ]
+      }
+      project_attachments: {
+        Row: {
+          created_at: string
+          file_id: string
+          project_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_id: string
+          project_id: string
+        }
+        Update: {
+          created_at?: string
+          file_id?: string
+          project_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_attachments_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "file_objects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_attachments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_invitations: {
+        Row: {
+          created_at: string
+          id: string
+          invited_by: string | null
+          message: string | null
+          project_id: string
+          provider_id: string
+          responded_at: string | null
+          status: Database["public"]["Enums"]["invitation_status"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invited_by?: string | null
+          message?: string | null
+          project_id: string
+          provider_id: string
+          responded_at?: string | null
+          status?: Database["public"]["Enums"]["invitation_status"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invited_by?: string | null
+          message?: string | null
+          project_id?: string
+          provider_id?: string
+          responded_at?: string | null
+          status?: Database["public"]["Enums"]["invitation_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_invitations_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_invitations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_invitations_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_terms: {
+        Row: {
+          project_id: string
+          term_id: string
+        }
+        Insert: {
+          project_id: string
+          term_id: string
+        }
+        Update: {
+          project_id?: string
+          term_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_terms_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_terms_term_id_fkey"
+            columns: ["term_id"]
+            isOneToOne: false
+            referencedRelation: "taxonomy_terms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          budget_kind: Database["public"]["Enums"]["budget_kind"]
+          budget_max_minor: number | null
+          budget_min_minor: number | null
+          business_problem: string | null
+          category_id: string | null
+          client_user_id: string
+          closed_at: string | null
+          created_at: string
+          currency: string
+          deadline: string | null
+          description: string | null
+          desired_outcome: string | null
+          expires_at: string | null
+          id: string
+          proposals_count: number
+          published_at: string | null
+          source: string
+          status: Database["public"]["Enums"]["project_status"]
+          timeline_kind: Database["public"]["Enums"]["timeline_kind"]
+          title: string
+          updated_at: string
+          visibility: Database["public"]["Enums"]["project_visibility"]
+        }
+        Insert: {
+          budget_kind?: Database["public"]["Enums"]["budget_kind"]
+          budget_max_minor?: number | null
+          budget_min_minor?: number | null
+          business_problem?: string | null
+          category_id?: string | null
+          client_user_id: string
+          closed_at?: string | null
+          created_at?: string
+          currency?: string
+          deadline?: string | null
+          description?: string | null
+          desired_outcome?: string | null
+          expires_at?: string | null
+          id?: string
+          proposals_count?: number
+          published_at?: string | null
+          source?: string
+          status?: Database["public"]["Enums"]["project_status"]
+          timeline_kind?: Database["public"]["Enums"]["timeline_kind"]
+          title: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["project_visibility"]
+        }
+        Update: {
+          budget_kind?: Database["public"]["Enums"]["budget_kind"]
+          budget_max_minor?: number | null
+          budget_min_minor?: number | null
+          business_problem?: string | null
+          category_id?: string | null
+          client_user_id?: string
+          closed_at?: string | null
+          created_at?: string
+          currency?: string
+          deadline?: string | null
+          description?: string | null
+          desired_outcome?: string | null
+          expires_at?: string | null
+          id?: string
+          proposals_count?: number
+          published_at?: string | null
+          source?: string
+          status?: Database["public"]["Enums"]["project_status"]
+          timeline_kind?: Database["public"]["Enums"]["timeline_kind"]
+          title?: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["project_visibility"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_client_user_id_fkey"
+            columns: ["client_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      proposal_deliverables: {
+        Row: {
+          id: string
+          proposal_id: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          id?: string
+          proposal_id: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          id?: string
+          proposal_id?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposal_deliverables_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      proposal_milestones: {
+        Row: {
+          amount_minor: number
+          description: string | null
+          due_offset_days: number
+          id: string
+          proposal_id: string
+          seq: number
+          title: string
+        }
+        Insert: {
+          amount_minor: number
+          description?: string | null
+          due_offset_days: number
+          id?: string
+          proposal_id: string
+          seq: number
+          title: string
+        }
+        Update: {
+          amount_minor?: number
+          description?: string | null
+          due_offset_days?: number
+          id?: string
+          proposal_id?: string
+          seq?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposal_milestones_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      proposals: {
+        Row: {
+          balance_trigger: Database["public"]["Enums"]["balance_trigger"] | null
+          conditions: string | null
+          created_at: string
+          currency: string
+          decided_at: string | null
+          decline_reason: string | null
+          deposit_bps: number | null
+          estimated_days: number | null
+          hours: number | null
+          id: string
+          payment_model: Database["public"]["Enums"]["payment_model"]
+          price_minor: number | null
+          pricing_model: Database["public"]["Enums"]["proposal_pricing"]
+          project_id: string
+          proposed_solution: string | null
+          provider_id: string
+          questions: string | null
+          relevant_experience: string | null
+          revisions_included: number | null
+          status: Database["public"]["Enums"]["proposal_status"]
+          submitted_at: string | null
+          submitted_by_user_id: string
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          balance_trigger?:
+            | Database["public"]["Enums"]["balance_trigger"]
+            | null
+          conditions?: string | null
+          created_at?: string
+          currency?: string
+          decided_at?: string | null
+          decline_reason?: string | null
+          deposit_bps?: number | null
+          estimated_days?: number | null
+          hours?: number | null
+          id?: string
+          payment_model?: Database["public"]["Enums"]["payment_model"]
+          price_minor?: number | null
+          pricing_model?: Database["public"]["Enums"]["proposal_pricing"]
+          project_id: string
+          proposed_solution?: string | null
+          provider_id: string
+          questions?: string | null
+          relevant_experience?: string | null
+          revisions_included?: number | null
+          status?: Database["public"]["Enums"]["proposal_status"]
+          submitted_at?: string | null
+          submitted_by_user_id: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          balance_trigger?:
+            | Database["public"]["Enums"]["balance_trigger"]
+            | null
+          conditions?: string | null
+          created_at?: string
+          currency?: string
+          decided_at?: string | null
+          decline_reason?: string | null
+          deposit_bps?: number | null
+          estimated_days?: number | null
+          hours?: number | null
+          id?: string
+          payment_model?: Database["public"]["Enums"]["payment_model"]
+          price_minor?: number | null
+          pricing_model?: Database["public"]["Enums"]["proposal_pricing"]
+          project_id?: string
+          proposed_solution?: string | null
+          provider_id?: string
+          questions?: string | null
+          relevant_experience?: string | null
+          revisions_included?: number | null
+          status?: Database["public"]["Enums"]["proposal_status"]
+          submitted_at?: string | null
+          submitted_by_user_id?: string
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposals_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposals_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposals_submitted_by_user_id_fkey"
+            columns: ["submitted_by_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -1079,6 +1896,47 @@ export type Database = {
           },
           {
             foreignKeyName: "saved_providers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_searches: {
+        Row: {
+          alerts_enabled: boolean
+          created_at: string
+          id: string
+          kind: string
+          last_alerted_at: string | null
+          name: string
+          query: Json
+          user_id: string
+        }
+        Insert: {
+          alerts_enabled?: boolean
+          created_at?: string
+          id?: string
+          kind: string
+          last_alerted_at?: string | null
+          name: string
+          query?: Json
+          user_id: string
+        }
+        Update: {
+          alerts_enabled?: boolean
+          created_at?: string
+          id?: string
+          kind?: string
+          last_alerted_at?: string | null
+          name?: string
+          query?: Json
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_searches_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -1743,6 +2601,39 @@ export type Database = {
           },
         ]
       }
+      user_blocks: {
+        Row: {
+          blocked_user_id: string
+          blocker_user_id: string
+          created_at: string
+        }
+        Insert: {
+          blocked_user_id: string
+          blocker_user_id: string
+          created_at?: string
+        }
+        Update: {
+          blocked_user_id?: string
+          blocker_user_id?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_blocks_blocked_user_id_fkey"
+            columns: ["blocked_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_blocks_blocker_user_id_fkey"
+            columns: ["blocker_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           enabled_at: string
@@ -1788,9 +2679,34 @@ export type Database = {
         Args: { p_from: string; p_into: string }
         Returns: undefined
       }
+      admin_moderate_message: {
+        Args: {
+          p_action: string
+          p_message_id: string
+          p_reason?: string
+          p_report_id?: string
+        }
+        Returns: undefined
+      }
       admin_reassign_category_listings: {
         Args: { p_from: string; p_to: string }
         Returns: number
+      }
+      admin_reported_message: {
+        Args: { p_report_id: string }
+        Returns: {
+          body: string
+          created_at: string
+          is_reported: boolean
+          message_id: string
+          moderation_state: string
+          sender_name: string
+          sender_user_id: string
+        }[]
+      }
+      admin_resolve_report: {
+        Args: { p_note?: string; p_outcome: string; p_report_id: string }
+        Returns: undefined
       }
       admin_review: {
         Args: { p_decision: string; p_reason?: string; p_request_id: string }
@@ -1825,6 +2741,15 @@ export type Database = {
         Args: { p_active: boolean; p_id: string }
         Returns: undefined
       }
+      admin_set_project_status: {
+        Args: {
+          p_action: string
+          p_project_id: string
+          p_reason?: string
+          p_report_id?: string
+        }
+        Returns: undefined
+      }
       admin_set_status: {
         Args: {
           p_action: string
@@ -1849,6 +2774,19 @@ export type Database = {
         }[]
       }
       client_complete_onboarding: { Args: never; Returns: undefined }
+      conversations_mark_read: {
+        Args: { p_conversation_id: string }
+        Returns: undefined
+      }
+      conversations_open: {
+        Args: {
+          p_client_user_id?: string
+          p_context_listing_id?: string
+          p_context_project_id?: string
+          p_provider_id?: string
+        }
+        Returns: string
+      }
       current_legal_documents: {
         Args: never
         Returns: {
@@ -1876,6 +2814,10 @@ export type Database = {
         Returns: undefined
       }
       has_accepted_current_legal: { Args: never; Returns: boolean }
+      invitations_decline: {
+        Args: { p_invitation_id: string }
+        Returns: undefined
+      }
       listing_checklist: { Args: { p_listing_id: string }; Returns: string[] }
       listings_change_status: {
         Args: { p_action: string; p_listing_id: string }
@@ -1885,6 +2827,17 @@ export type Database = {
         Args: { p_listing_id: string }
         Returns: string[]
       }
+      messages_send: {
+        Args: {
+          p_body: string
+          p_context_listing_id?: string
+          p_context_project_id?: string
+          p_conversation_id: string
+          p_file_ids?: string[]
+        }
+        Returns: Json
+      }
+      my_counts: { Args: never; Returns: Json }
       outbox_claim: {
         Args: { p_limit?: number }
         Returns: {
@@ -1902,6 +2855,30 @@ export type Database = {
         Args: { p_error: string; p_id: string }
         Returns: undefined
       }
+      project_checklist: { Args: { p_project_id: string }; Returns: string[] }
+      projects_change_status: {
+        Args: { p_action: string; p_project_id: string }
+        Returns: Database["public"]["Enums"]["project_status"]
+      }
+      projects_invite: {
+        Args: {
+          p_message?: string
+          p_project_id: string
+          p_provider_id: string
+        }
+        Returns: string
+      }
+      projects_publish: { Args: { p_project_id: string }; Returns: string[] }
+      proposal_checklist: { Args: { p_proposal_id: string }; Returns: string[] }
+      proposals_decide: {
+        Args: { p_action: string; p_proposal_id: string; p_reason?: string }
+        Returns: Database["public"]["Enums"]["proposal_status"]
+      }
+      proposals_submit: { Args: { p_proposal_id: string }; Returns: string[] }
+      proposals_withdraw: {
+        Args: { p_proposal_id: string }
+        Returns: undefined
+      }
       provider_profile_checklist: {
         Args: { p_provider_id: string }
         Returns: string[]
@@ -1909,6 +2886,17 @@ export type Database = {
       providers_set_avatar: { Args: { p_file_id: string }; Returns: undefined }
       providers_set_handle: { Args: { p_handle: string }; Returns: undefined }
       providers_submit_for_review: { Args: never; Returns: string[] }
+      register_private_file: {
+        Args: {
+          p_display_name: string
+          p_mime: string
+          p_path: string
+          p_purpose: Database["public"]["Enums"]["file_purpose"]
+          p_sha256: string
+          p_size: number
+        }
+        Returns: string
+      }
       register_uploaded_file: {
         Args: {
           p_mime: string
@@ -1916,6 +2904,15 @@ export type Database = {
           p_purpose: Database["public"]["Enums"]["file_purpose"]
           p_sha256: string
           p_size: number
+        }
+        Returns: string
+      }
+      reports_create: {
+        Args: {
+          p_details?: string
+          p_reason: Database["public"]["Enums"]["report_reason"]
+          p_target_id: string
+          p_target_type: string
         }
         Returns: string
       }
@@ -2008,6 +3005,7 @@ export type Database = {
         | "deleted"
       availability_status: "available" | "limited" | "unavailable"
       balance_trigger: "on_milestone_acceptance" | "before_final_delivery"
+      budget_kind: "fixed" | "range" | "hourly" | "not_sure"
       client_account_type: "individual" | "business"
       company_size: "1" | "2-10" | "11-50" | "51-200" | "201-1000" | "1000+"
       experience_level: "emerging" | "established" | "expert"
@@ -2020,6 +3018,7 @@ export type Database = {
         | "delivery"
         | "verification_evidence"
         | "export"
+      invitation_status: "sent" | "declined" | "proposal_submitted"
       language_proficiency: "basic" | "conversational" | "fluent" | "native"
       legal_doc_kind:
         | "terms"
@@ -2051,6 +3050,24 @@ export type Database = {
       portfolio_provenance: "self_reported" | "greco_order" | "greco_verified"
       portfolio_status: "draft" | "published" | "hidden"
       pricing_model: "fixed" | "packages" | "hourly" | "quote"
+      project_status:
+        | "draft"
+        | "open"
+        | "closed"
+        | "hired"
+        | "cancelled"
+        | "expired"
+        | "removed"
+      project_visibility: "public" | "invite_only"
+      proposal_pricing: "fixed" | "hourly_block"
+      proposal_status:
+        | "draft"
+        | "submitted"
+        | "shortlisted"
+        | "declined"
+        | "withdrawn"
+        | "accepted"
+        | "expired"
       provider_status:
         | "draft"
         | "pending_review"
@@ -2058,6 +3075,16 @@ export type Database = {
         | "suspended"
         | "deactivated"
       provider_type: "individual" | "agency"
+      report_reason:
+        | "spam"
+        | "scam_or_fraud"
+        | "off_platform"
+        | "harassment"
+        | "inappropriate"
+        | "intellectual_property"
+        | "misleading"
+        | "prohibited_service"
+        | "other"
       requirement_input:
         | "text"
         | "long_text"
@@ -2078,6 +3105,7 @@ export type Database = {
         | "industry"
         | "use_case"
       term_status: "active" | "pending" | "merged" | "retired"
+      timeline_kind: "asap" | "weeks" | "months" | "flexible"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2214,6 +3242,7 @@ export const Constants = {
       ],
       availability_status: ["available", "limited", "unavailable"],
       balance_trigger: ["on_milestone_acceptance", "before_final_delivery"],
+      budget_kind: ["fixed", "range", "hourly", "not_sure"],
       client_account_type: ["individual", "business"],
       company_size: ["1", "2-10", "11-50", "51-200", "201-1000", "1000+"],
       experience_level: ["emerging", "established", "expert"],
@@ -2227,6 +3256,7 @@ export const Constants = {
         "verification_evidence",
         "export",
       ],
+      invitation_status: ["sent", "declined", "proposal_submitted"],
       language_proficiency: ["basic", "conversational", "fluent", "native"],
       legal_doc_kind: [
         "terms",
@@ -2261,6 +3291,26 @@ export const Constants = {
       portfolio_provenance: ["self_reported", "greco_order", "greco_verified"],
       portfolio_status: ["draft", "published", "hidden"],
       pricing_model: ["fixed", "packages", "hourly", "quote"],
+      project_status: [
+        "draft",
+        "open",
+        "closed",
+        "hired",
+        "cancelled",
+        "expired",
+        "removed",
+      ],
+      project_visibility: ["public", "invite_only"],
+      proposal_pricing: ["fixed", "hourly_block"],
+      proposal_status: [
+        "draft",
+        "submitted",
+        "shortlisted",
+        "declined",
+        "withdrawn",
+        "accepted",
+        "expired",
+      ],
       provider_status: [
         "draft",
         "pending_review",
@@ -2269,6 +3319,17 @@ export const Constants = {
         "deactivated",
       ],
       provider_type: ["individual", "agency"],
+      report_reason: [
+        "spam",
+        "scam_or_fraud",
+        "off_platform",
+        "harassment",
+        "inappropriate",
+        "intellectual_property",
+        "misleading",
+        "prohibited_service",
+        "other",
+      ],
       requirement_input: ["text", "long_text", "url", "choice", "multi_choice"],
       role_status: ["active", "suspended"],
       scan_status: ["pending", "clean", "infected", "error", "skipped"],
@@ -2285,6 +3346,7 @@ export const Constants = {
         "use_case",
       ],
       term_status: ["active", "pending", "merged", "retired"],
+      timeline_kind: ["asap", "weeks", "months", "flexible"],
     },
   },
 } as const

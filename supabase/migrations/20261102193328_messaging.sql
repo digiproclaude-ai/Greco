@@ -235,8 +235,7 @@ create policy attachments_delete_own on storage.objects for delete to authentica
 create policy attachments_read on storage.objects for select to authenticated
   using (bucket_id = 'attachments' and (select app.can_download_attachment(name)));
 
-drop policy file_objects_read on public.file_objects;
-create policy file_objects_read on public.file_objects for select to authenticated
+alter policy file_objects_read on public.file_objects
   using (
     owner_user_id = (select auth.uid())
     or (bucket = 'public-media' and deleted_at is null)
