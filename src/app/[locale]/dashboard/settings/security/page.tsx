@@ -37,7 +37,8 @@ export default async function SecuritySettingsPage({ searchParams }: PageProps<"
         </div>
         <p className="text-[15px] text-ink-muted">{t("settings.mfa.description")}</p>
         {account.staffRoles.length > 0 ? <p className="text-sm font-medium">{t("settings.mfa.requiredForStaff")}</p> : null}
-        {mfaOn ? null : <MfaSetup />}
+        {/* Turning MFA on refreshes the session cookies and this page, so the confirmation lives here. */}
+        {mfaOn ? <Alert variant="success">{t("settings.mfa.done")}</Alert> : <MfaSetup />}
       </section>
     </div>
   );
