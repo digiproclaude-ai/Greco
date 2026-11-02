@@ -60,5 +60,7 @@
   },
   "mfaRequired": "This area requires two-step verification. Turn it on below, then try again.",
   "workspaceError": "We couldn't switch workspace. Please try again.",
-  "admin": "Admin"
+  "admin": "Admin",
+  "saved": "Saved",
+  "adminNavLabel": "Admin"
 }

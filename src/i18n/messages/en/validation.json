@@ -8,5 +8,18 @@
   "country": "Select your country.",
   "role": "Choose how you want to start.",
   "legal": "You need to accept the Terms and Privacy Policy to continue.",
-  "code": "Enter the 6-digit code."
+  "code": "Enter the 6-digit code.",
+  "tooShort": "Use at least {min} characters.",
+  "tooLong": "Use at most {max} characters.",
+  "url": "Enter a full web address starting with https://",
+  "number": "Enter a whole number.",
+  "range": "Enter a number from {min} to {max}.",
+  "amount": "Enter an amount such as 250 or 249.99.",
+  "choice": "Choose one of the options.",
+  "handle": "Use 3–40 lowercase letters, numbers or single hyphens.",
+  "slug": "Use lowercase letters, numbers and single hyphens.",
+  "date": "Enter a valid date.",
+  "tooMany": "Choose at most {max}.",
+  "tooFew": "Choose at least {min}.",
+  "file": "Choose a JPG, PNG or WebP image."
 }

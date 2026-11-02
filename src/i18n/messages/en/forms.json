@@ -1,0 +1,48 @@
+{
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "notAllowed": "You can't make this change right now.",
+    "duplicate": "That value is already in use.",
+    "invalid": "Some details aren't valid. Check the form and try again.",
+    "wrongState": "This can't be changed in its current status.",
+    "limitReached": "You've reached the limit for this section.",
+    "notFound": "We couldn't find that item. It may have been removed.",
+    "handleTaken": "That address is taken. Try another.",
+    "handleReserved": "That address is reserved. Try another.",
+    "fileType": "Upload a JPG, PNG or WebP image.",
+    "fileTooLarge": "Images can be up to {max} MB.",
+    "fileDimensions": "The image is too small. Use at least {min} pixels on each side.",
+    "uploadFailed": "The upload failed. Please try again.",
+    "checklist": "A few things are missing before you can submit."
+  },
+  "success": {
+    "saved": "Saved.",
+    "added": "Added.",
+    "removed": "Removed.",
+    "uploaded": "Uploaded.",
+    "submitted": "Submitted for review. We'll let you know the outcome.",
+    "statusChanged": "Status updated.",
+    "decided": "Decision recorded."
+  },
+  "saving": "Saving…",
+  "optional": "Optional",
+  "charactersLeft": "{count, plural, one {# character left} other {# characters left}}",
+  "remove": "Remove",
+  "add": "Add",
+  "save": "Save",
+  "saveChanges": "Save changes",
+  "upload": "Upload",
+  "cancel": "Cancel",
+  "edit": "Edit",
+  "selectPlaceholder": "Select…",
+  "none": "None",
+  "yes": "Yes",
+  "no": "No",
+  "readOnly": "This section can't be edited while the item is {status}.",
+  "picker": {
+    "count": "{count} of {max} selected",
+    "selected": "Selected",
+    "remove": "Remove {name}",
+    "filter": "Filter the list"
+  }
+}

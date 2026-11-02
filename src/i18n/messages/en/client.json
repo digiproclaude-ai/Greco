@@ -1,0 +1,49 @@
+{
+  "profile": {
+    "title": "Your client profile",
+    "intro": "A few details help experts understand your situation. Only experts you contact see them.",
+    "welcome": "Tell us a little about you to get started.",
+    "fields": {
+      "accountType": "I'm hiring as",
+      "businessName": "Company or organisation name",
+      "industry": "Industry",
+      "companySize": "Company size",
+      "website": "Website",
+      "purpose": "What do you want to use AI for?",
+      "purposeHint": "For example \"answer calls for our three dental clinics\".",
+      "challenges": "Anything experts should know?",
+      "challengesHint": "Current tools, constraints, deadlines. Don't include passwords or personal data."
+    },
+    "accountTypes": { "individual": "An individual", "business": "A business or organisation" },
+    "companySizes": {
+      "1": "Just me",
+      "2-10": "2–10 people",
+      "11-50": "11–50 people",
+      "51-200": "51–200 people",
+      "201-1000": "201–1,000 people",
+      "1000+": "More than 1,000 people"
+    },
+    "save": "Save profile"
+  },
+  "explore": {
+    "title": "Find help",
+    "browse": "Browse categories",
+    "browseBody": "See the kinds of AI services available.",
+    "search": "Search services",
+    "searchBody": "Find fixed-scope services with clear prices.",
+    "experts": "Find experts",
+    "expertsBody": "Compare specialists and agencies.",
+    "discovery": "AI Discovery assistant",
+    "discoveryBody": "Describe your problem and get matched. Coming soon."
+  },
+  "saved": {
+    "title": "Saved",
+    "intro": "Experts, services and categories you've saved.",
+    "experts": "Experts",
+    "services": "Services",
+    "categories": "Categories",
+    "empty": "Nothing saved yet.",
+    "unavailable": "No longer available",
+    "by": "by {name}"
+  }
+}

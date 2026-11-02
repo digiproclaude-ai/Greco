@@ -5,7 +5,7 @@ import { DashboardFallback, DashboardFrame } from "@/components/dashboard/dashbo
 export default function AdminLayout({ children }: LayoutProps<"/[locale]/admin">) {
   return (
     <Suspense fallback={<DashboardFallback />}>
-      <DashboardFrame>{children}</DashboardFrame>
+      <DashboardFrame area="admin">{children}</DashboardFrame>
     </Suspense>
   );
 }

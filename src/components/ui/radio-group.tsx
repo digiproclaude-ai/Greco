@@ -17,7 +17,7 @@ export function RadioCard({
   title,
   description,
   ...props
-}: ComponentProps<typeof RadioGroupPrimitive.Item> & { title: string; description: string }) {
+}: ComponentProps<typeof RadioGroupPrimitive.Item> & { title: string; description?: string }) {
   return (
     <RadioGroupPrimitive.Item
       data-slot="radio-card"
@@ -35,7 +35,7 @@ export function RadioCard({
       </span>
       <span className="grid gap-0.5">
         <span className="font-semibold">{title}</span>
-        <span className="text-sm text-ink-muted">{description}</span>
+        {description ? <span className="text-sm text-ink-muted">{description}</span> : null}
       </span>
     </RadioGroupPrimitive.Item>
   );

@@ -1,0 +1,214 @@
+{
+  "nav": {
+    "overview": "Overview",
+    "profile": "Profile",
+    "services": "Services",
+    "portfolio": "Portfolio"
+  },
+  "termKinds": {
+    "skill": "Skills",
+    "technology": "Technologies",
+    "tool": "Tools",
+    "framework": "Frameworks",
+    "model": "Models",
+    "platform": "Platforms",
+    "industry": "Industries",
+    "use_case": "Use cases"
+  },
+  "overview": {
+    "profileCard": "Profile",
+    "servicesCard": "Services",
+    "portfolioCard": "Portfolio",
+    "editProfile": "Edit profile",
+    "manageServices": "Manage services",
+    "managePortfolio": "Manage portfolio",
+    "missingItems": "{count, plural, =0 {Ready to submit} one {# item left on your checklist} other {# items left on your checklist}}",
+    "serviceCounts": "{published} live · {drafts} draft · {review} in review",
+    "portfolioCount": "{count, plural, =0 {No case studies yet} one {# case study} other {# case studies}}",
+    "payoutsTitle": "Payouts",
+    "payoutsBody": "Payout setup opens when payments go live. Greco's commission is {commission} of each payment, deducted from your earnings; clients pay no fee."
+  },
+  "status": {
+    "draft": "Not public yet. Complete the checklist and submit your profile for review.",
+    "pending_review": "Greco is reviewing your profile. You'll see the outcome here.",
+    "active": "Your profile is live.",
+    "suspended": "Your profile is suspended and hidden from clients.",
+    "deactivated": "Your profile is deactivated.",
+    "changesRequested": "Greco asked for changes before your profile can go live:"
+  },
+  "profile": {
+    "title": "Your expert profile",
+    "intro": "Clients see this profile next to every service you offer. Everything you enter is shown as self-reported until Greco verifies it.",
+    "viewPublic": "View public profile",
+    "previewNote": "Preview: only you and Greco staff can see this page until your profile is approved.",
+    "sections": {
+      "status": "Status",
+      "address": "Profile address",
+      "addressDescription": "Your public profile address. Changing it breaks links you've already shared.",
+      "photo": "Photo or logo",
+      "photoDescription": "A clear photo of you, or your agency's logo. JPG, PNG or WebP, up to 4 MB.",
+      "basics": "About you",
+      "basicsDescription": "The essentials clients read first.",
+      "agency": "Agency details",
+      "agencyDescription": "Shown on your profile. Legal name and registration number stay private.",
+      "skills": "Skills and technologies",
+      "skillsDescription": "Choose at least 3. They decide where you appear in search and recommendations.",
+      "languages": "Languages",
+      "languagesDescription": "Languages you can work in with clients.",
+      "links": "Links",
+      "linksDescription": "Your website, GitHub, LinkedIn or other public work. Links are shown as provided, not verified."
+    },
+    "fields": {
+      "handle": "Profile address",
+      "handleHint": "3–40 lowercase letters, numbers or hyphens.",
+      "avatar": "Image",
+      "removeAvatar": "Remove image",
+      "providerType": "I offer services as",
+      "displayName": "Public name",
+      "displayNameHint": "Your name or your agency's name.",
+      "headline": "Headline",
+      "headlineHint": "One line about what you do, for example \"Voice agents for clinics and service businesses\".",
+      "bio": "About",
+      "bioHint": "At least 100 characters. What you do, for whom, and how you work. Don't include contact details: all communication stays on Greco.",
+      "country": "Country",
+      "city": "City",
+      "timezone": "Time zone",
+      "experienceLevel": "Experience level",
+      "yearsExperience": "Years of experience",
+      "availability": "Availability",
+      "availabilityNote": "Availability note",
+      "availabilityNoteHint": "For example \"Taking new projects from March\".",
+      "rate": "Indicative hourly rate",
+      "rateHint": "Shown as a guide only. Service prices are set on each service.",
+      "rateCurrency": "Currency",
+      "website": "Website",
+      "foundedYear": "Founded",
+      "teamSize": "Team size",
+      "offices": "Office locations",
+      "officesHint": "Separate with commas, up to 10.",
+      "legalName": "Registered company name",
+      "registrationNumber": "Company registration number",
+      "privateHint": "Private. Used for verification and invoices, never shown publicly.",
+      "skills": "Skills and technologies",
+      "language": "Language",
+      "proficiency": "Level",
+      "addLanguage": "Add language",
+      "linkKind": "Type",
+      "linkUrl": "Address",
+      "addLink": "Add link",
+      "noLanguages": "No languages added yet.",
+      "noLinks": "No links added yet."
+    },
+    "options": {
+      "providerType": {
+        "individual": "An individual expert",
+        "agency": "An agency or studio"
+      },
+      "experience": {
+        "emerging": "Emerging (building a track record)",
+        "established": "Established (several delivered projects)",
+        "expert": "Expert (extensive, specialised experience)"
+      },
+      "availability": {
+        "available": "Available",
+        "limited": "Limited availability",
+        "unavailable": "Not taking new work"
+      },
+      "proficiency": {
+        "basic": "Basic",
+        "conversational": "Conversational",
+        "fluent": "Fluent",
+        "native": "Native"
+      },
+      "linkKind": {
+        "website": "Website",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "huggingface": "Hugging Face",
+        "kaggle": "Kaggle",
+        "x": "X",
+        "youtube": "YouTube",
+        "scholar": "Google Scholar",
+        "other": "Other"
+      }
+    },
+    "checklist": {
+      "title": "Before you submit",
+      "done": "Everything required is in place.",
+      "headline": "Add a headline (at least 10 characters)",
+      "bio": "Write an about section (at least 100 characters)",
+      "country": "Choose your country",
+      "experience": "Choose your experience level",
+      "skills": "Choose at least 3 skills or technologies",
+      "languages": "Add at least one language"
+    },
+    "submit": "Submit profile for review",
+    "submitHint": "Greco checks every new profile before it goes public."
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "intro": "Case studies of work you've done. They appear on your profile marked as self-reported.",
+    "new": "Add case study",
+    "empty": "No case studies yet. Add one to show clients the problems you've solved.",
+    "edit": "Edit",
+    "back": "Back to portfolio",
+    "newTitle": "New case study",
+    "editTitle": "Edit case study",
+    "delete": "Delete case study",
+    "deleteConfirm": "Delete this case study? This can't be undone.",
+    "statuses": {
+      "draft": "Draft",
+      "published": "Published",
+      "hidden": "Hidden"
+    },
+    "provenance": {
+      "self_reported": "Self-reported",
+      "greco_order": "Completed on Greco",
+      "greco_verified": "Verified by Greco"
+    },
+    "fields": {
+      "title": "Title",
+      "summary": "Summary",
+      "summaryHint": "One or two sentences shown on your profile.",
+      "problem": "The problem",
+      "solution": "What you built",
+      "results": "Results",
+      "resultsHint": "Only claims you can back up. Clients may ask for evidence.",
+      "role": "Your role",
+      "clientName": "Client name",
+      "clientNameHint": "Only with the client's permission. Leave empty to keep it anonymous.",
+      "industry": "Industry",
+      "projectDate": "Project date",
+      "externalUrl": "Link to the work",
+      "status": "Visibility",
+      "terms": "Skills and technologies used",
+      "images": "Images",
+      "imagesHint": "Screenshots or diagrams, up to 8. Remove client data before uploading.",
+      "caption": "Caption",
+      "upload": "Upload image",
+      "imageFile": "Image file"
+    }
+  },
+  "services": {
+    "title": "Services",
+    "intro": "Fixed-scope services clients can buy directly. Each service is reviewed before it goes live.",
+    "new": "Create a service",
+    "empty": "You haven't created any services yet.",
+    "edit": "Edit",
+    "view": "View",
+    "updated": "Updated {date}",
+    "statuses": {
+      "draft": "Draft",
+      "pending_review": "In review",
+      "published": "Live",
+      "paused": "Paused",
+      "archived": "Archived",
+      "rejected": "Changes requested",
+      "suspended": "Suspended"
+    },
+    "newTitle": "Create a service",
+    "newIntro": "Start with a title and category. You can fill in the rest before submitting.",
+    "create": "Create draft",
+    "back": "Back to services"
+  }
+}

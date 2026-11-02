@@ -46,6 +46,13 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  experimental: {
+    // Image uploads (max 4 MB) go through Server Actions. Vercel caps request bodies at 4.5 MB.
+    serverActions: { bodySizeLimit: "4.5mb" },
+  },
+  // Uploaded images are already resized and re-encoded to WebP on upload, so they are served
+  // as-is from Supabase Storage instead of through Vercel image optimisation (a billed feature).
+  images: { unoptimized: true },
   turbopack: {
     rules: {
       "*.css": {

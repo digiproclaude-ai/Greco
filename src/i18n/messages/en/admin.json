@@ -7,5 +7,13 @@
     "moderation": "Moderation",
     "users": "Users",
     "settings": "Platform settings"
+  },
+  "nav": {
+    "overview": "Overview",
+    "moderation": "Moderation",
+    "catalog": "Live content",
+    "categories": "Categories",
+    "taxonomy": "Taxonomy",
+    "backToWorkspace": "Back to workspace"
   }
 }
