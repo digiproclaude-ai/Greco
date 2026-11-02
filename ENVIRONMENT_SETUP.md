@@ -1,7 +1,7 @@
 # Greco — Environment Setup
 
-**Status:** Phase 2. Commands below are real and tested.
-**Last updated:** 2026-11-01
+**Status:** Phase 3. Commands below are real and tested.
+**Last updated:** 2026-11-02
 
 ---
 
@@ -73,6 +73,8 @@ pnpm db:test
 
 To use a preinstalled Chromium with Playwright, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`.
 
+The `checks` CI job builds with an unreachable database (`NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54399`): public pages must still build and show empty states. The `supabase` job runs the full flows (signup, expert onboarding, moderation with a computed TOTP code, search) against a local stack; it needs `psql` to grant the test staff role.
+
 ## 4. Environment variables
 
 Names only. Values never go into git (`.env*.local` is ignored; `.env.example` lists the names).
@@ -105,6 +107,9 @@ The schema is managed by migrations. These settings live in the dashboard and mu
 5. **Authentication → Multi-Factor**: TOTP enabled (default).
 6. **Authentication → Providers → Google** (optional): add the Google OAuth client, then set `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true`.
 7. **Project Settings → API keys**: copy the publishable key into Vercel; copy the secret key into Vercel as `SUPABASE_SECRET_KEY` (server only).
+8. **Storage**: nothing to do. The `public-media` bucket and its policies are created by the catalog migration.
+9. **Staff access**: grant the first admin in the SQL editor after they sign up, then they must turn on two-step verification before `/admin` opens:
+   `insert into public.staff_roles (user_id, role) select id, 'admin' from auth.users where email = '<owner email>';`
 
 ## 6. Vercel
 

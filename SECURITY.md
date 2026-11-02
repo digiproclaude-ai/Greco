@@ -54,10 +54,10 @@ Rules:
 ## 5. Input, output and web protections
 
 - **Validation:** Zod at every boundary. Database constraints as a backstop (lengths, ranges, enums, money ≥ 0).
-- **Output encoding:** React escaping. User Markdown is rendered with a sanitizer (no raw HTML, safe link protocols only, `rel="nofollow ugc noopener"`). No `dangerouslySetInnerHTML` for user content.
+- **Output encoding:** React escaping. User text is shown as plain text at launch (E-22); if Markdown is added later it must go through a sanitizer (no raw HTML, safe link protocols only). User links are `https://` only and rendered with `rel="nofollow ugc noopener noreferrer"`. No `dangerouslySetInnerHTML` for user content.
 - **CSRF:** Server Actions check the origin. Route handlers that change state check `Origin` and use same-site cookies.
 - **Headers** (set in `next.config.ts`): Content-Security-Policy, HSTS (production), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `frame-ancestors 'none'`, strict `Referrer-Policy`, minimal `Permissions-Policy`, `Cross-Origin-Opener-Policy`.
-- **CSP trade-off (decided in Phase 2):** Next.js 16 Cache Components prerender a static shell, and nonce-based CSP cannot work with prerendered pages. The CSP therefore allows inline scripts (`script-src 'self' 'unsafe-inline'`) while keeping every other directive strict (`default-src 'self'`, `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'none'`, `form-action` limited to the app, Supabase and Google). XSS protection relies on React escaping, sanitized Markdown and the ban on `dangerouslySetInnerHTML` for user content. Revisit when Next's hash-based (SRI) CSP is stable.
+- **CSP trade-off (decided in Phase 2):** Next.js 16 Cache Components prerender a static shell, and nonce-based CSP cannot work with prerendered pages. The CSP therefore allows inline scripts (`script-src 'self' 'unsafe-inline'`) while keeping every other directive strict (`default-src 'self'`, `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'none'`, `form-action` limited to the app, Supabase and Google). XSS protection relies on React escaping, plain-text rendering of user content and the ban on `dangerouslySetInnerHTML` for user content. Revisit when Next's hash-based (SRI) CSP is stable.
 - **SSRF:** the server never fetches arbitrary user URLs at launch (no link previews). If added later, only through an allowlisted fetcher that blocks private IP ranges.
 - **Rate limiting:** Supabase Auth limits for auth endpoints. App-level limits on messaging, proposals, reports, uploads and Discovery (Postgres counters for business quotas; Vercel Firewall rules or a Redis-based limiter for request floods, decided in Phase 2).
 - **Bot protection:** Turnstile on signup, guest Discovery and reports.
@@ -66,7 +66,7 @@ Rules:
 
 - Allowlisted MIME types per purpose, checked by **magic bytes**, plus size limits per purpose.
 - Private buckets for anything not intended to be public. Access through short-lived signed URLs only.
-- Public images are re-encoded to strip EXIF and GPS metadata.
+- Public images are decoded, resized and re-encoded to WebP on the server (EXIF and GPS removed) before they are stored; uploads are limited to 4 MB and the format is detected from the file contents. Owners can discard images, which deletes the stored object.
 - **Malware scanning** before a file becomes downloadable by anyone other than the uploader (`file_objects.scan_status`).
 - Downloads use `Content-Disposition: attachment`. User files are served from the Supabase storage domain, not the app domain.
 - Storage RLS checks paths against database membership (order party, conversation participant, owner).

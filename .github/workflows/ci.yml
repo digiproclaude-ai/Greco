@@ -20,8 +20,9 @@ jobs:
     env:
       APP_ENV: local
       NEXT_PUBLIC_APP_URL: http://localhost:3100
-      # Placeholders: the public checks never call the database.
-      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      # Placeholders: nothing listens on this port, so database reads fail at once and the
+      # public pages show their empty states (the full flow runs in the supabase job).
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54399
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_placeholder_for_ci_only
       NEXT_PUBLIC_AUTH_GOOGLE_ENABLED: "false"
     steps:
@@ -37,7 +38,7 @@ jobs:
       - run: pnpm test
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e --grep-invert "register, confirm|wrong passwords"
+      - run: pnpm test:e2e --grep-invert "register, confirm|wrong passwords|go live after moderation"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -65,6 +66,7 @@ jobs:
             echo "NEXT_PUBLIC_SUPABASE_URL=${API_URL}"
             echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${PUBLISHABLE_KEY:-$ANON_KEY}"
             echo "MAILPIT_URL=${MAILPIT_URL:-${INBUCKET_URL:-http://127.0.0.1:54324}}"
+            echo "E2E_DB_URL=${DB_URL:-postgresql://postgres:postgres@127.0.0.1:54322/postgres}"
           } >> "$GITHUB_ENV"
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5

@@ -4,7 +4,7 @@ Greco is a global marketplace for AI services: clients find, hire and pay expert
 
 ## Current status
 
-- **Phase 1 approved on 2026-11-01. Phase 2 (project foundation) built** (app skeleton, auth, roles, base schema with RLS, CI). Next: Phase 3 (core marketplace). Follow the phase order in `IMPLEMENTATION_PLAN.md` (projects and communication come before AI Discovery).
+- **Phase 1 approved on 2026-11-01. Phases 2 (foundation) and 3 (core marketplace) built:** auth and roles, expert profiles, portfolio, service listings, public catalog and search, moderation and admin. Next: Phase 4 (projects and communication). Follow the phase order in `IMPLEMENTATION_PLAN.md` (projects and communication come before AI Discovery).
 - Still open: **A-02** (legal entity and launch countries). Real payments stay disabled until the EXTERNAL decisions are confirmed.
 - Supabase project `Greco` (ref `xubhljmpnjkpfyeuqtxl`, eu-west-1) is the development/staging database.
 
@@ -43,12 +43,15 @@ Name Greco · broad AI scope with dynamic categories · English first, i18n-read
 - **Side effects go through the outbox** (notifications, email, search reindex), written in the same transaction as the state change.
 - **Audit** every admin, moderation and financial action in `app_private.audit_logs`.
 
-## Conventions (Phase 2 will make these concrete)
+## Conventions
 
 - TypeScript strict. Zod at every boundary. Server Components for reads, Server Actions or Route Handlers for writes.
 - Domain code in `src/server/modules/<module>/` (`service.ts`, `repository.ts`, `policies.ts`, `schemas.ts`, `types.ts`). Modules talk only through service functions.
 - Database: SQL migrations in `supabase/migrations/` are the source of truth. Never edit an applied migration. New public tables get **no** grants for `anon`/`authenticated` by default: grant exactly what's needed and add RLS. Regenerate `src/server/db/database.types.ts` after schema changes. pgTAP tests in `supabase/tests/database/` for every new policy and state-transition function.
 - Auth: use the guards in `src/server/auth/guards.ts`; Server Actions return `FormState` with translatable error keys, never raw provider errors.
+- Editor actions: check access with `expertContext` / `clientContext` / `staffContext` (`src/server/modules/shared/context.ts`), validate with the helpers in `shared/validation.ts`, return `ActionState` (`shared/action-state.ts`) and map database errors with `dbErrorKey`. After a change call `refresh()`, and `revalidateTag("catalog", "max")` (or `updateTag` in staff actions) when public pages are affected.
+- Public reads use the anonymous client inside `use cache` functions tagged `catalog` / `taxonomy` / `settings`, and fail soft with `softFail` (empty result cached for seconds). Pages that use them wrap the data in `<Suspense>`.
+- User text is rendered as plain text with `<Prose>`; never as HTML.
 - Naming: snake_case plural tables; `*_minor` money columns; `*_bps` rates; `*_at` timestamps (timestamptz).
 - New dependencies need a reason in the PR description.
 

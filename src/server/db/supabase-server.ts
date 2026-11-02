@@ -38,12 +38,21 @@ export async function createSupabaseServerClient() {
   );
 }
 
+/** Public pages give up on a slow database instead of hanging (they show empty states). */
+const PUBLIC_READ_TIMEOUT_MS = 8000;
+
+function fetchWithTimeout(input: RequestInfo | URL, init?: RequestInit) {
+  const timeout = AbortSignal.timeout(PUBLIC_READ_TIMEOUT_MS);
+  const signal = init?.signal ? AbortSignal.any([init.signal, timeout]) : timeout;
+  return fetch(input, { ...init, signal });
+}
+
 /** Supabase client with no user session, for public reads (RLS applies as `anon`). */
 export function createSupabaseAnonClient() {
   const env = getPublicEnv();
   return createServerClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-    { cookies: { getAll: () => [], setAll: () => {} } },
+    { cookies: { getAll: () => [], setAll: () => {} }, global: { fetch: fetchWithTimeout } },
   );
 }

@@ -63,6 +63,14 @@ This file records every decision that shapes Greco, who owns it, and whether it 
 | E-18 | **Vercel functions run in `dub1` (Dublin)**, next to the Supabase project in `eu-west-1`. | Avoids cross-region latency on every database call. |
 | E-19 | Prompts for AI Discovery live in the codebase (versioned in git). Each stored assistant message records the prompt version and model used. | Reviewable changes and traceable behaviour. |
 | E-20 | Every financial, moderation and admin action writes to an append-only `audit_logs` table. | Spec §22. |
+| E-21 | **Search documents are refreshed synchronously by triggers** (Phase 3), not through the outbox. | The catalog is small and search must reflect moderation decisions at once. Move to queued refreshes when write volume grows. |
+| E-22 | **User-written text is stored and shown as plain text** (paragraphs and line breaks) at launch. No Markdown or HTML. | Removes the main XSS surface. Markdown can be added later behind a sanitizer. |
+| E-23 | **Public images are re-encoded to WebP on upload** (resized, EXIF and GPS removed), limited to 4 MB per upload, and served directly from Supabase Storage without Vercel image optimisation. | Vercel limits request bodies to 4.5 MB; image optimisation is a billed feature we don't need when images are prepared once. |
+| E-24 | **Moderation records live in their own tables** (`review_requests`, `moderation_actions`). Edits to a live service stay live and are queued for a re-check; rejecting a live service takes it offline until the expert resubmits. | Flags and reasons never appear on public rows; experts aren't blocked from fixing typos. |
+| E-25 | **Staff actions run as the signed-in staff member** through audited `SECURITY DEFINER` functions that require MFA (`aal2`). | No service-role key is needed for admin work, so a leaked admin session still can't bypass checks. Refines E-06. |
+| E-26 | **Public reads are cached** (`use cache`, tags `catalog`, `taxonomy`, `settings`) and fail soft: on a database error the empty result is cached for seconds and the page shows an empty state. | Keeps public pages fast and keeps outages or build-time network problems from breaking pages. |
+| E-27 | **Database checklists decide "ready to submit"** (`provider_profile_checklist`, `listing_checklist`), and the editors show the same list. | One rule in one place, enforced by the submit functions. |
+| E-28 | **Row limits on child tables are enforced by triggers**, mirroring the editor limits. | Keeps direct API calls within the same bounds as the UI. |
 
 ---
 

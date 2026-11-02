@@ -53,7 +53,7 @@ test("register, confirm, switch workspace, log out and back in", async ({ page }
   // Add the expert role from the workspace switcher (D-05).
   await page.getByRole("button", { name: "Offer services" }).click();
   await expect(page).toHaveURL(/\/dashboard\/expert$/);
-  await expect(page.getByText("Profile status: Draft")).toBeVisible();
+  await expect(page.getByText("Not public yet. Complete the checklist and submit your profile for review.")).toBeVisible();
 
   // Non-staff get the not-found page and no admin content. (The status can still be 200:
   // the page streams, so the response starts before the staff check runs.)

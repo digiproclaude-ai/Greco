@@ -4,7 +4,7 @@
 
 ## Status
 
-**Phase 1 (architecture) approved on 2026-11-01. Phase 2 (project foundation) built.** Next: Phase 3, the core marketplace.
+**Phase 1 (architecture) approved on 2026-11-01. Phase 2 (foundation) and Phase 3 (core marketplace) built.** Next: Phase 4, projects and communication.
 
 ## Documents
 

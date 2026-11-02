@@ -1,6 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 // Public behaviour that needs no database: rendering, headers, redirects, validation.
+// In this job the database is unreachable, so marketplace pages wait for the Supabase client's
+// retries (about 7 s) before showing their empty states; those tests allow for that.
+const SLOW = { timeout: 30_000 };
 
 test("homepage explains Greco and offers both paths", async ({ page }) => {
   const response = await page.goto("/");
@@ -8,8 +11,9 @@ test("homepage explains Greco and offers both paths", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Find the right AI expert for your business problem.",
   );
-  await expect(page.getByRole("link", { name: "Hire AI experts" })).toHaveAttribute("href", "/register?role=client");
-  await expect(page.getByRole("link", { name: "Join as an expert" })).toHaveAttribute("href", "/register?role=expert");
+  await expect(page.getByRole("link", { name: "Hire AI experts" })).toHaveAttribute("href", "/categories");
+  await expect(page.getByRole("link", { name: "Join as an expert" })).toHaveAttribute("href", "/become-an-expert");
+  await expect(page.getByRole("search")).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 });
 
@@ -63,3 +67,50 @@ test("the jobs endpoint rejects unauthenticated calls", async ({ request }) => {
   const response = await request.post("/api/jobs/process-outbox");
   expect([401, 503]).toContain(response.status());
 });
+
+test("marketplace pages render without an account", async ({ page }) => {
+  test.setTimeout(180_000);
+  for (const [path, heading] of [
+    ["/categories", "Browse categories"],
+    ["/search", "Search services"],
+    ["/experts", "Find AI experts"],
+    ["/how-it-works", "How Greco works"],
+    ["/become-an-expert", "Offer your AI services on Greco"],
+  ] as const) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(200);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading, SLOW);
+  }
+});
+
+test("search keeps the query and shows a results count", async ({ page }) => {
+  test.setTimeout(90_000);
+  await page.goto("/");
+  await page.getByRole("search").getByRole("searchbox").fill("voice agent");
+  await page.getByRole("search").getByRole("button", { name: "Search" }).click();
+  await expect(page).toHaveURL(/\/search\?q=voice\+agent/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText('Services for "voice agent"', SLOW);
+  await expect(page.getByRole("heading", { name: "No services found" })).toBeVisible(SLOW);
+});
+
+test("unknown experts and services return the 404 page", async ({ page }) => {
+  test.setTimeout(90_000);
+  await page.goto("/experts/nobody-here-123");
+  await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible(SLOW);
+  await page.goto("/experts/nobody-here-123/no-such-service");
+  await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible(SLOW);
+});
+
+test("robots.txt keeps private areas out of search engines", async ({ request }) => {
+  const body = await (await request.get("/robots.txt")).text();
+  expect(body).toContain("Disallow: /dashboard");
+  expect(body).toContain("Disallow: /admin");
+  expect(body).toContain("Sitemap:");
+});
+
+for (const path of ["/dashboard/expert/profile", "/dashboard/expert/services/new", "/admin/moderation"]) {
+  test(`editors and admin pages need an account: ${path}`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page).toHaveURL(/\/login\?next=/);
+  });
+}

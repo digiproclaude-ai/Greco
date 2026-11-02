@@ -65,6 +65,11 @@ Every phase ends only when its exit criteria pass: typecheck, lint, tests, produ
 - Homepage (real data, with graceful states when supply is thin), How it works, Become an expert.
 - Saved experts, services and categories (small, and useful early).
 
+**Phase 3 delivery notes (2026-11-02)**
+- Done: expert workspace (profile editor with photo, basics, agency details, skills, languages, links, checklist and submission; portfolio with images; service listing editor covering every pricing model, packages, payment terms with deposit and commission examples, deliverables, add-ons, client questions, FAQs, images and the full lifecycle); client onboarding; saved items; public home, categories, search, expert directory, expert profiles and service pages with owner/staff previews; How it works and Become an expert; sitemap and robots; admin moderation queue with automatic flags and statements of reasons, live-content suspensions, category tree and taxonomy management (suggestions, synonyms, merging). 14 migrations live on the development project; 170 pgTAP tests, 57 unit tests, 29 Playwright tests including an expert → moderation → search flow and axe checks.
+- Changed from the plan: user text is plain text at launch (no Markdown, E-22); search documents refresh by trigger rather than through the outbox (E-21); admin actions run as the signed-in staff member through audited database functions, so no service-role key is needed for them (E-25); images are capped at 4 MB because of Vercel's request limit (E-23).
+- Not done in this phase: Lighthouse runs (need the deployed app); translations and category relations in the admin UI (English only and no related-category editor yet); listing versions are tracked as a counter for offer snapshots in Phase 6, without a version history view.
+
 **Exit criteria:** an expert can onboard, pass review and publish listings. A visitor can browse, filter, search and open profiles and listings. Admins manage categories without code changes. End-to-end tests for onboarding, role switch, listing publication and search pass. Lighthouse and axe checks on public pages pass.
 
 ## Phase 4: Projects and communication

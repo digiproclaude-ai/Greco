@@ -8,15 +8,20 @@ This document is the logical design. Phase 2 turns it into SQL migrations under 
 
 ---
 
-## Implementation status (2026-11-01)
+## Implementation status (2026-11-02)
 
-Applied to the development project (`supabase/migrations/`, 7 migrations) and covered by 88 pgTAP tests:
+Applied to the development project (`supabase/migrations/`, 14 migrations) and covered by 170 pgTAP tests:
 
-- **Live now:** `countries`, `profiles`, `user_roles`, `staff_roles`, `legal_documents`, `legal_acceptances`, `file_objects`, `client_profiles`, `providers`, `provider_agency_details`, `provider_languages`, `provider_links`, `provider_terms`, `categories`, `category_translations`, `category_relations`, `taxonomy_terms`, `taxonomy_term_translations`, `taxonomy_term_aliases`, `category_terms`, `platform_settings` (+ `app_private.platform_settings_history`), `feature_flags`, `app_private.audit_logs`, `app_private.outbox_events`.
-- **Functions:** `switch_active_role`, `enable_marketplace_role`, `current_legal_documents`, `has_accepted_current_legal`, `accept_current_legal_documents` (authenticated users); `outbox_claim` / `outbox_complete` / `outbox_fail` (service role only); signup trigger `app_private.handle_new_user` on `auth.users`.
-- **RLS helpers** live in a separate `app` schema (`app.has_role`, `app.is_staff` (requires MFA, aal2), `app.owns_provider`, `app.provider_is_visible`), callable by policies but not exposed through the Data API.
-- **Default privileges:** new tables and functions in `public` get no grants for `anon`/`authenticated`; each migration grants exactly what it needs (column-level for Class A writes).
-- **Reference data:** 249 ISO countries (CU, IR, KP, SY blocked pending X-10), draft Terms and Privacy documents (version `0.1-draft`), kill-switch settings.
+- **Phase 2:** `countries`, `profiles`, `user_roles`, `staff_roles`, `legal_documents`, `legal_acceptances`, `file_objects`, `client_profiles`, `providers`, `provider_agency_details`, `provider_languages`, `provider_links`, `provider_terms`, `categories`, `category_translations`, `category_relations`, `taxonomy_terms`, `taxonomy_term_translations`, `taxonomy_term_aliases`, `category_terms`, `platform_settings` (+ `app_private.platform_settings_history`), `feature_flags`, `app_private.audit_logs`, `app_private.outbox_events`.
+- **Phase 3 tables:** `service_listings` (+ `service_listing_categories`, `service_listing_terms`, `service_packages`, `service_deliverables`, `service_addons`, `service_requirements`, `service_faqs`, `service_media`), `portfolio_items` (+ `portfolio_item_terms`, `portfolio_item_media`), `saved_providers`, `saved_services`, `saved_categories`, `review_requests` (moderation queue), `moderation_actions` (decisions with statements of reasons), `search_documents`. `providers.profile_completeness` was replaced by the `provider_profile_checklist()` function and `providers.submitted_at` was added.
+- **Phase 3 owner functions:** `listing_checklist`, `provider_profile_checklist`, `listings_submit_for_review`, `providers_submit_for_review`, `listings_change_status` (pause, resume, archive, restore), `providers_set_handle`, `providers_set_avatar`, `client_complete_onboarding`, `suggest_taxonomy_term`, `register_uploaded_file`, `discard_uploaded_file`.
+- **Search:** `search_listings`, `search_providers` (SECURITY INVOKER: RLS decides visibility), `category_listing_counts`. `search_documents` rows are refreshed synchronously by triggers on listings, their children, providers, provider terms and languages (E-21).
+- **Staff functions** (signed-in staff with MFA, audited): `admin_review`, `admin_set_status`, `admin_save_category`, `admin_set_category_active`, `admin_reassign_category_listings`, `admin_save_term`, `admin_set_term_status`, `admin_merge_term`.
+- **Storage:** public bucket `public-media` (WebP only, 5 MB); users can write and delete only inside their own folder. Images are re-encoded by the server before upload (E-23).
+- **Row limits** (trigger-enforced): per listing 2 categories, 15 terms, 3 packages, 30 deliverables, 10 add-ons, 15 requirements, 15 FAQs, 8 images; per expert 20 terms, 10 languages, 8 links, 30 portfolio items; per portfolio item 10 terms and 8 images.
+- **Starter data:** 16 top-level and 34 subcategories, 87 taxonomy terms with synonyms, and the approved marketplace settings (15% commission, minimum order, deposit options, currencies).
+- **RLS helpers** live in a separate `app` schema (`app.has_role`, `app.is_staff` (requires MFA, aal2), `app.owns_provider`, `app.provider_is_visible`, `app.owns_listing`, `app.listing_is_visible`, `app.listing_is_editable`, `app.portfolio_item_is_visible`, `app.owns_portfolio_item`), callable by policies but not exposed through the Data API.
+- **Default privileges:** new tables and functions in `public` get no grants for `anon`/`authenticated`; each migration grants exactly what it needs (column-level for Class A writes; anonymous visitors read only public provider and file columns).
 - Everything else in this document arrives with its phase.
 
 ## 0. Mapping from the spec table list
@@ -46,7 +51,7 @@ Applied to the development project (`supabase/migrations/`, 7 migrations) and co
 - **Money:** `*_minor bigint` plus `currency char(3)`. Rates in basis points (`*_bps integer`, 1000 = 10%). Check constraints such as `amount_minor >= 0`.
 - **Enums:** Postgres enums for stable lifecycle sets (statuses). Lookup tables for anything admins manage (categories, taxonomy, verification types, notification types, review dimensions).
 - **Deletion:** domain rows are archived or soft-deleted, not hard-deleted. Financial rows are never deleted. Foreign keys to financial rows use `ON DELETE RESTRICT`.
-- **Text:** `citext` for handles and emails, length checks on user text, Markdown stored raw and sanitized at render time.
+- **Text:** `citext` for handles and emails, length checks on user text. User text is stored and shown as plain text at launch (E-22); Markdown may come later with a sanitizer.
 - **Notation below:** `pk`, `fk → table`, `uq` (unique), `ix` (index), `?` (nullable). Only key columns are listed. Audit timestamps are implied.
 
 ---
