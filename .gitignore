@@ -47,3 +47,6 @@ next-env.d.ts
 /supabase/.branches
 .env*.local
 !.env.example
+
+# Personal Claude Code settings
+.claude/settings.local.json

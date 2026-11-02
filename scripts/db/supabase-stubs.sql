@@ -96,3 +96,31 @@ begin
 end;
 $$;
 grant execute on function storage.foldername(text) to anon, authenticated, service_role;
+
+-- Realtime (Broadcast authorization): the messages table policies attach to, the topic of the
+-- channel being joined, and send(), which the real stack turns into a broadcast.
+create schema if not exists realtime;
+grant usage on schema realtime to anon, authenticated, service_role;
+
+create table if not exists realtime.messages (
+  id uuid primary key default gen_random_uuid(),
+  topic text not null,
+  extension text not null default 'broadcast',
+  payload jsonb,
+  event text,
+  private boolean default true,
+  inserted_at timestamp default now()
+);
+alter table realtime.messages enable row level security;
+grant select, insert on realtime.messages to authenticated, service_role;
+
+create or replace function realtime.topic() returns text language sql stable as $$
+  select nullif(current_setting('realtime.topic', true), '')
+$$;
+grant execute on function realtime.topic() to anon, authenticated, service_role;
+
+create or replace function realtime.send(payload jsonb, event text, topic text, private boolean default true)
+returns void language sql security definer as $$
+  insert into realtime.messages (topic, payload, event, private) values (topic, payload, event, private);
+$$;
+grant execute on function realtime.send(jsonb, text, text, boolean) to anon, authenticated, service_role;
