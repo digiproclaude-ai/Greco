@@ -12,8 +12,17 @@ export function SiteHeader() {
     <header className="border-b border-line bg-surface">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-7 gap-y-3 px-4 py-3.5 sm:px-6">
         <Logo />
-        <nav aria-label={t("mainLabel")} className="hidden gap-6 text-[15px] md:flex">
-          <Link href="/register?role=expert" className="hover:text-accent">
+        <nav aria-label={t("mainLabel")} className="order-last flex w-full gap-5 overflow-x-auto text-[15px] md:order-none md:w-auto md:gap-6">
+          <Link href="/categories" className="shrink-0 hover:text-accent">
+            {t("categories")}
+          </Link>
+          <Link href="/experts" className="shrink-0 hover:text-accent">
+            {t("findExperts")}
+          </Link>
+          <Link href="/how-it-works" className="shrink-0 hover:text-accent">
+            {t("howItWorks")}
+          </Link>
+          <Link href="/become-an-expert" className="shrink-0 hover:text-accent">
             {t("becomeExpert")}
           </Link>
         </nav>

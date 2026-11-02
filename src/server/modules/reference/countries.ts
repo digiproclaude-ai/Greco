@@ -3,15 +3,16 @@ import "server-only";
 import { cacheLife } from "next/cache";
 
 import { createSupabaseAnonClient } from "@/server/db/supabase-server";
+import { softFail } from "@/server/modules/taxonomy/service";
 
 type Purpose = "register" | "sell" | "buy";
 
 async function countryCodes(purpose: Purpose): Promise<string[]> {
   "use cache";
-  cacheLife("hours");
   const column = purpose === "register" ? "can_register" : purpose === "sell" ? "can_sell" : "can_buy";
   const { data, error } = await createSupabaseAnonClient().from("countries").select("code").eq(column, true);
-  if (error) throw new Error(`Could not load countries: ${error.message}`);
+  if (error) return softFail("countries", error, []);
+  cacheLife("hours");
   return data.map((row) => row.code);
 }
 

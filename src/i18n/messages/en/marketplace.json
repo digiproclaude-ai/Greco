@@ -1,3 +1,272 @@
 {
-  "save": { "save": "Save", "saved": "Saved" }
+  "save": {
+    "save": "Save",
+    "saved": "Saved"
+  },
+  "search": {
+    "title": "Search services",
+    "titleWithQuery": "Services for \"{query}\"",
+    "placeholder": "What do you need? For example \"AI receptionist\"",
+    "label": "Search services",
+    "submit": "Search",
+    "results": "{count, plural, =0 {No services found} one {# service} other {# services}}",
+    "empty": "No services match these filters yet.",
+    "emptyHint": "Try fewer filters, a broader word, or browse the categories.",
+    "unavailable": "Search is temporarily unavailable. Please try again in a moment."
+  },
+  "filters": {
+    "title": "Filters",
+    "apply": "Apply filters",
+    "clear": "Clear all",
+    "category": "Category",
+    "anyCategory": "All categories",
+    "skill": "Skill or technology",
+    "anySkill": "Any",
+    "budget": "Budget",
+    "min": "Min",
+    "max": "Max",
+    "currency": "Currency",
+    "delivery": "Delivery time",
+    "anyDelivery": "Any",
+    "deliveryWithin": "{days, plural, one {Within # day} other {Within # days}}",
+    "providerType": "Expert type",
+    "anyType": "Any",
+    "individual": "Individual experts",
+    "agency": "Agencies",
+    "country": "Expert's country",
+    "anyCountry": "Any",
+    "language": "Language",
+    "anyLanguage": "Any",
+    "model": "Pricing",
+    "anyModel": "Any",
+    "sort": "Sort by",
+    "sorts": {
+      "relevance": "Best match",
+      "newest": "Newest",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low",
+      "delivery": "Fastest delivery"
+    }
+  },
+  "pagination": {
+    "label": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page} of {total}"
+  },
+  "card": {
+    "from": "From {price}",
+    "perHour": "{price}/hour",
+    "quote": "Custom quote",
+    "quoteFrom": "Quotes from {price}",
+    "delivery": "{days, plural, one {# day delivery} other {# days delivery}}",
+    "by": "by {name}",
+    "agency": "Agency",
+    "services": "{count, plural, =0 {No live services} one {# service} other {# services}}",
+    "rateFrom": "Services from {price}"
+  },
+  "categories": {
+    "title": "Browse categories",
+    "intro": "AI services grouped by what they do for your business.",
+    "services": "{count, plural, =0 {No services yet} one {# service} other {# services}}",
+    "allIn": "All {name} services",
+    "subcategories": "Subcategories",
+    "servicesIn": "Services in {name}",
+    "breadcrumb": "Breadcrumb",
+    "home": "Home",
+    "empty": "No live services in this category yet.",
+    "emptyHint": "Experts are joining now. Save the category to come back later, or search all services."
+  },
+  "experts": {
+    "title": "Find AI experts",
+    "intro": "Specialists and agencies who build and run AI systems.",
+    "placeholder": "Search by skill, industry or name",
+    "results": "{count, plural, =0 {No experts found} one {# expert} other {# experts}}",
+    "empty": "No experts match these filters yet."
+  },
+  "profile": {
+    "about": "About",
+    "services": "Services",
+    "noServices": "No live services yet.",
+    "portfolio": "Portfolio",
+    "skills": "Skills and technologies",
+    "languages": "Languages",
+    "links": "Links",
+    "details": "Details",
+    "location": "Location",
+    "timezone": "Time zone",
+    "experience": "Experience",
+    "years": "{count, plural, one {# year} other {# years}}",
+    "rate": "Indicative rate",
+    "rateValue": "{price}/hour",
+    "availability": "Availability",
+    "memberSince": "On Greco since {date}",
+    "agencyDetails": "Agency",
+    "founded": "Founded {year}",
+    "teamSize": "Team of {size}",
+    "offices": "Offices",
+    "selfReported": "Information on this profile is provided by the expert and has not been verified by Greco unless marked as verified.",
+    "linksNote": "Links are provided by the expert and are not verified.",
+    "preview": "Preview: this profile isn't public yet. Only you and Greco staff can see it.",
+    "contact": "Contact",
+    "contactSoon": "Messaging opens soon. All communication will stay on Greco.",
+    "role": "Role: {role}",
+    "client": "Client: {name}",
+    "problem": "The problem",
+    "solution": "What was built",
+    "results": "Results",
+    "viewWork": "View the work",
+    "experienceLevels": {
+      "emerging": "Emerging",
+      "established": "Established",
+      "expert": "Expert"
+    },
+    "availabilityStatus": {
+      "available": "Available",
+      "limited": "Limited availability",
+      "unavailable": "Not taking new work"
+    },
+    "proficiency": {
+      "basic": "Basic",
+      "conversational": "Conversational",
+      "fluent": "Fluent",
+      "native": "Native"
+    },
+    "selfReportedBadge": "Self-reported",
+    "verifiedBadge": "Verified on Greco",
+    "readMore": "Read the case study"
+  },
+  "listing": {
+    "preview": "Preview: this service isn't live. Only you and Greco staff can see it.",
+    "about": "About this service",
+    "packages": "Packages",
+    "compare": "Compare packages",
+    "price": "Price",
+    "delivery": "Delivery",
+    "deliveryDays": "{days, plural, one {# day} other {# days}}",
+    "revisions": "Revisions",
+    "revisionsCount": "{count, plural, =0 {None} one {# revision} other {# revisions}}",
+    "included": "What's included",
+    "allPackages": "All packages",
+    "addons": "Optional add-ons",
+    "addonPrice": "+{price}",
+    "addonDays": "{days, plural, one {+# day} other {+# days}}",
+    "requirements": "What the expert will ask you",
+    "faqs": "FAQ",
+    "revisionPolicy": "Revision policy",
+    "paymentTerms": "Payment terms",
+    "paymentFull": "You pay the full price before work starts.",
+    "paymentDeposit": "You pay a {percent} deposit before work starts. The balance is due {trigger}.",
+    "triggers": {
+      "on_milestone_acceptance": "when you accept the first milestone",
+      "before_final_delivery": "before the final delivery"
+    },
+    "noClientFee": "No service fee for clients.",
+    "fixed": "Fixed price",
+    "hourly": "{rate}/hour, minimum {hours, plural, one {# hour} other {# hours}}",
+    "quote": "Custom quote",
+    "quoteFrom": "Quotes usually start from {price}",
+    "order": "Request this service",
+    "orderSoon": "Ordering opens soon. Payments will run through a regulated provider and are released only after you accept the work.",
+    "aboutExpert": "About the expert",
+    "viewProfile": "View profile",
+    "skills": "Skills and technologies",
+    "gallery": "Images",
+    "category": "Category"
+  },
+  "home": {
+    "searchTitle": "Search AI services",
+    "browseTitle": "Browse by category",
+    "browseAll": "All categories",
+    "latestTitle": "Recently added services",
+    "latestEmpty": "The first services are being reviewed now.",
+    "howTitle": "How Greco works",
+    "how": {
+      "describe": {
+        "title": "Describe your problem",
+        "body": "Search directly, browse categories, or (soon) describe your situation to the AI Discovery assistant."
+      },
+      "compare": {
+        "title": "Compare experts",
+        "body": "See clear scopes, prices, delivery times and payment terms before you commit."
+      },
+      "work": {
+        "title": "Work and pay safely",
+        "body": "Agree terms upfront, keep all communication on Greco, and pay only through a regulated provider."
+      }
+    },
+    "howLink": "Learn how it works",
+    "expertCta": "Are you an AI expert?",
+    "expertCtaBody": "Offer fixed-scope services to businesses looking for AI help. Greco's commission is {commission} per payment; there's no listing fee.",
+    "expertCtaButton": "Become an expert"
+  },
+  "howItWorks": {
+    "title": "How Greco works",
+    "intro": "Greco connects businesses with AI specialists and agencies, with clear terms and fair handling when things go wrong.",
+    "clientsTitle": "For clients",
+    "clients": {
+      "find": {
+        "title": "Find the right help",
+        "body": "Search services, browse categories or compare expert profiles. Every service shows its scope, price, delivery time and payment terms."
+      },
+      "agree": {
+        "title": "Agree the terms",
+        "body": "Order a listed service or ask for a custom offer. The price, payment schedule, deadline, revisions and cancellation terms are fixed before you pay."
+      },
+      "pay": {
+        "title": "Pay through a regulated provider",
+        "body": "Greco never stores card details. Depending on the service you pay in full or a deposit before work starts. Clients pay no service fee."
+      },
+      "deliver": {
+        "title": "Review and accept",
+        "body": "Request revisions within the agreed terms. If something goes wrong, use the Resolution Center to agree a refund or ask Greco to review."
+      }
+    },
+    "expertsTitle": "For experts",
+    "experts": {
+      "profile": {
+        "title": "Create your profile",
+        "body": "Show your skills, languages, links and case studies. Greco reviews every new profile and service before it goes public."
+      },
+      "services": {
+        "title": "Publish services",
+        "body": "Offer packages, fixed prices, hourly work or custom quotes, and choose full payment or a deposit for each service."
+      },
+      "earn": {
+        "title": "Get paid for accepted work",
+        "body": "Greco's commission is {commission} of each payment, deducted from your earnings. There's no fee to join or list."
+      }
+    },
+    "trustTitle": "Honest by design",
+    "trust": "Profiles and portfolios are self-reported unless marked as verified. All communication stays on Greco so agreements and evidence are in one place. Payments go live once our payment provider and legal set-up are confirmed.",
+    "ctaClient": "Browse services",
+    "ctaExpert": "Become an expert"
+  },
+  "becomeExpert": {
+    "title": "Offer your AI services on Greco",
+    "intro": "Businesses come to Greco to find specialists who can deliver real AI systems: agents, chatbots, voice automation, data and ML.",
+    "benefits": {
+      "clients": {
+        "title": "Clients with real projects",
+        "body": "Clients describe business problems; AI Discovery (coming soon) helps them understand what they need before they reach you."
+      },
+      "terms": {
+        "title": "Clear terms, protected work",
+        "body": "Scope, price, deadline and revisions are agreed upfront. You choose full payment or a deposit before you start."
+      },
+      "fees": {
+        "title": "Simple pricing",
+        "body": "No subscription and no listing fee. Greco's commission is {commission} of each payment, deducted from your earnings."
+      }
+    },
+    "stepsTitle": "How to start",
+    "steps": {
+      "account": "Create an account and choose \"Offer services\".",
+      "profile": "Complete your profile: headline, about, skills and languages.",
+      "service": "Create your first service with clear scope and pricing.",
+      "review": "Submit both for review. We'll check them and publish them."
+    },
+    "cta": "Create your expert account",
+    "ctaSignedIn": "Go to your expert workspace"
+  }
 }

@@ -3,6 +3,7 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 
 import { createSupabaseAnonClient } from "@/server/db/supabase-server";
+import { log } from "@/server/log";
 import type { Enums } from "@/server/db/types";
 
 /** Cache tags. Admin actions update them; experts' edits revalidate "catalog". */
@@ -34,6 +35,16 @@ export type CategoryNode = Category & { children: CategoryNode[] };
 export type Term = { id: string; kind: TermKind; slug: string; name: string };
 
 type Localised = { locale: string };
+
+/**
+ * Public reads never break a page: on failure the empty result is cached for seconds only
+ * (which also keeps it out of prerendered shells) and the error is logged.
+ */
+export function softFail<T>(what: string, error: { message: string; code?: string }, fallback: T): T {
+  cacheLife("seconds");
+  log.warn("public_read_failed", { what, code: error.code, message: error.message });
+  return fallback;
+}
 
 export function pickTranslation<T extends Localised>(rows: T[] | null | undefined, locale: string): T | undefined {
   if (!rows || rows.length === 0) return undefined;
@@ -102,10 +113,9 @@ export function toCategories(rows: CategoryRow[], locale: string): Category[] {
 export async function getCategories(locale: string): Promise<Category[]> {
   "use cache";
   cacheTag(TAXONOMY_TAG);
-  cacheLife("hours");
   const { data, error } = await createSupabaseAnonClient().from("categories").select(CATEGORY_SELECT);
-  // Throwing keeps a failed read out of the cache.
-  if (error) throw new Error(`Could not load categories: ${error.message}`);
+  if (error) return softFail("categories", error, []);
+  cacheLife("hours");
   return toCategories(data as CategoryRow[], locale);
 }
 
@@ -177,12 +187,12 @@ type TermRow = { id: string; kind: TermKind; slug: string; taxonomy_term_transla
 export async function getActiveTerms(locale: string): Promise<Term[]> {
   "use cache";
   cacheTag(TAXONOMY_TAG);
-  cacheLife("hours");
   const { data, error } = await createSupabaseAnonClient()
     .from("taxonomy_terms")
     .select("id, kind, slug, taxonomy_term_translations (locale, name)")
     .eq("status", "active");
-  if (error) throw new Error(`Could not load taxonomy: ${error.message}`);
+  if (error) return softFail("taxonomy", error, []);
+  cacheLife("hours");
   const collator = new Intl.Collator(locale);
   return (data as TermRow[])
     .map((row) => ({
@@ -198,8 +208,8 @@ export async function getActiveTerms(locale: string): Promise<Term[]> {
 export async function getCategoryCounts(): Promise<Record<string, number>> {
   "use cache";
   cacheTag(CATALOG_TAG);
-  cacheLife("minutes");
   const { data, error } = await createSupabaseAnonClient().rpc("category_listing_counts");
-  if (error) throw new Error(`Could not load category counts: ${error.message}`);
+  if (error) return softFail("category_counts", error, {});
+  cacheLife("minutes");
   return Object.fromEntries(data.map((row) => [row.category_id, Number(row.listing_count)]));
 }

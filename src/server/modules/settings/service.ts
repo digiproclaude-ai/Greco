@@ -3,6 +3,7 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 
 import { createSupabaseAnonClient } from "@/server/db/supabase-server";
+import { softFail } from "@/server/modules/taxonomy/service";
 
 export const SETTINGS_TAG = "settings";
 
@@ -26,7 +27,6 @@ const DEFAULTS: MarketplaceSettings = {
 export async function getMarketplaceSettings(): Promise<MarketplaceSettings> {
   "use cache";
   cacheTag(SETTINGS_TAG);
-  cacheLife("hours");
   const { data, error } = await createSupabaseAnonClient()
     .from("platform_settings")
     .select("key, value")
@@ -37,7 +37,8 @@ export async function getMarketplaceSettings(): Promise<MarketplaceSettings> {
       "payments.deposit_min_order_minor",
       "listings.currencies",
     ]);
-  if (error) throw new Error(`Could not load settings: ${error.message}`);
+  if (error) return softFail("settings", error, DEFAULTS);
+  cacheLife("hours");
   const values = new Map(data.map((row) => [row.key, row.value]));
   const read = <T,>(key: string, fallback: T): T => (values.has(key) ? (values.get(key) as T) : fallback);
   return {
