@@ -2813,6 +2813,24 @@ export type Database = {
         Args: { p_role: Database["public"]["Enums"]["marketplace_role"] }
         Returns: undefined
       }
+      file_record_scan: {
+        Args: {
+          p_detail?: string
+          p_file_id: string
+          p_status: Database["public"]["Enums"]["scan_status"]
+        }
+        Returns: undefined
+      }
+      file_scan_target: {
+        Args: { p_file_id: string }
+        Returns: {
+          bucket: string
+          mime_type: string
+          path: string
+          scan_status: Database["public"]["Enums"]["scan_status"]
+          size_bytes: number
+        }[]
+      }
       has_accepted_current_legal: { Args: never; Returns: boolean }
       invitations_decline: {
         Args: { p_invitation_id: string }
@@ -2837,7 +2855,48 @@ export type Database = {
         }
         Returns: Json
       }
+      my_conversations: {
+        Args: { p_archived?: boolean; p_conversation_id?: string }
+        Returns: {
+          archived: boolean
+          blocked_by_me: boolean
+          can_reply: boolean
+          context_listing_id: string
+          context_listing_title: string
+          context_project_id: string
+          context_project_title: string
+          counterpart_avatar_path: string
+          counterpart_handle: string
+          counterpart_name: string
+          counterpart_provider_id: string
+          counterpart_user_id: string
+          created_at: string
+          id: string
+          kind: string
+          last_body: string
+          last_message_at: string
+          last_moderation_state: string
+          last_sender_is_me: boolean
+          muted: boolean
+          my_role: string
+          status: string
+          unread_count: number
+        }[]
+      }
       my_counts: { Args: never; Returns: Json }
+      notification_email_payload: {
+        Args: { p_notification_id: string }
+        Returns: Json
+      }
+      notification_record_delivery: {
+        Args: {
+          p_error?: string
+          p_notification_id: string
+          p_provider_ref?: string
+          p_status: string
+        }
+        Returns: undefined
+      }
       outbox_claim: {
         Args: { p_limit?: number }
         Returns: {
@@ -2915,6 +2974,21 @@ export type Database = {
           p_target_type: string
         }
         Returns: string
+      }
+      saved_search_alert_candidates: {
+        Args: { p_limit?: number }
+        Returns: {
+          id: string
+          kind: string
+          name: string
+          query: Json
+          since: string
+          user_id: string
+        }[]
+      }
+      saved_search_record_alert: {
+        Args: { p_id: string; p_matches: number }
+        Returns: undefined
       }
       search_listings: {
         Args: {
@@ -2994,6 +3068,20 @@ export type Database = {
       switch_active_role: {
         Args: { p_role: Database["public"]["Enums"]["marketplace_role"] }
         Returns: Database["public"]["Enums"]["marketplace_role"]
+      }
+      unread_digest_candidates: {
+        Args: { p_limit?: number; p_min_age_minutes?: number }
+        Returns: {
+          email: string
+          locale: string
+          name: string
+          unread_conversations: number
+          user_id: string
+        }[]
+      }
+      unread_digest_mark_sent: {
+        Args: { p_user_id: string }
+        Returns: undefined
       }
     }
     Enums: {

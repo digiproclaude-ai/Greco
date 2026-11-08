@@ -62,5 +62,6 @@
   "workspaceError": "We couldn't switch workspace. Please try again.",
   "admin": "Admin",
   "saved": "Saved",
-  "adminNavLabel": "Admin"
+  "adminNavLabel": "Admin",
+  "unread": "{count, plural, one {# unread} other {# unread}}"
 }

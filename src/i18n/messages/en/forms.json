@@ -17,7 +17,13 @@
     "attachmentType": "Attach a PDF, image, text, CSV, JSON, ZIP or Office file.",
     "attachmentTooLarge": "Files can be up to {max} MB.",
     "blocked": "You can't message this person.",
-    "slowDown": "You're sending messages too quickly. Wait a moment and try again."
+    "slowDown": "You're sending messages too quickly. Wait a moment and try again.",
+    "expertNotFound": "We couldn't find a live expert with that profile address.",
+    "alreadyInvited": "You've already invited this expert.",
+    "needsClientRole": "To contact experts, add the client workspace to your account first.",
+    "ownProfile": "This is your own expert profile.",
+    "emptyMessage": "Write a message or attach a file.",
+    "tooManyFiles": "Attach up to {max} files per message."
   },
   "success": {
     "saved": "Saved.",
@@ -27,7 +33,15 @@
     "submitted": "Submitted for review. We'll let you know the outcome.",
     "statusChanged": "Status updated.",
     "decided": "Decision recorded.",
-    "suggested": "Thanks. Greco will review your suggestion; once approved you can select it."
+    "suggested": "Thanks. Greco will review your suggestion; once approved you can select it.",
+    "published": "Published. Experts can now send proposals.",
+    "invited": "Invitation sent.",
+    "proposalSent": "Proposal sent. The client has been notified.",
+    "sent": "Sent.",
+    "reported": "Thanks. Greco's moderators will review your report.",
+    "sentMasked": "Sent. We hid the contact details: keep conversations and payments on Greco so you're protected.",
+    "sentSecret": "Sent. It looks like you shared a password or API key. Never share secrets in chat: rotate that key now.",
+    "sentOffsite": "Sent. Remember: payments outside Greco aren't protected."
   },
   "saving": "Saving…",
   "optional": "Optional",

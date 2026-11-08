@@ -1,0 +1,327 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "board": "Find projects",
+    "proposals": "Proposals",
+    "messages": "Messages",
+    "notifications": "Notifications"
+  },
+  "statuses": {
+    "draft": "Draft",
+    "open": "Open",
+    "closed": "Closed",
+    "hired": "Hired",
+    "cancelled": "Cancelled",
+    "expired": "Expired",
+    "removed": "Removed by Greco"
+  },
+  "visibility": {
+    "public": {
+      "title": "Public",
+      "description": "Approved experts can find it on the project board and send proposals."
+    },
+    "invite_only": {
+      "title": "Invite only",
+      "description": "Only experts you invite can see it and send proposals."
+    }
+  },
+  "budgetKinds": {
+    "not_sure": "Not sure yet",
+    "fixed": "Fixed budget",
+    "range": "Budget range",
+    "hourly": "Hourly rate"
+  },
+  "timelineKinds": {
+    "flexible": "Flexible",
+    "asap": "As soon as possible",
+    "weeks": "Within a few weeks",
+    "months": "Within a few months"
+  },
+  "budget": {
+    "open": "Budget open",
+    "fixed": "Up to {amount}",
+    "range": "{min} – {max}",
+    "hourly": "Up to {amount} per hour"
+  },
+  "client": {
+    "title": "Your projects",
+    "intro": "Describe what you need and receive proposals from approved experts. You can also invite experts you like.",
+    "new": "New project",
+    "empty": "You haven't posted a project yet.",
+    "proposals": "{count, plural, =0 {No proposals yet} one {# proposal} other {# proposals}}",
+    "created": "Created {date}",
+    "expires": "Open until {date}",
+    "back": "All projects"
+  },
+  "new": {
+    "title": "Post a project",
+    "intro": "Start with a short title. You can add the details, budget and files on the next page before you publish.",
+    "titleLabel": "Project title",
+    "titleHint": "For example \"AI phone assistant for three dental clinics\".",
+    "category": "Category",
+    "create": "Create draft"
+  },
+  "editor": {
+    "title": "Edit project",
+    "sections": {
+      "status": "Status",
+      "proposals": "Proposals",
+      "invite": "Invite experts",
+      "details": "Project details",
+      "detailsDescription": "Experts read this before they write a proposal. Don't include passwords, API keys or personal data.",
+      "budget": "Budget and timeline",
+      "attachments": "Files",
+      "attachmentsDescription": "Briefs, examples or data samples. Files are private: only experts who can see the project can open them, after a security scan."
+    },
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "descriptionHint": "What should the AI do, for whom, and how will you know it works? At least 100 characters.",
+      "businessProblem": "The problem today",
+      "businessProblemHint": "What happens now, and what does it cost you?",
+      "desiredOutcome": "The outcome you want",
+      "category": "Category",
+      "terms": "Skills and tools",
+      "termsHint": "Optional. Helps the right experts find your project.",
+      "budgetKind": "Budget",
+      "currency": "Currency",
+      "currencyLocked": "The currency can't change once the project is published.",
+      "budgetMin": "From",
+      "budgetMax": "Up to",
+      "hourlyMax": "Up to (per hour)",
+      "timelineKind": "Timeline",
+      "deadline": "Deadline",
+      "visibility": "Who can see it"
+    },
+    "checklist": {
+      "title": "Before you publish",
+      "done": "Everything's ready. Publish to start receiving proposals.",
+      "description": "Describe the project in at least 100 characters",
+      "category": "Choose a category",
+      "budget": "Add the budget amount",
+      "deadline": "Choose a deadline in the future"
+    },
+    "publish": "Publish project",
+    "publishHint": "Public projects appear on the project board for approved experts for 30 days. You can close the project at any time.",
+    "close": "Close project",
+    "closeConfirm": "Close this project? Open proposals will expire and experts will be told.",
+    "reopen": "Reopen for 30 days",
+    "delete": "Delete draft",
+    "deleteConfirm": "Delete this draft and its files? This can't be undone.",
+    "expires": "Open until {date}.",
+    "removedNote": "Greco removed this project because it breaks the marketplace rules.",
+    "readOnly": "This project can't be edited while it's {status}.",
+    "noProposals": "No proposals yet. Invite experts to get things moving.",
+    "draftProposals": "Publish the project to start receiving proposals.",
+    "compare": "Compare proposals",
+    "viewProposal": "View proposal",
+    "invite": {
+      "intro": "Invite an approved expert by their profile address, for example greco.ai/experts/ada-lovelace or just ada-lovelace.",
+      "handle": "Expert's profile address",
+      "message": "Message",
+      "messageHint": "Optional. Why you think they're a good fit.",
+      "send": "Send invitation",
+      "onlyOpen": "Publish the project to invite experts.",
+      "invited": "Invited",
+      "empty": "You haven't invited anyone yet.",
+      "statuses": {
+        "sent": "Invited",
+        "declined": "Declined",
+        "proposal_submitted": "Sent a proposal"
+      }
+    }
+  },
+  "attachments": {
+    "file": "File",
+    "hint": "PDF, images, text, CSV, JSON, ZIP or Office files up to {max} MB.",
+    "upload": "Upload file",
+    "empty": "No files yet.",
+    "download": "Download {name}",
+    "remove": "Remove {name}",
+    "scan": {
+      "pending": "Security scan pending",
+      "clean": "Scanned",
+      "infected": "Blocked: failed the security scan",
+      "error": "Scan failed",
+      "skipped": "Not scanned"
+    },
+    "notReady": "Available after the security scan"
+  },
+  "proposal": {
+    "statuses": {
+      "draft": "Draft",
+      "submitted": "Received",
+      "shortlisted": "Shortlisted",
+      "declined": "Declined",
+      "withdrawn": "Withdrawn",
+      "accepted": "Accepted",
+      "expired": "Expired"
+    },
+    "expertStatuses": {
+      "draft": "Draft",
+      "submitted": "Sent",
+      "shortlisted": "Shortlisted",
+      "declined": "Declined",
+      "withdrawn": "Withdrawn",
+      "accepted": "Accepted",
+      "expired": "Expired"
+    },
+    "price": "Price",
+    "hourlyBlock": "{hours, plural, one {# hour} other {# hours}} included",
+    "timeline": "Timeline",
+    "days": "{count, plural, one {# day} other {# days}}",
+    "revisions": "Revisions",
+    "revisionsCount": "{count, plural, =0 {None} one {# revision} other {# revisions}}",
+    "payment": "Payment",
+    "full": "Full payment before work starts",
+    "deposit": "{deposit} deposit before work starts, {balance} {trigger}",
+    "depositTriggers": {
+      "on_milestone_acceptance": "when the first milestone is accepted",
+      "before_final_delivery": "before the final delivery"
+    },
+    "milestones": "Milestones",
+    "milestoneDue": "Due {count, plural, one {# day} other {# days}} after the start",
+    "deliverables": "Deliverables",
+    "solution": "Proposed approach",
+    "experience": "Relevant experience",
+    "questions": "Questions for you",
+    "conditions": "Conditions and assumptions",
+    "validUntil": "Valid until {date}",
+    "submittedOn": "Sent {date}",
+    "expertProfile": "View profile",
+    "message": "Message expert",
+    "back": "Back to the project",
+    "hiringSoon": "Hiring and payments through Greco open in a later release. For now you can shortlist proposals and message experts. Don't pay anyone outside Greco.",
+    "notAvailable": "This proposal is no longer available.",
+    "decide": {
+      "shortlist": "Shortlist",
+      "unshortlist": "Remove from shortlist",
+      "decline": "Decline",
+      "declineReason": "Reason (optional)",
+      "declineReasonHint": "The expert sees this. Keep it short and polite.",
+      "declineConfirm": "Decline proposal",
+      "declinedReason": "Your reason: {reason}"
+    },
+    "compare": {
+      "title": "Compare proposals",
+      "intro": "Proposals that are still open, side by side.",
+      "expert": "Expert",
+      "status": "Status",
+      "empty": "There are no open proposals to compare yet.",
+      "milestonesCount": "{count, plural, =0 {No milestones} one {# milestone} other {# milestones}}"
+    }
+  },
+  "board": {
+    "title": "Find projects",
+    "intro": "Open projects from clients looking for AI help. Send a clear, specific proposal.",
+    "search": "Search titles",
+    "category": "Category",
+    "allCategories": "All categories",
+    "filter": "Filter",
+    "empty": "No open projects match right now. Check back soon.",
+    "posted": "Posted {date}",
+    "proposals": "{count, plural, =0 {No proposals yet} one {# proposal} other {# proposals}}",
+    "invitations": "Invitations",
+    "invitationsEmpty": "No invitations yet.",
+    "invitedOn": "Invited {date}",
+    "notActive": "Your profile needs to be approved before you can send proposals. You can still read projects and prepare drafts.",
+    "decline": "Decline invitation",
+    "declined": "You declined this invitation."
+  },
+  "expertProject": {
+    "back": "All projects",
+    "invitation": "The client invited you to this project.",
+    "invitationMessage": "Their message",
+    "writeProposal": "Write a proposal",
+    "continueProposal": "Continue your proposal",
+    "viewProposal": "View your proposal",
+    "yourProposal": "Your proposal",
+    "closed": "This project isn't accepting proposals.",
+    "deadline": "Deadline {date}",
+    "client": "Client",
+    "messageClient": "Message the client"
+  },
+  "proposals": {
+    "title": "Your proposals",
+    "intro": "Drafts and proposals you've sent.",
+    "empty": "You haven't written a proposal yet.",
+    "findProjects": "Find projects",
+    "updated": "Updated {date}"
+  },
+  "proposalEditor": {
+    "title": "Proposal",
+    "back": "Back to the project",
+    "sections": {
+      "status": "Status",
+      "details": "Your approach",
+      "detailsDescription": "Explain how you'll solve the client's problem. Be specific; generic proposals rarely win.",
+      "pricing": "Price and terms",
+      "pricingDescription": "These become the agreed terms if the client hires you.",
+      "milestones": "Milestones",
+      "milestonesDescription": "Optional. Split the work into steps. Milestone amounts must add up to the price.",
+      "deliverables": "Deliverables",
+      "deliverablesDescription": "What the client receives at the end."
+    },
+    "fields": {
+      "proposedSolution": "Proposed approach",
+      "proposedSolutionHint": "At least 100 characters.",
+      "relevantExperience": "Relevant experience",
+      "questions": "Questions for the client",
+      "conditions": "Conditions and assumptions",
+      "pricingModel": "Pricing",
+      "pricingModels": {
+        "fixed": {
+          "title": "Fixed price",
+          "description": "One price for the agreed scope."
+        },
+        "hourly_block": {
+          "title": "Block of hours",
+          "description": "A set number of hours paid upfront."
+        }
+      },
+      "price": "Price ({currency})",
+      "hours": "Hours included",
+      "estimatedDays": "Estimated days to deliver",
+      "revisionsIncluded": "Revisions included",
+      "paymentModel": "Payment",
+      "depositBps": "Deposit",
+      "balanceTrigger": "Balance due",
+      "milestoneTitle": "Milestone",
+      "milestoneDescription": "Description",
+      "milestoneAmount": "Amount ({currency})",
+      "milestoneDue": "Due after (days)",
+      "addMilestone": "Add milestone",
+      "deliverable": "Deliverable",
+      "addDeliverable": "Add deliverable",
+      "empty": "Nothing added yet."
+    },
+    "milestonesTotal": "Milestones add up to {total} of {price}.",
+    "checklist": {
+      "title": "Before you send",
+      "done": "Everything's ready to send.",
+      "profile_approved": "Get your expert profile approved",
+      "project_open": "The project must be open for proposals",
+      "solution": "Describe your approach in at least 100 characters",
+      "currency": "Use the project's currency",
+      "price": "Set a price",
+      "min_order": "The price must be at least the marketplace minimum",
+      "timeline": "Estimate the days to deliver",
+      "deposit": "Choose an allowed deposit",
+      "deposit_min_order": "Deposits need a higher price",
+      "milestones": "Make the milestones add up to the price",
+      "milestones_for_trigger": "Add at least two milestones, or choose another balance option"
+    },
+    "submit": "Send proposal",
+    "submitHint": "The client is notified straight away. You can't edit a proposal after sending it, but you can withdraw it.",
+    "withdraw": "Withdraw proposal",
+    "withdrawConfirm": "Withdraw this proposal? The client will be told.",
+    "delete": "Delete draft",
+    "deleteConfirm": "Delete this draft?",
+    "readOnly": "Sent proposals can't be edited.",
+    "declined": "The client declined this proposal.",
+    "declinedReason": "Their reason: {reason}",
+    "earnings": "If the client hires you at {total}, you receive {earnings} after Greco's {rate} commission ({commission}). Clients pay no fees.",
+    "rules": "Minimum price {minOrder}. Deposits are available from {depositMin}.",
+    "noPayments": "No payment is taken yet: hiring through Greco opens in a later release."
+  }
+}

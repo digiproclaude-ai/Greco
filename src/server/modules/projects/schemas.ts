@@ -17,6 +17,11 @@ export const TIMELINE_KINDS = ["flexible", "asap", "weeks", "months"] as const;
 export const VISIBILITIES = ["public", "invite_only"] as const;
 export const PROJECT_EDITABLE = ["draft", "open"] as const;
 export const MAX_PROJECT_TERMS = 10;
+export const MAX_PROJECT_ATTACHMENTS = 10;
+export const MAX_PROPOSAL_MILESTONES = 10;
+export const MAX_PROPOSAL_DELIVERABLES = 20;
+
+export const newProjectSchema = z.object({ title: requiredText(5, 120), category: optionalUuid() });
 
 const amount = z.preprocess((v) => (typeof v === "string" && v.trim() !== "" ? v.trim() : null), z.string().max(20).nullable());
 
@@ -96,14 +101,13 @@ export const PROPOSAL_FIELDS = [
 ] as const;
 
 export const milestoneSchema = z.object({
-  seq: requiredInt(1, 10),
   title: requiredText(1, 120),
   description: optionalText(1000),
   amount,
   dueOffsetDays: requiredInt(1, 730),
 });
 
-export const MILESTONE_FIELDS = ["seq", "title", "description", "amount", "dueOffsetDays"] as const;
+export const MILESTONE_FIELDS = ["title", "description", "amount", "dueOffsetDays"] as const;
 
 export const deliverableSchema = z.object({ title: requiredText(1, 160) });
 

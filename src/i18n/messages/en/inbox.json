@@ -1,0 +1,68 @@
+{
+  "title": "Messages",
+  "intro": "Keep every conversation on Greco: it protects you if something goes wrong.",
+  "tabs": { "inbox": "Inbox", "archived": "Archived" },
+  "empty": "No conversations yet.",
+  "emptyArchived": "No archived conversations.",
+  "emptyClientHint": "Open an expert's profile or a proposal and choose \"Message\" to start one.",
+  "emptyExpertHint": "Clients can message you from your profile. You can reply to clients whose projects you were invited to or proposed on.",
+  "unread": "{count, plural, one {# new message} other {# new messages}}",
+  "you": "You: {text}",
+  "attachmentOnly": "Sent a file",
+  "removedPreview": "Message removed",
+  "about": "About: {title}",
+  "muted": "Muted",
+  "back": "All messages",
+  "viewProfile": "View profile",
+  "thread": {
+    "label": "Conversation with {name}",
+    "start": "This is the start of your conversation with {name}.",
+    "today": "Today",
+    "removed": "This message was removed by Greco's moderators.",
+    "hidden": "contact details hidden",
+    "maskedNote": "Contact details are hidden until you've placed an order together on Greco.",
+    "report": "Report message",
+    "fileScanPending": "Available after the security scan"
+  },
+  "composer": {
+    "label": "Message",
+    "placeholder": "Write a message…",
+    "hint": "Don't share passwords, API keys or payment details. Press Ctrl+Enter to send.",
+    "files": "Attach files",
+    "filesHint": "Up to {count} files, {max} MB each.",
+    "send": "Send",
+    "secretConfirm": "This looks like a password or API key. Anyone in this conversation could use it. Send anyway?",
+    "cannotReply": "You can't reply to this conversation.",
+    "blockedByYou": "You blocked this person. Unblock them to reply."
+  },
+  "actions": {
+    "title": "Conversation options",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "archive": "Archive",
+    "unarchive": "Move to inbox",
+    "block": "Block",
+    "blockConfirm": "Block this person? Neither of you will be able to send messages in this conversation.",
+    "unblock": "Unblock",
+    "report": "Report this person"
+  },
+  "report": {
+    "title": "Report to Greco",
+    "reason": "Reason",
+    "details": "What happened?",
+    "detailsHint": "Optional. Moderators read the reported content and this note.",
+    "submit": "Send report",
+    "cancel": "Cancel",
+    "reasons": {
+      "spam": "Spam",
+      "scam_or_fraud": "Scam or fraud",
+      "off_platform": "Asked to talk or pay outside Greco",
+      "harassment": "Harassment or abuse",
+      "inappropriate": "Inappropriate content",
+      "intellectual_property": "Copyright or trademark problem",
+      "misleading": "Misleading claims",
+      "prohibited_service": "Prohibited service",
+      "other": "Something else"
+    }
+  }
+}

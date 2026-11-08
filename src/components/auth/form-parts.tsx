@@ -34,15 +34,18 @@ export function FormField({
   label,
   hint,
   error,
+  idPrefix = "field",
   children,
 }: {
   name: string;
   label: string;
   hint?: string;
   error?: FieldErrorValue;
+  /** Distinguishes fields with the same name in different forms on one page. */
+  idPrefix?: string;
   children: (aria: { id: string; "aria-invalid"?: true; "aria-describedby"?: string }) => ReactNode;
 }) {
-  const id = `field-${name}`;
+  const id = `${idPrefix}-${name}`;
   const describedBy = [hint ? `${id}-hint` : null, error ? `${id}-error` : null].filter(Boolean).join(" ");
   return (
     <Field>

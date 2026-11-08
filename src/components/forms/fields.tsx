@@ -45,7 +45,7 @@ export function FormStatus({ state, checklistLabels }: { state: ActionState; che
   return <span role="status" className="sr-only" />;
 }
 
-type BaseProps = { name: string; label: string; hint?: string; state: ActionState; optional?: boolean };
+type BaseProps = { name: string; label: string; hint?: string; state: ActionState; optional?: boolean; idPrefix?: string };
 
 function useOptionalLabel(label: string, optional?: boolean) {
   const t = useTranslations("forms");
@@ -59,11 +59,12 @@ export function TextField({
   state,
   optional,
   defaultValue,
+  idPrefix,
   ...props
 }: BaseProps & Omit<ComponentProps<"input">, "name" | "defaultValue"> & { defaultValue?: string | number | null }) {
   const fullLabel = useOptionalLabel(label, optional);
   return (
-    <FormField name={name} label={fullLabel} hint={hint} error={state.fieldErrors?.[name]}>
+    <FormField name={name} label={fullLabel} hint={hint} error={state.fieldErrors?.[name]} idPrefix={idPrefix}>
       {(aria) => <Input {...aria} {...props} name={name} defaultValue={fieldValue(state, name, defaultValue)} />}
     </FormField>
   );
@@ -76,11 +77,12 @@ export function TextAreaField({
   state,
   optional,
   defaultValue,
+  idPrefix,
   ...props
 }: BaseProps & Omit<ComponentProps<"textarea">, "name" | "defaultValue"> & { defaultValue?: string | null }) {
   const fullLabel = useOptionalLabel(label, optional);
   return (
-    <FormField name={name} label={fullLabel} hint={hint} error={state.fieldErrors?.[name]}>
+    <FormField name={name} label={fullLabel} hint={hint} error={state.fieldErrors?.[name]} idPrefix={idPrefix}>
       {(aria) => <Textarea {...aria} {...props} name={name} defaultValue={fieldValue(state, name, defaultValue)} />}
     </FormField>
   );
@@ -97,6 +99,7 @@ export function SelectField({
   defaultValue,
   options,
   placeholder,
+  idPrefix,
   ...props
 }: BaseProps &
   Omit<ComponentProps<"select">, "name" | "defaultValue"> & {
@@ -106,7 +109,7 @@ export function SelectField({
   }) {
   const fullLabel = useOptionalLabel(label, optional);
   return (
-    <FormField name={name} label={fullLabel} hint={hint} error={state.fieldErrors?.[name]}>
+    <FormField name={name} label={fullLabel} hint={hint} error={state.fieldErrors?.[name]} idPrefix={idPrefix}>
       {(aria) => (
         <NativeSelect {...aria} {...props} name={name} defaultValue={fieldValue(state, name, defaultValue)}>
           {placeholder !== undefined ? <option value="">{placeholder}</option> : null}

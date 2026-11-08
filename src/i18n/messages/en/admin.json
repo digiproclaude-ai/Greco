@@ -8,7 +8,8 @@
     "catalog": "Live content",
     "categories": "Categories",
     "taxonomy": "Taxonomy",
-    "backToWorkspace": "Back to workspace"
+    "backToWorkspace": "Back to workspace",
+    "reports": "Reports"
   },
   "overview": {
     "pendingProfiles": "{count, plural, =0 {No profiles waiting} one {# profile waiting for review} other {# profiles waiting for review}}",
@@ -26,12 +27,26 @@
     "history": "Recent decisions",
     "empty": "Nothing waiting for review.",
     "historyEmpty": "No decisions yet.",
-    "kinds": { "initial": "New", "edit": "Edit" },
-    "targets": { "provider": "Profile", "listing": "Service", "portfolio_item": "Case study", "term": "Term", "category": "Category" },
+    "kinds": {
+      "initial": "New",
+      "edit": "Edit"
+    },
+    "targets": {
+      "provider": "Profile",
+      "listing": "Service",
+      "portfolio_item": "Case study",
+      "term": "Term",
+      "category": "Category"
+    },
     "submitted": "Submitted {date}",
     "open": "Review",
     "by": "by {name}",
-    "actions": { "approve": "Approved", "reject": "Rejected", "suspend": "Suspended", "reinstate": "Reinstated" },
+    "actions": {
+      "approve": "Approved",
+      "reject": "Rejected",
+      "suspend": "Suspended",
+      "reinstate": "Reinstated"
+    },
     "flags": {
       "title": "Automatic flags",
       "none": "No automatic flags.",
@@ -146,7 +161,12 @@
     "filterKind": "Kind",
     "filterStatus": "Status",
     "all": "All",
-    "statuses": { "active": "Active", "pending": "Suggested", "merged": "Merged", "retired": "Retired" },
+    "statuses": {
+      "active": "Active",
+      "pending": "Suggested",
+      "merged": "Merged",
+      "retired": "Retired"
+    },
     "fields": {
       "kind": "Kind",
       "slug": "Slug",

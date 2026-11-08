@@ -61,3 +61,15 @@ export type AttachmentInfo = {
   scanStatus: string;
   mine: boolean;
 };
+
+/** Discard a private file nothing references any more and delete the stored object. Best effort. */
+export async function discardPrivateFile(ctx: Pick<UserContext, "supabase">, fileId: string | null | undefined) {
+  if (!fileId) return;
+  const { data: path, error } = await ctx.supabase.rpc("discard_uploaded_file", { p_file_id: fileId });
+  if (error || !path) {
+    if (error?.code !== "55000") log.warn("attachments.discard_failed", { code: error?.code });
+    return;
+  }
+  const { error: removeError } = await ctx.supabase.storage.from(BUCKET).remove([path]);
+  if (removeError) log.warn("attachments.remove_failed", { message: removeError.message });
+}
