@@ -108,8 +108,8 @@
     "selfReported": "Information on this profile is provided by the expert and has not been verified by Greco unless marked as verified.",
     "linksNote": "Links are provided by the expert and are not verified.",
     "preview": "Preview: this profile isn't public yet. Only you and Greco staff can see it.",
-    "contact": "Contact",
-    "contactSoon": "Messaging opens soon. All communication will stay on Greco.",
+    "contact": "Message",
+    "contactSoon": "Ask questions or describe your project. All communication stays on Greco, so you're protected.",
     "role": "Role: {role}",
     "client": "Client: {name}",
     "problem": "The problem",
@@ -172,7 +172,8 @@
     "viewProfile": "View profile",
     "skills": "Skills and technologies",
     "gallery": "Images",
-    "category": "Category"
+    "category": "Category",
+    "contact": "Message the expert"
   },
   "home": {
     "searchTitle": "Search AI services",

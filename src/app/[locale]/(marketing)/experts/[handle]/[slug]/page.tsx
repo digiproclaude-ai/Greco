@@ -10,6 +10,7 @@ import { Breadcrumbs } from "@/components/marketplace/breadcrumbs";
 import { Prose } from "@/components/marketplace/prose";
 import { ResultsSkeleton } from "@/components/marketplace/results-skeleton";
 import { SaveButton } from "@/components/marketplace/save-button";
+import { ContactButton } from "@/components/messages/contact-button";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ import { Link } from "@/i18n/navigation";
 import { publicMediaUrl } from "@/lib/media";
 import { formatMoney } from "@/lib/money";
 import { getSessionClaims } from "@/server/auth/session";
+import { contactExpertAction } from "@/server/modules/messaging/actions";
 import { getPublicListingPage, listingPriceFrom, loadListingPage, type ListingPage } from "@/server/modules/marketplace/public";
 import { categoryAncestors, getCategories } from "@/server/modules/taxonomy/service";
 
@@ -352,9 +354,15 @@ async function Service({ params }: Pick<Props, "params">) {
             </Button>
             <p className="text-sm text-ink-muted">{t("orderSoon")}</p>
             {preview ? null : (
-              <Suspense>
-                <SaveButton kind="listing" id={page.id} returnTo={publicPath} />
-              </Suspense>
+              <div className="flex flex-wrap gap-2">
+                <ContactButton
+                  action={contactExpertAction.bind(null, { providerId: page.provider.id, listingId: page.id, returnTo: publicPath })}
+                  label={t("contact")}
+                />
+                <Suspense>
+                  <SaveButton kind="listing" id={page.id} returnTo={publicPath} />
+                </Suspense>
+              </div>
             )}
           </section>
 

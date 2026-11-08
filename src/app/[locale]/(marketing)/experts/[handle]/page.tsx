@@ -7,6 +7,7 @@ import { Suspense } from "react";
 
 import { Avatar } from "@/components/marketplace/avatar";
 import { CardGrid, ListingCard } from "@/components/marketplace/cards";
+import { ContactButton } from "@/components/messages/contact-button";
 import { Prose } from "@/components/marketplace/prose";
 import { ResultsSkeleton } from "@/components/marketplace/results-skeleton";
 import { SaveButton } from "@/components/marketplace/save-button";
@@ -17,6 +18,7 @@ import { countryName, languageName } from "@/lib/languages";
 import { publicMediaUrl } from "@/lib/media";
 import { formatMoney } from "@/lib/money";
 import { getSessionClaims } from "@/server/auth/session";
+import { contactExpertAction } from "@/server/modules/messaging/actions";
 import { getPublicProviderPage, loadProviderPage, type ProviderPage } from "@/server/modules/marketplace/public";
 import { emptyListingFilters, searchListings } from "@/server/modules/marketplace/search";
 
@@ -219,7 +221,15 @@ async function Profile({ params }: Pick<Props, "params">) {
             <h2 id="contact" className="font-semibold">
               {t("contact")}
             </h2>
-            <Button disabled>{t("contact")}</Button>
+            {preview ? (
+              <Button disabled>{t("contact")}</Button>
+            ) : (
+              <ContactButton
+                action={contactExpertAction.bind(null, { providerId: page.id, returnTo: `/experts/${page.handle}` })}
+                label={t("contact")}
+                variant="primary"
+              />
+            )}
             <p className="text-sm text-ink-muted">{t("contactSoon")}</p>
           </section>
 
