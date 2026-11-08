@@ -13,9 +13,10 @@ import listing from "./listing.json";
 import marketplace from "./marketplace.json";
 import metadata from "./metadata.json";
 import nav from "./nav.json";
+import notifications from "./notifications.json";
 import projects from "./projects.json";
 import validation from "./validation.json";
 
-const messages = { admin, auth, client, common, dashboard, errors, expert, forms, home, inbox, legal, listing, marketplace, metadata, nav, projects, validation };
+const messages = { admin, auth, client, common, dashboard, errors, expert, forms, home, inbox, legal, listing, marketplace, metadata, nav, notifications, projects, validation };
 
 export default messages;

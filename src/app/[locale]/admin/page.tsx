@@ -24,6 +24,7 @@ export default async function AdminPage() {
     { text: t("overview.pendingListings", { count: counts.listings }), href: "/admin/moderation", cta: t("overview.openQueue") },
     { text: t("overview.pendingEdits", { count: counts.edits }), href: "/admin/moderation", cta: t("overview.openQueue") },
     { text: t("overview.pendingTerms", { count: counts.terms }), href: "/admin/taxonomy?status=pending", cta: t("overview.openTaxonomy") },
+    { text: t("overview.openReports", { count: counts.reports }), href: "/admin/reports", cta: t("overview.openReportsCta") },
   ];
   return (
     <div className="grid max-w-4xl gap-8">

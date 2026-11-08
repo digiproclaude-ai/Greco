@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { Badge } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
 import { requireUser } from "@/server/auth/guards";
 import { getSessionClaims } from "@/server/auth/session";
+import { toQuery } from "@/server/modules/marketplace/search";
 import { toggleSavedAction } from "@/server/modules/saved/actions";
+import { updateSavedSearchAction } from "@/server/modules/saved/search-actions";
 import { listSaved } from "@/server/modules/saved/service";
 import { getCategories } from "@/server/modules/taxonomy/service";
 
@@ -31,7 +34,15 @@ export default async function SavedPage() {
   const session = await getSessionClaims();
   const [t, tForms, locale] = await Promise.all([getTranslations("client.saved"), getTranslations("forms"), getLocale()]);
   if (!session) return null;
-  const [saved, categories] = await Promise.all([listSaved(session.supabase, account.userId), getCategories(locale)]);
+  const [saved, categories, { data: searches }] = await Promise.all([
+    listSaved(session.supabase, account.userId),
+    getCategories(locale),
+    session.supabase
+      .from("saved_searches")
+      .select("id, kind, name, query, alerts_enabled, created_at")
+      .eq("user_id", account.userId)
+      .order("created_at", { ascending: false }),
+  ]);
   const savedCategories = categories.filter((category) => saved.categoryIds.includes(category.id));
 
   const sections = [
@@ -101,6 +112,53 @@ export default async function SavedPage() {
           )}
         </section>
       ))}
+
+      <section id="searches" aria-labelledby="saved-searches" className="grid scroll-mt-24 gap-3">
+        <h2 id="saved-searches" className="font-semibold">
+          {t("searches")}
+        </h2>
+        {(searches ?? []).length === 0 ? (
+          <p className="text-sm text-ink-muted">{t("searchesEmpty")}</p>
+        ) : (
+          <ul className="divide-y divide-line rounded-lg border border-line bg-surface">
+            {(searches ?? []).map((search) => {
+              const query = search.query && typeof search.query === "object" ? (search.query as Record<string, string>) : {};
+              const href = `${search.kind === "experts" ? "/experts" : "/search"}${toQuery(query)}`;
+              return (
+                <li key={search.id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-3">
+                  <div className="grid min-w-0 gap-1">
+                    <Link href={href} className="font-medium hover:text-accent">
+                      {search.name}
+                    </Link>
+                    <span className="flex flex-wrap gap-2">
+                      <Badge>{t(`kinds.${search.kind === "experts" ? "experts" : "services"}`)}</Badge>
+                      <Badge variant={search.alerts_enabled ? "success" : "neutral"}>
+                        {search.alerts_enabled ? t("alertsOn") : t("alertsOff")}
+                      </Badge>
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <form action={updateSavedSearchAction}>
+                      <input type="hidden" name="id" value={search.id} />
+                      <input type="hidden" name="action" value={search.alerts_enabled ? "alerts_off" : "alerts_on"} />
+                      <button type="submit" className="text-sm text-accent hover:underline">
+                        {search.alerts_enabled ? t("turnAlertsOff") : t("turnAlertsOn")}
+                      </button>
+                    </form>
+                    <form action={updateSavedSearchAction}>
+                      <input type="hidden" name="id" value={search.id} />
+                      <input type="hidden" name="action" value="delete" />
+                      <button type="submit" className="text-sm text-accent hover:underline">
+                        {tForms("remove")}
+                      </button>
+                    </form>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }

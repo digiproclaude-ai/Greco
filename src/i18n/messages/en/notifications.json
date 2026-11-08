@@ -1,0 +1,103 @@
+{
+  "title": "Notifications",
+  "intro": "Updates about your projects, proposals, messages and account.",
+  "empty": "You're all caught up.",
+  "markAll": "Mark all as read",
+  "markRead": "Mark as read",
+  "settings": "Notification settings",
+  "unread": "Unread",
+  "types": {
+    "proposal": {
+      "received": "{count, plural, one {New proposal} other {# new proposals}} for “{projectTitle}”",
+      "shortlisted": "Your proposal for “{projectTitle}” was shortlisted",
+      "declined": "Your proposal for “{projectTitle}” was declined",
+      "withdrawn": "{expertName} withdrew their proposal for “{projectTitle}”",
+      "expired": "Your proposal for “{projectTitle}” expired because the project closed"
+    },
+    "project": {
+      "invited": "You're invited to send a proposal for “{projectTitle}”"
+    },
+    "invitation": {
+      "declined": "{expertName} declined your invitation to “{projectTitle}”"
+    },
+    "message": {
+      "received": "{count, plural, one {New message} other {# new messages}} from {senderName}"
+    },
+    "messages": {
+      "unread_digest": "You have unread messages on Greco"
+    },
+    "moderation": {
+      "decided": "{decision, select, approve {Approved: {subject}} reject {Changes requested: {subject}} suspend {Suspended: {subject}} reinstate {Reinstated: {subject}} other {Update about {subject}}}"
+    },
+    "content": {
+      "removed": "Greco removed {subject}"
+    },
+    "saved_search": {
+      "match": "{count, plural, one {# new result} other {# new results}} for your saved search “{name}”"
+    }
+  },
+  "subjects": {
+    "provider": "your expert profile",
+    "listing": "your service “{title}”",
+    "listingUntitled": "your service",
+    "portfolio_item": "a portfolio item",
+    "project": "your project “{title}”",
+    "message": "one of your messages",
+    "other": "your content"
+  },
+  "reason": "Reason: {reason}",
+  "preferences": {
+    "title": "Notification settings",
+    "intro": "Choose how Greco tells you about activity. Account and safety notices are always sent.",
+    "inApp": "In Greco",
+    "email": "Email",
+    "always": "Always on",
+    "save": "Save settings",
+    "emailNotConfigured": "Email delivery isn't switched on in this environment yet, so email choices are saved but nothing is sent.",
+    "categories": {
+      "projects": "Projects and proposals",
+      "messages": "Messages",
+      "account": "Account and safety",
+      "saved": "Saved searches"
+    },
+    "types": {
+      "proposal": {
+        "received": "A proposal arrives on your project",
+        "shortlisted": "A client shortlists your proposal",
+        "declined": "A client declines your proposal",
+        "withdrawn": "An expert withdraws a proposal",
+        "expired": "Your proposal expires"
+      },
+      "project": {
+        "invited": "A client invites you to a project"
+      },
+      "invitation": {
+        "declined": "An expert declines your invitation"
+      },
+      "message": {
+        "received": "New messages"
+      },
+      "messages": {
+        "unread_digest": "Summary of unread messages"
+      },
+      "moderation": {
+        "decided": "Review decisions about your profile and services"
+      },
+      "content": {
+        "removed": "Content Greco removed"
+      },
+      "saved_search": {
+        "match": "New results for saved searches"
+      }
+    }
+  },
+  "email": {
+    "greeting": "Hi {name},",
+    "open": "Open Greco",
+    "footer": "You're receiving this because of your notification settings on Greco. Change them at {url}.",
+    "digest": {
+      "subject": "You have unread messages on Greco",
+      "body": "{count, plural, one {You have unread messages in # conversation.} other {You have unread messages in # conversations.}}"
+    }
+  }
+}

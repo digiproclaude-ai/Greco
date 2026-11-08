@@ -1,7 +1,13 @@
 {
   "save": {
     "save": "Save",
-    "saved": "Saved"
+    "saved": "Saved",
+    "saveSearch": "Save this search",
+    "searchName": "Name",
+    "alerts": "Tell me about new results once a day",
+    "saveSearchSubmit": "Save search",
+    "cancel": "Cancel",
+    "defaultSearchName": "My search"
   },
   "search": {
     "title": "Search services",

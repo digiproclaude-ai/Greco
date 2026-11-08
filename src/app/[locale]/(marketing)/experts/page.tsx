@@ -2,12 +2,18 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
+import { SaveSearch } from "@/components/marketplace/save-search";
 import { CardGrid, ProviderCard } from "@/components/marketplace/cards";
 import { ProviderFiltersForm } from "@/components/marketplace/filters";
 import { Pagination } from "@/components/marketplace/pagination";
 import { ResultsSkeleton } from "@/components/marketplace/results-skeleton";
 import { SearchBox } from "@/components/marketplace/search-box";
-import { PAGE_SIZE, parseProviderFilters, searchProviders, toQuery } from "@/server/modules/marketplace/search";
+import {
+  PAGE_SIZE,
+  parseProviderFilters,
+  searchProviders,
+  toQuery,
+} from "@/server/modules/marketplace/search";
 import { workTerms } from "@/server/modules/taxonomy/labels";
 import { categoryOptions, getActiveTerms, getCategories } from "@/server/modules/taxonomy/service";
 
@@ -26,10 +32,22 @@ export default function ExpertsPage({ searchParams }: PageProps<"/[locale]/exper
   );
 }
 
-async function Results({ searchParams }: { searchParams: PageProps<"/[locale]/experts">["searchParams"] }) {
+async function Results({
+  searchParams,
+}: {
+  searchParams: PageProps<"/[locale]/experts">["searchParams"];
+}) {
   const filters = parseProviderFilters(await searchParams);
-  const [t, locale] = await Promise.all([getTranslations("marketplace.experts"), getLocale()]);
-  const [results, categories, terms] = await Promise.all([searchProviders(filters), getCategories(locale), getActiveTerms(locale)]);
+  const [t, tSave, locale] = await Promise.all([
+    getTranslations("marketplace.experts"),
+    getTranslations("marketplace.save"),
+    getLocale(),
+  ]);
+  const [results, categories, terms] = await Promise.all([
+    searchProviders(filters),
+    getCategories(locale),
+    getActiveTerms(locale),
+  ]);
   const query = (page: number) =>
     toQuery({
       q: filters.q,
@@ -42,13 +60,36 @@ async function Results({ searchParams }: { searchParams: PageProps<"/[locale]/ex
       page,
     });
 
+  const savedQuery = Object.fromEntries(
+    Object.entries({
+      q: filters.q,
+      category: filters.category,
+      skill: filters.skill,
+      type: filters.type,
+      country: filters.country,
+      language: filters.language,
+    })
+      .filter(([, value]) => value !== null && value !== undefined)
+      .map(([key, value]) => [key, String(value)]),
+  );
+
   return (
     <>
       <div className="grid gap-3">
         <h1 className="font-display text-3xl font-semibold">{t("title")}</h1>
         <p className="text-ink-muted">{t("intro")}</p>
-        <div className="max-w-2xl">
-          <SearchBox action="/experts" defaultValue={filters.q} placeholder={t("placeholder")} />
+        <div className="flex max-w-2xl flex-wrap items-start gap-3">
+          <div className="min-w-0 flex-1">
+            <SearchBox action="/experts" defaultValue={filters.q} placeholder={t("placeholder")} />
+          </div>
+          <Suspense>
+            <SaveSearch
+              kind="experts"
+              query={savedQuery}
+              defaultName={filters.q ?? tSave("defaultSearchName")}
+              returnTo={`/experts${query(1)}`}
+            />
+          </Suspense>
         </div>
       </div>
       <div className="grid gap-8 lg:grid-cols-[17rem_1fr]">
@@ -60,11 +101,17 @@ async function Results({ searchParams }: { searchParams: PageProps<"/[locale]/ex
           />
         </aside>
         <section aria-labelledby="results-heading" className="grid content-start gap-5">
-          <h2 id="results-heading" className="text-sm font-medium text-ink-muted" aria-live="polite">
+          <h2
+            id="results-heading"
+            className="text-sm font-medium text-ink-muted"
+            aria-live="polite"
+          >
             {t("results", { count: results.total })}
           </h2>
           {results.items.length === 0 ? (
-            <p className="rounded-lg border border-dashed border-line bg-surface p-8 text-center text-ink-muted">{t("empty")}</p>
+            <p className="rounded-lg border border-dashed border-line bg-surface p-8 text-center text-ink-muted">
+              {t("empty")}
+            </p>
           ) : (
             <CardGrid>
               {results.items.map((item) => (
@@ -72,7 +119,12 @@ async function Results({ searchParams }: { searchParams: PageProps<"/[locale]/ex
               ))}
             </CardGrid>
           )}
-          <Pagination page={filters.page} total={results.total} pageSize={PAGE_SIZE} hrefFor={(page) => `/experts${query(page)}`} />
+          <Pagination
+            page={filters.page}
+            total={results.total}
+            pageSize={PAGE_SIZE}
+            hrefFor={(page) => `/experts${query(page)}`}
+          />
         </section>
       </div>
     </>

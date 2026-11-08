@@ -18,7 +18,9 @@
     "pendingTerms": "{count, plural, =0 {No term suggestions} one {# term suggestion} other {# term suggestions}}",
     "openQueue": "Open the queue",
     "openTaxonomy": "Review suggestions",
-    "notAvailable": "Your role doesn't include this section."
+    "notAvailable": "Your role doesn't include this section.",
+    "openReports": "{count, plural, =0 {No open reports} one {# open report} other {# open reports}}",
+    "openReportsCta": "Review reports"
   },
   "moderation": {
     "title": "Moderation queue",
@@ -180,5 +182,61 @@
   },
   "errors": {
     "mfa": "Staff actions need two-step verification and the right staff role."
+  },
+  "reports": {
+    "title": "Reports",
+    "intro": "Reports from users and automatic flags (contact details, off-platform payment). Viewing a reported conversation is recorded in the audit log.",
+    "tabs": {
+      "open": "Open",
+      "actioned": "Actioned",
+      "dismissed": "Dismissed"
+    },
+    "empty": "No reports here.",
+    "source": {
+      "user": "User report",
+      "system": "Automatic flag"
+    },
+    "targets": {
+      "message": "Message",
+      "user": "Person",
+      "provider": "Expert profile",
+      "listing": "Service",
+      "project": "Project",
+      "proposal": "Proposal",
+      "portfolio_item": "Portfolio item"
+    },
+    "reported": "Reported {date}",
+    "back": "All reports",
+    "details": "Reporter's note",
+    "signals": "Signals",
+    "targetMissing": "The reported item no longer exists.",
+    "conversation": "Conversation around the reported message",
+    "conversationNote": "Shown to moderators only for this report. This view is audited.",
+    "reportedMessage": "Reported",
+    "removedBody": "(removed) {body}",
+    "openPublic": "Open public page",
+    "accountStatus": "Account status: {status}",
+    "resolve": {
+      "title": "Close the report",
+      "outcome": "Outcome",
+      "dismissed": "Dismiss: no rule broken",
+      "actioned": "Actioned: content changed or removed",
+      "note": "Note for the record",
+      "noteHint": "Optional. Not shown to the reporter.",
+      "submit": "Close report"
+    },
+    "message": {
+      "remove": "Remove message",
+      "restore": "Restore message",
+      "reason": "Statement of reasons",
+      "reasonHint": "Required to remove (10+ characters). The sender is notified with this text."
+    },
+    "project": {
+      "remove": "Remove project",
+      "restore": "Restore project",
+      "reason": "Statement of reasons",
+      "reasonHint": "Required to remove (10+ characters). The client is notified with this text."
+    },
+    "handled": "Closed {date}: {note}"
   }
 }

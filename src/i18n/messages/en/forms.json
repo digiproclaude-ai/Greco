@@ -41,7 +41,8 @@
     "reported": "Thanks. Greco's moderators will review your report.",
     "sentMasked": "Sent. We hid the contact details: keep conversations and payments on Greco so you're protected.",
     "sentSecret": "Sent. It looks like you shared a password or API key. Never share secrets in chat: rotate that key now.",
-    "sentOffsite": "Sent. Remember: payments outside Greco aren't protected."
+    "sentOffsite": "Sent. Remember: payments outside Greco aren't protected.",
+    "searchSaved": "Search saved. Find it under Saved."
   },
   "saving": "Saving…",
   "optional": "Optional",

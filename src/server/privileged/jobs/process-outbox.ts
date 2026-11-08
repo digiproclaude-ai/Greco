@@ -4,6 +4,9 @@ import { log } from "@/server/log";
 
 import { createSupabaseAdminClient } from "../supabase-admin";
 
+import { sendNotificationEmail } from "./notification-email";
+import { scanUploadedFile } from "./scan-file";
+
 type OutboxEvent = {
   id: string;
   topic: string;
@@ -16,13 +19,17 @@ type OutboxEvent = {
 type Handler = (event: OutboxEvent) => Promise<void>;
 
 /**
- * Side-effect handlers by topic. Phase 2 events have no side effects yet: notifications,
- * emails and search reindexing subscribe here in later phases.
+ * Side-effect handlers by topic. In-app notifications are written by the database in the same
+ * transaction as the change (E-30); the outbox adds email and file scanning.
  */
 const handlers: Record<string, Handler> = {
   "identity.user_registered": async () => {},
   "identity.role_enabled": async () => {},
   "provider.status_changed": async () => {},
+  "moderation.decided": async () => {},
+  "project.published": async () => {},
+  "notification.created": (event) => sendNotificationEmail(event.aggregate_id),
+  "file.uploaded": (event) => scanUploadedFile(event.aggregate_id),
 };
 
 export async function processOutbox(batchSize = 50) {

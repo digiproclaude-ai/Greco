@@ -2,6 +2,6 @@ export type ScanVerdict = "clean" | "infected" | "error";
 
 export interface FileScanner {
   readonly id: string;
-  /** Scan a stored object; the caller updates file_objects.scan_status with the verdict. */
-  scan(input: { bucket: string; path: string; sha256?: string }): Promise<{ verdict: ScanVerdict; detail?: string }>;
+  /** Scan file bytes; the caller records the verdict on file_objects.scan_status. */
+  scan(input: { bytes: Uint8Array; fileName: string }): Promise<{ verdict: ScanVerdict; detail?: string }>;
 }

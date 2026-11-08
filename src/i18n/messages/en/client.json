@@ -14,7 +14,10 @@
       "challenges": "Anything experts should know?",
       "challengesHint": "Current tools, constraints, deadlines. Don't include passwords or personal data."
     },
-    "accountTypes": { "individual": "An individual", "business": "A business or organisation" },
+    "accountTypes": {
+      "individual": "An individual",
+      "business": "A business or organisation"
+    },
     "companySizes": {
       "1": "Just me",
       "2-10": "2–10 people",
@@ -44,6 +47,17 @@
     "categories": "Categories",
     "empty": "Nothing saved yet.",
     "unavailable": "No longer available",
-    "by": "by {name}"
+    "by": "by {name}",
+    "searches": "Saved searches",
+    "searchesEmpty": "No saved searches. Use \"Save this search\" on the search pages.",
+    "kinds": {
+      "services": "Services",
+      "experts": "Experts"
+    },
+    "alertsOn": "Daily alerts on",
+    "alertsOff": "Alerts off",
+    "turnAlertsOn": "Turn alerts on",
+    "turnAlertsOff": "Turn alerts off",
+    "run": "Open search"
   }
 }

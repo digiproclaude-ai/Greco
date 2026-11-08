@@ -10,9 +10,10 @@ type Client = SupabaseClient<Database>;
 
 /** Staff reads. RLS lets staff (with MFA) see everything they need; pages call requireStaff first. */
 export async function getAdminCounts(supabase: Client) {
-  const [requests, terms] = await Promise.all([
+  const [requests, terms, reports] = await Promise.all([
     supabase.from("review_requests").select("target_type, kind").eq("status", "pending"),
     supabase.from("taxonomy_terms").select("id", { count: "exact", head: true }).eq("status", "pending"),
+    supabase.from("content_reports").select("id", { count: "exact", head: true }).eq("status", "open"),
   ]);
   const rows = requests.data ?? [];
   return {
@@ -20,6 +21,7 @@ export async function getAdminCounts(supabase: Client) {
     listings: rows.filter((r) => r.target_type === "listing" && r.kind === "initial").length,
     edits: rows.filter((r) => r.target_type === "listing" && r.kind === "edit").length,
     terms: terms.count ?? 0,
+    reports: reports.count ?? 0,
   };
 }
 
