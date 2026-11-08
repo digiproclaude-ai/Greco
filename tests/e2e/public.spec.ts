@@ -108,9 +108,24 @@ test("robots.txt keeps private areas out of search engines", async ({ request })
   expect(body).toContain("Sitemap:");
 });
 
-for (const path of ["/dashboard/expert/profile", "/dashboard/expert/services/new", "/admin/moderation"]) {
+for (const path of [
+  "/dashboard/expert/profile",
+  "/dashboard/expert/services/new",
+  "/admin/moderation",
+  "/dashboard/client/projects/new",
+  "/dashboard/expert/projects",
+  "/dashboard/messages",
+  "/dashboard/notifications",
+  "/admin/reports",
+]) {
   test(`editors and admin pages need an account: ${path}`, async ({ page }) => {
     await page.goto(path);
     await expect(page).toHaveURL(/\/login\?next=/);
   });
 }
+
+test("private files need an account", async ({ request }) => {
+  const response = await request.get("/api/files/00000000-0000-4000-8000-000000000001", { maxRedirects: 0 });
+  expect(response.status()).toBe(401);
+  expect(response.headers()["cache-control"]).toContain("no-store");
+});

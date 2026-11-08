@@ -88,7 +88,10 @@ Names only. Values never go into git (`.env*.local` is ignored; `.env.example` l
 | `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED` | public | `true` once the Google provider is configured in Supabase |
 | `SUPABASE_SECRET_KEY` | **server, privileged code only** | Secret key for jobs and webhooks. Never `NEXT_PUBLIC_` |
 | `JOBS_SECRET` | server | Bearer token for `/api/jobs/*` (32+ random characters) |
-| Later | server | `ANTHROPIC_API_KEY` (Phase 5), `PSP_*` (Phase 6), email provider key (A-25), `SENTRY_DSN` |
+| `RESEND_API_KEY` | server | Resend API key for email (E-34). Without it, emails are skipped |
+| `EMAIL_FROM` | server | Sender, for example `Greco <notifications@mail.greco.ai>` (a domain verified in Resend) |
+| `CLAMAV_URL` | server | Base URL of a [clamav-rest-api](https://github.com/benzino77/clamav-rest-api) service, for example `http://clamav:3000`. Without it, uploads stay pending (E-33) |
+| Later | server | `ANTHROPIC_API_KEY` (Phase 5), `PSP_*` (Phase 6), `SENTRY_DSN` |
 
 ## 5. Supabase dashboard settings (development/staging project)
 
@@ -134,7 +137,15 @@ select cron.schedule('process-outbox', '* * * * *', $$
 $$);
 ```
 
-Phase 2 events have no side effects yet, so this can wait until Phase 4 (notifications).
+From Phase 4 the outbox sends notification emails and starts file scans, so schedule it as soon as the app is deployed. Two more jobs use the same pattern:
+
+| Job | Schedule | What it does |
+|---|---|---|
+| `process-outbox` | every minute (`* * * * *`) | Email for notifications, file scanning |
+| `send-digests` | every 30 minutes (`*/30 * * * *`) | Email people with messages unread for over an hour (at most every 12 hours) |
+| `saved-search-alerts` | daily (`17 7 * * *`) | In-app alerts for saved searches with new results |
+
+The jobs also need `SUPABASE_SECRET_KEY` on the server.
 
 ## 8. Database workflow
 
@@ -150,10 +161,10 @@ Phase 2 events have no side effects yet, so this can wait until Phase 4 (notific
 |---|---|---|
 | Supabase | Now | Development project ready. Production project before launch |
 | Vercel | Now | Region `dub1` |
-| Email provider (Resend or Postmark) | Before inviting real users | Domain authentication (SPF, DKIM, DMARC) |
+| Email provider (Resend recommended, E-34) | Before inviting real users | Domain authentication (SPF, DKIM, DMARC); set `RESEND_API_KEY` and `EMAIL_FROM` |
 | Sentry | When a DSN exists | Not wired yet; added with the DSN |
 | Cloudflare Turnstile | Phase 5 (guest AI Discovery) | Bot protection |
 | Anthropic API | Phase 5 | Review data retention and data processing terms (X-08) |
-| File scanning service | Phase 4 | Decision in Phase 4 |
+| File scanning service | Phase 4 | ClamAV REST service (E-34), for example a small container next to the app. Needs to be reachable from Vercel |
 | Payment provider sandbox | Phase 6 | After X-01. Sandbox adapter until then |
 | Identity verification vendor | Phase 7 | A-22 |

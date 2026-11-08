@@ -83,6 +83,11 @@ Every phase ends only when its exit criteria pass: typecheck, lint, tests, produ
 
 **Exit criteria:** a client can post a project, receive and compare proposals, and talk to experts in realtime. Authorization tests prove only participants read conversations. The contact policy works as configured.
 
+**Phase 4 delivery notes (2026-11-08)**
+- Done: client projects (draft, edit, files, publish for 30 days, close, reopen, invite experts by profile address, invite-only visibility); expert project board with search and category filter, invitations (decline), proposals with pricing, payment terms, commission example, milestones and deliverables (send, withdraw); client proposal view, comparison table, shortlist and decline with a reason. Messaging with inbox and archive, unread counts, live updates over private Realtime channels, attachments in a private bucket, the contact policy (E-32) with a secret-sharing warning, mute, archive, block and reports. Notifications page, live sidebar counts, per-type settings for in-app and email; email through the outbox (E-34) and an unread-messages digest job. Saved searches with daily alerts. Admin reports queue with audited message context, message and project removal with statements of reasons. 18 migrations on the development project; 266 pgTAP tests, 83 unit tests, Playwright flows for project → proposal → shortlist → messaging and for protected pages.
+- Changed from the plan: projects are not pre-moderated (E-31); the board is for signed-in experts only (E-29); notifications are written in the database (E-30); downloads wait for a clean scan (E-33).
+- Not done in this phase: order conversations (Phase 6, with orders); push notifications; message editing and deletion; appeals on moderation decisions (Phase 7); hiring from a proposal (Phase 6). Email and scanning need the owner's accounts (A-25, E-34) before they send or scan anything.
+
 ## Phase 5: AI Discovery
 
 **Scope**

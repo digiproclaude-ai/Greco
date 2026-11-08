@@ -8,9 +8,9 @@ This document is the logical design. Phase 2 turns it into SQL migrations under 
 
 ---
 
-## Implementation status (2026-11-02)
+## Implementation status (2026-11-08)
 
-Applied to the development project (`supabase/migrations/`, 14 migrations) and covered by 170 pgTAP tests:
+Applied to the development project (`supabase/migrations/`, 18 migrations) and covered by 266 pgTAP tests:
 
 - **Phase 2:** `countries`, `profiles`, `user_roles`, `staff_roles`, `legal_documents`, `legal_acceptances`, `file_objects`, `client_profiles`, `providers`, `provider_agency_details`, `provider_languages`, `provider_links`, `provider_terms`, `categories`, `category_translations`, `category_relations`, `taxonomy_terms`, `taxonomy_term_translations`, `taxonomy_term_aliases`, `category_terms`, `platform_settings` (+ `app_private.platform_settings_history`), `feature_flags`, `app_private.audit_logs`, `app_private.outbox_events`.
 - **Phase 3 tables:** `service_listings` (+ `service_listing_categories`, `service_listing_terms`, `service_packages`, `service_deliverables`, `service_addons`, `service_requirements`, `service_faqs`, `service_media`), `portfolio_items` (+ `portfolio_item_terms`, `portfolio_item_media`), `saved_providers`, `saved_services`, `saved_categories`, `review_requests` (moderation queue), `moderation_actions` (decisions with statements of reasons), `search_documents`. `providers.profile_completeness` was replaced by the `provider_profile_checklist()` function and `providers.submitted_at` was added.
@@ -22,6 +22,13 @@ Applied to the development project (`supabase/migrations/`, 14 migrations) and c
 - **Starter data:** 16 top-level and 34 subcategories, 87 taxonomy terms with synonyms, and the approved marketplace settings (15% commission, minimum order, deposit options, currencies).
 - **RLS helpers** live in a separate `app` schema (`app.has_role`, `app.is_staff` (requires MFA, aal2), `app.owns_provider`, `app.provider_is_visible`, `app.owns_listing`, `app.listing_is_visible`, `app.listing_is_editable`, `app.portfolio_item_is_visible`, `app.owns_portfolio_item`), callable by policies but not exposed through the Data API.
 - **Default privileges:** new tables and functions in `public` get no grants for `anon`/`authenticated`; each migration grants exactly what it needs (column-level for Class A writes; anonymous visitors read only public provider and file columns).
+- **Phase 4 tables:** `projects` (+ `project_terms`, `project_attachments`, `project_invitations`), `proposals` (+ `proposal_deliverables`, `proposal_milestones`), `conversations`, `conversation_participants`, `messages`, `message_attachments`, `user_blocks`, `notification_types`, `notifications`, `notification_preferences`, `saved_searches`, `content_reports`; internal `app_private.removed_message_bodies`, `app_private.contact_policy_events`, `app_private.notification_deliveries`, `app_private.email_digests`. `file_objects.display_name` was added; `moderation_actions` gained `report_id`, `affected_user_id` and the targets `message`, `project`, `proposal`, `user`.
+- **Phase 4 functions (signed-in users):** `project_checklist`, `projects_publish`, `projects_change_status` (close, reopen), `projects_invite`, `invitations_decline`, `proposal_checklist`, `proposals_submit`, `proposals_decide` (shortlist, unshortlist, decline), `proposals_withdraw`, `register_private_file`, `conversations_open`, `messages_send` (contact policy, rate limit, attachments), `conversations_mark_read`, `my_conversations`, `my_counts`, `reports_create`; `discard_uploaded_file` now also covers private attachments.
+- **Phase 4 staff functions:** `admin_resolve_report`, `admin_reported_message` (audited view of a reported conversation), `admin_moderate_message`, `admin_set_project_status`; `admin_review` and `admin_set_status` now notify the expert.
+- **Phase 4 job functions (service role only):** `notification_email_payload`, `notification_record_delivery`, `unread_digest_candidates`, `unread_digest_mark_sent`, `file_scan_target`, `file_record_scan`, `saved_search_alert_candidates`, `saved_search_record_alert`.
+- **Notifications** are written by `app_private.notify` in the same transaction as the change (E-30), grouped by `group_key` while unread, and announced on the private Realtime topic `user:<id>`; new messages are announced on `conversation:<id>`. RLS on `realtime.messages` lets only the user, or the conversation's participants, join (`app.can_access_topic`).
+- **Storage:** private bucket `attachments` (10 MB, allow-listed types); uploads go to the user's own folder, and other people can download a file only after a clean scan and only if it is attached to a conversation they take part in or a project they can see.
+- **Phase 4 row limits:** per project 10 terms, 10 files, 30 invitations; per proposal 20 deliverables, 10 milestones; 20 saved searches per user; 5 files per message, 20 messages per minute.
 - Everything else in this document arrives with its phase.
 
 ## 0. Mapping from the spec table list
@@ -384,6 +391,8 @@ proposal_deliverables         (id, proposal_id, title, description?, sort_order)
 proposal_milestones           (id, proposal_id, seq, title, description?, amount_minor, due_offset_days)
 ```
 
+**As built (Phase 4):** `project_status` has no `in_review` (projects go live at once; contact details or injection attempts are flagged into `content_reports`), `invitation_status` has no `viewed`, and `brief_id` arrives with AI Discovery. Open projects expire after 30 days and can be reopened. Projects are visible only to signed-in experts (public and open), invited experts, experts who proposed, the owner and staff; never to anonymous visitors (E-29). Milestone amounts must add up to the price before a proposal can be sent. Accepting a proposal (offer and order) arrives in Phase 6.
+
 ---
 
 ## 10. Offers (immutable purchase terms)
@@ -639,6 +648,8 @@ user_blocks                   (blocker_user_id, blocked_user_id, created_at) pk
 app_private.contact_policy_events (id, message_id, user_id, signals text[], action (warned | masked | held | flagged), created_at)
 ```
 
+**As built (Phase 4):** messages have no `offer` kind, `edited_at` or `deleted_at` yet, and participants have no `last_read_message_id` or `left_at` (read state is `last_read_at`). Clients can open a conversation with any live expert; experts can open one only with a client whose project they were invited to or proposed on. Before a first order between the two, email addresses, phone numbers and messenger links are replaced with `[[contact-hidden]]` (setting `messaging.contact_policy`, A-13); off-platform payment and secrets are recorded as signals, and three attempts in seven days flag the user for moderators. Removed messages keep their text in `app_private.removed_message_bodies` for the case record.
+
 ---
 
 ## 16. Trust and safety
@@ -654,6 +665,8 @@ moderation_actions               (Class C, audited)
   reason_code, statement_of_reasons text      -- sent to the affected user (DSA / P2B)
   actor_staff_id, report_id?, appeal_status (none | requested | upheld | reversed), created_at
 ```
+
+**As built (Phase 4):** `content_reports` has `source` (user | system) and `signals`, statuses `open | actioned | dismissed`, and one open system flag per target and reason. Users can report messages they received, people, experts, services, projects, proposals and portfolio items (20 reports a day). `moderation_actions` keeps the free-text `reason` as the statement of reasons; `reason_code` and appeals arrive later.
 
 ---
 
@@ -674,6 +687,8 @@ saved_searches                 (id, user_id, name, query jsonb, alerts_enabled b
 ```
 
 Separate tables (instead of one polymorphic "saved items" table) keep real foreign keys.
+
+**As built (Phase 4):** notifications also have `group_key` and `count` (one unread row per group, for example per conversation), and channels are `in_app` and `email` (push later). Titles come from the app's messages by `type_key`, so `notification_types` has no title or body keys. `saved_searches` has `kind` (services | experts); alerts are daily and in-app.
 
 ---
 

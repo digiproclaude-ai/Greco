@@ -4,8 +4,8 @@ Greco is a global marketplace for AI services: clients find, hire and pay expert
 
 ## Current status
 
-- **Phase 1 approved on 2026-11-01. Phases 2 (foundation) and 3 (core marketplace) built:** auth and roles, expert profiles, portfolio, service listings, public catalog and search, moderation and admin. Next: Phase 4 (projects and communication). Follow the phase order in `IMPLEMENTATION_PLAN.md` (projects and communication come before AI Discovery).
-- Still open: **A-02** (legal entity and launch countries). Real payments stay disabled until the EXTERNAL decisions are confirmed.
+- **Phase 1 approved on 2026-11-01. Phases 2 (foundation), 3 (core marketplace) and 4 (projects and communication) built:** auth and roles, expert profiles, portfolio, service listings, public catalog and search, moderation and admin, projects and proposals, messaging, notifications, saved searches and reports. Next: Phase 5 (AI Discovery). Follow the phase order in `IMPLEMENTATION_PLAN.md`.
+- Still open: **A-02** (legal entity and launch countries); the email provider and file scanner (E-34) need the owner's accounts. Real payments stay disabled until the EXTERNAL decisions are confirmed.
 - Supabase project `Greco` (ref `xubhljmpnjkpfyeuqtxl`, eu-west-1) is the development/staging database.
 
 ## Read before changing anything
