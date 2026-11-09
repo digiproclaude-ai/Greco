@@ -12,11 +12,12 @@ test.skip(process.env.E2E_SUPABASE !== "1", "needs a local Supabase stack (E2E_S
 
 /** Realtime should deliver new messages; reload once if it hasn't within a few seconds. */
 async function expectLiveText(page: Page, text: string) {
+  const thread = page.getByRole("region", { name: /Conversation with/ });
   try {
-    await expect(page.getByText(text)).toBeVisible({ timeout: 8_000 });
+    await expect(thread.getByText(text)).toBeVisible({ timeout: 8_000 });
   } catch {
     await page.reload();
-    await expect(page.getByText(text)).toBeVisible();
+    await expect(thread.getByText(text)).toBeVisible();
   }
 }
 
@@ -83,7 +84,8 @@ test("a client receives a proposal, shortlists it and talks to the expert", asyn
   await expect(client).toHaveURL(/\/dashboard\/client\/projects\/[0-9a-f-]{36}$/);
   await client.getByRole("link", { name: "View proposal" }).click();
   await expect(client.getByRole("heading", { level: 1 })).toHaveText("Pat Voice Studio");
-  await expect(client.getByText("$2,400.00")).toBeVisible();
+  // Next.js keeps the previous page hidden in the DOM, so text checks are scoped to a section.
+  await expect(client.locator("#terms").getByText("$2,400.00")).toBeVisible();
   await client.getByRole("button", { name: "Shortlist" }).click();
   await expect(client.getByRole("button", { name: "Remove from shortlist" })).toBeVisible();
 
@@ -93,13 +95,14 @@ test("a client receives a proposal, shortlists it and talks to the expert", asyn
   await client.locator("#message-body").fill("Hi Pat! Can we talk? My email is cora@example.com");
   await client.getByRole("button", { name: "Send", exact: true }).click();
   await expect(client.getByText("We hid the contact details", { exact: false })).toBeVisible();
-  await expect(client.getByText("contact details hidden").first()).toBeVisible();
+  await expect(client.getByRole("region", { name: /Conversation with/ }).getByText("contact details hidden")).toBeVisible();
   await expect(client.getByText("cora@example.com")).toHaveCount(0);
 
   // 5. The expert reads it and replies; the reply reaches the client's open conversation.
   await expert.goto("/dashboard/messages");
   await expert.getByRole("link", { name: /Cora/ }).click();
-  await expect(expert.getByText("Hi Pat! Can we talk?", { exact: false })).toBeVisible();
+  const thread = expert.getByRole("region", { name: /Conversation with Cora/ });
+  await expect(thread.getByText("Hi Pat! Can we talk?", { exact: false })).toBeVisible();
   await expect(expert.getByText("cora@example.com")).toHaveCount(0);
   await expert.locator("#message-body").fill("Happy to. Let's keep it here on Greco.");
   await expert.getByRole("button", { name: "Send", exact: true }).click();

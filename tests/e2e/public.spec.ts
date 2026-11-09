@@ -90,7 +90,8 @@ test("search keeps the query and shows a results count", async ({ page }) => {
   await page.getByRole("search").getByRole("button", { name: "Search" }).click();
   await expect(page).toHaveURL(/\/search\?q=voice\+agent/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText('Services for "voice agent"', SLOW);
-  await expect(page.getByRole("heading", { name: "No services found" })).toBeVisible(SLOW);
+  // The count depends on what other flows have published, so only its format is checked.
+  await expect(page.getByRole("heading", { level: 2, name: /^(No services found|\d+ services?)$/ })).toBeVisible(SLOW);
 });
 
 test("unknown experts and services return the 404 page", async ({ page }) => {
